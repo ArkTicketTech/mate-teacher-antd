@@ -1,9 +1,9 @@
 import React from 'react'
-import { Mune, Icon, Menu } from 'antd';
+import { Menu, Icon } from 'antd';
 
-const SubMenu = Mune.SubMenu;
+const SubMenu = Menu.SubMenu;
 
-class Sider extends React.Component {
+class MySider extends React.Component {
     rootSubmenuKeys = ['sub1', 'sub2', 'sub4'];
 
     state = {
@@ -27,10 +27,10 @@ class Sider extends React.Component {
                 mode="inline"
                 openKeys={this.state.openKeys}
                 onOpenChange={this.onOpenChange}
-                style={{ width: 256 }}
+                theme="dark"
             >
-                <SubMenu key="sub1" title={<span><Icon type="mail" /><span>Navigation One</span></span>}>
-                    <Menu.Item key="1">Option 1</Menu.Item>
+                <SubMenu key="sub1" title={<span><Icon type="appstore" /><span>Courses Management</span></span>}>
+                    <Menu.Item key="1" onClick={this.onClick}>Courses Management</Menu.Item>
                     <Menu.Item key="2">Option 2</Menu.Item>
                     <Menu.Item key="3">Option 3</Menu.Item>
                     <Menu.Item key="4">Option 4</Menu.Item>
@@ -54,4 +54,4 @@ class Sider extends React.Component {
     }
 };
 
-export default Sider;
+export default MySider;
