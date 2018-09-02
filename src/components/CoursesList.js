@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table } from 'antd';
+import { Table, Divider, Button } from 'antd';
 
 class CoursesList extends React.Component {
     constructor(props) {
@@ -40,13 +40,57 @@ class CoursesList extends React.Component {
                 title: '上课地点',
                 dataIndex: 'site',
                 key: 'site'
+            }, {
+                title: '操作',
+                key: 'action',
+                render: () => (
+                    <span>
+                        <a href="javascript::">问卷状态</a>
+                        <Divider type="vertical" />
+                        <a href="javascript::">生成报告</a>
+                    </span>
+                )
             }]
         }
     }
 
+    state = {
+        selectedRowKeys: [],
+    }
+
+    onSelectChange = (selectedRowKeys) => {
+        console.log('seletedRowKeys changed: ', selectedRowKeys);
+        this.setState({ selectedRowKeys });
+    }
+
     render() {
+        const { selectedRowKeys } = this.state;
+        const rowSelection = {
+            selectedRowKeys,
+            onChange: this.onSelectChange,
+        };
+
         return (
-            <Table dataSource={this.state.courses} columns={this.state.columns} />
+            <div>
+                <span>
+                    <Button type="primary"
+                        style={{ margin: '5px 5px'}}
+                        onClick={this.add}>
+                        添加课程
+                    </Button>
+                    <Button type="primary"
+                        style={{ margin: '5px 5px'}}
+                        onClick={this.remove}>
+                        移除课程
+                    </Button>
+                    <Button type="primary"
+                        style={{ margin: '5px 5px'}}
+                        onClick={this.edit}>
+                        编辑课程
+                    </Button>
+                </span>
+                <Table rowSelection={rowSelection} dataSource={this.state.courses} columns={this.state.columns} />
+            </div>
         )
     }
 }
