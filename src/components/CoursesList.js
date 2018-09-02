@@ -5,24 +5,29 @@ class CoursesList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            testArray: [1, 2],
+            selectedRowKeys: [],
             courses: [{
-                key: '1',
+                key: 0,
                 name: '数据结构与算法',
                 season: '2017秋',
                 members: '55',
-                site: '东中院4-101'
+                site: '东中院4-101',
+                removed: false
             }, {
-                key: '2',
+                key: 1,
                 name: '数学的天空',
                 season: '2017夏',
                 members: '27',
-                site: '中院107'
+                site: '中院107',
+                removed: false
             }, {
-                key: '2',
+                key: 2,
                 name: '高性能计算',
                 season: '2018春',
                 members: '18',
-                site: '东上院507'
+                site: '东上院507',
+                removed: false
             }],
             columns: [{
                 title: '课程名称',
@@ -50,17 +55,34 @@ class CoursesList extends React.Component {
                         <a href="javascript::">生成报告</a>
                     </span>
                 )
-            }]
+            }],
         }
-    }
-
-    state = {
-        selectedRowKeys: [],
     }
 
     onSelectChange = (selectedRowKeys) => {
         console.log('seletedRowKeys changed: ', selectedRowKeys);
+        // console.log('test array output: ', this.state.testArray);
+        // var index;
+        // for (index in this.state.testArray) {
+            // console.log(Number(index), typeof Number(index));
+        // }
         this.setState({ selectedRowKeys });
+    }
+
+    remove = () => {
+        var newCourses = this.state.courses;
+        console.log('seletedRowKeys changed: ', this.state.selectedRowKeys);
+        console.log('Courses changed: ', this.state.courses);
+        var i = this.state.selectedRowKeys.length;
+        // var i = this.state.testArray.length;
+        // for (index in this.state.selectedRowKeys) {
+        // for (item in this.state.testArray) {
+        while (i--) {
+            console.log(this.state.selectedRowKeys[i]);
+            // newCourses[this.state.testArray[i]].removed = true;
+            newCourses[this.state.selectedRowKeys[i]].removed = true;
+        }
+        this.setState({ selectedRowKeys: [], Courses: newCourses });
     }
 
     render() {
@@ -69,6 +91,7 @@ class CoursesList extends React.Component {
             selectedRowKeys,
             onChange: this.onSelectChange,
         };
+        const hasSelected = selectedRowKeys.length > 0;
 
         return (
             <div>
@@ -79,12 +102,14 @@ class CoursesList extends React.Component {
                         添加课程
                     </Button>
                     <Button type="primary"
-                        style={{ margin: '5px 5px'}}
+                        style={{ margin: '5px 5px' }}
+                        disabled={!hasSelected}
                         onClick={this.remove}>
                         移除课程
                     </Button>
                     <Button type="primary"
                         style={{ margin: '5px 5px'}}
+                        disabled={!hasSelected}
                         onClick={this.edit}>
                         编辑课程
                     </Button>
