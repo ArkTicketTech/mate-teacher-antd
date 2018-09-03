@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Divider, Button } from 'antd';
+import { Table, Divider, Button, Input, InputNumber, Form, Popconfirm } from 'antd';
 
 class CoursesList extends React.Component {
     constructor(props) {
@@ -7,28 +7,7 @@ class CoursesList extends React.Component {
         this.state = {
             testArray: [1, 2],
             selectedRowKeys: [],
-            courses: [{
-                key: 0,
-                name: '数据结构与算法',
-                season: '2017秋',
-                members: '55',
-                site: '东中院4-101',
-                removed: false
-            }, {
-                key: 1,
-                name: '数学的天空',
-                season: '2017夏',
-                members: '27',
-                site: '中院107',
-                removed: false
-            }, {
-                key: 2,
-                name: '高性能计算',
-                season: '2018春',
-                members: '18',
-                site: '东上院507',
-                removed: false
-            }],
+            courses: [],
             columns: [{
                 title: '课程名称',
                 dataIndex: 'name',
@@ -56,6 +35,17 @@ class CoursesList extends React.Component {
                     </span>
                 )
             }],
+        };
+
+        for (let i = 0; i < 15; i++) {
+            this.state.courses.push({
+                key: i,
+                name: '示例课程'+i,
+                season: '2018秋季',
+                members: 30 + i,
+                site: '东上院507',
+                removed: false,
+            });
         }
     }
 
@@ -71,16 +61,17 @@ class CoursesList extends React.Component {
 
     remove = () => {
         var newCourses = this.state.courses;
-        console.log('seletedRowKeys changed: ', this.state.selectedRowKeys);
-        console.log('Courses changed: ', this.state.courses);
-        var i = this.state.selectedRowKeys.length;
+        var newSelectedRowKeys = this.state.selectedRowKeys;
+        console.log('seletedRowKeys changed: ', newSelectedRowKeys);
+        console.log('Courses changed: ', newCourses);
+        var i = newSelectedRowKeys.length;
         // var i = this.state.testArray.length;
         // for (index in this.state.selectedRowKeys) {
         // for (item in this.state.testArray) {
         while (i--) {
-            console.log(this.state.selectedRowKeys[i]);
+            console.log(newSelectedRowKeys[i]);
             // newCourses[this.state.testArray[i]].removed = true;
-            newCourses[this.state.selectedRowKeys[i]].removed = true;
+            newCourses[newSelectedRowKeys[i]].removed = true;
         }
         this.setState({ selectedRowKeys: [], Courses: newCourses });
     }
