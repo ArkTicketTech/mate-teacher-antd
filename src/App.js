@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { Layout } from 'antd';
-import MySider from './components/Sider';
 import 'antd/dist/antd.css';
+import MySider from './components/Sider';
 import CoursesList from './components/CoursesList';
+import EditableList from './components/EditableList';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -43,6 +44,7 @@ class App extends Component {
           </Header>
           <Content style={{ margin: '150px 16px' }}>
             <CoursesList />
+            <EditableList />
           </Content>
           <Footer style={{ textAlign: 'center' }}>
             Mate @2018 Created by Hooli-group
