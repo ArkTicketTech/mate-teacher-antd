@@ -1,15 +1,5 @@
 import React from 'react';
-import { Table, Input, InputNumber, Popconfirm, Form } from 'antd';
-
-const data = [];
-for (let i = 0; i < 25; i++) {
-    data.push({
-        key: i.toString(),
-        name: 'Edrward' + i,
-        age: 32,
-        address: 'London Park no.' + i,
-    });
-}
+import { Divider, Table, Input, InputNumber, Popconfirm, Form } from 'antd';
 
 const FormItem = Form.Item;
 const EditableContext = React.createContext();
@@ -69,55 +59,77 @@ class EditableTable extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data, editingKey: ''
+            // testArray: [1, 2],
+            editingKey: '',
+            selectedRowKeys: [],
+            courses: [],
         };
-        this.columns = [
-            {
-                title: 'name',
-                dataIndex: 'name',
-                width: '25%',
-                editable: true,
-            }, {
-                title: 'age',
-                dataIndex: 'age',
-                width: '15%',
-                editable: true,
-            }, {
-                title: 'address',
-                dataIndex: 'address',
-                width: '40%',
-                editable: true,
-            }, {
-                title: 'operation',
-                dataIndex: 'operation',
-                render: (text, record) => {
-                    const editable = this.isEditing(record);
-                    return (
-                        <div>
-                            {editable ? (
-                                <span>
-                                    <EditableContext.Consumer>
-                                        {form => (
-                                            <a href="javascript::"
-                                                onClick={() => this.save(form, record.key)}
-                                                style={{ marginRight: 8 }}
-                                            >Save</a>
-                                        )}
-                                    </EditableContext.Consumer>
-                                    <Popconfirm title="Sure to cancel?"
-                                        onConfirm={() => this.cancel(record.key)}
-                                    >
-                                        <a>Cancel</a>
-                                    </Popconfirm>
-                                </span>
-                            ) : (
-                                    <a onClick={() => this.edit(record.key)}>Edit</a>
-                                )}
-                        </div>
-                    );
-                },
+        this.columns = [{
+            title: '课程名称',
+            dataIndex: 'name',
+            key: 'name',
+            editable: true
+        }, {
+            title: '上课时间',
+            dataIndex: 'season',
+            key: 'season',
+            editable: true
+        }, {
+            title: '上课人数',
+            dataIndex: 'members',
+            key: 'members',
+            editable: true
+        }, {
+            title: '上课地点',
+            dataIndex: 'site',
+            key: 'site',
+            editable: true
+        }, {
+            title: '操作',
+            key: 'action',
+            render: (text, record) => {
+                const editable = this.isEditing(record);
+                return (
+                    <div>
+                        {editable ? (
+                            <span>
+                                <EditableContext.Consumer>
+                                    {form => (
+                                        <a href="javascript::"
+                                            onClick={() => this.save(form, record.key)}
+                                            style={{ marginRight: 8 }}
+                                        >Save</a>
+                                    )}
+                                </EditableContext.Consumer>
+                                <Popconfirm title="Sure to cancel?"
+                                    onConfirm={() => this.cancel(record.key)}
+                                >
+                                    <a>Cancel</a>
+                                </Popconfirm>
+                            </span>
+                        ) : (
+                                <a onClick={() => this.edit(record.key)}>Edit</a>
+                            )}
+                        <Divider type="vertical" />
+                        <a href="javascript::">问卷状态</a>
+                        <Divider type="vertical" />
+                        <a href="javascript::">生成报告</a>
+                    </div>
+                );
             },
-        ];
+        }];
+
+        // 产生测试数据
+        for (let i = 0; i < 15; i++) {
+            this.state.courses.push({
+                key: i,
+                name: '示例课程'+i,
+                season: '2018秋季',
+                members: 30 + i,
+                site: '东上院507',
+                removed: false,
+            });
+        }
     }
 
     isEditing = (record) => {
@@ -133,18 +145,18 @@ class EditableTable extends React.Component {
             if (error) {
                 return;
             }
-            const newData = [...this.state.data];
-            const index = newData.findIndex(item => key === item.key);
+            const newCourses = [...this.state.courses];
+            const index = newCourses.findIndex(item => key === item.key);
             if (index > -1) {
-                const item = newData[index];
-                newData.splice(index, 1, {
+                const item = newCourses[index];
+                newCourses.splice(index, 1, {
                     ...item,
                     ...row,
                 });
-                this.setState({ data: newData, editingKey: '' });
+                this.setState({ courses: newCourses, editingKey: '' });
             } else {
-                newData.push(row);
-                this.setState({ data: newData, editingKey: '' });
+                newCourses.push(row);
+                this.setState({ courses: newCourses, editingKey: '' });
             }
         });
     }
@@ -181,7 +193,7 @@ class EditableTable extends React.Component {
         return (
             <Table components={components}
                 bordered
-                dataSource={this.state.data}
+                dataSource={this.state.courses}
                 columns={columns}
                 rowClassName="editable-row"
             />
