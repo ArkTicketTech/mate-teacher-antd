@@ -6,6 +6,7 @@ import 'antd/dist/antd.css';
 import MySider from './components/Sider';
 import CoursesList from './components/CoursesList';
 import EditableList from './components/EditableList';
+import EditableTable from './components/EditableTable';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -44,7 +45,6 @@ class App extends Component {
           </Header>
           <Content style={{ margin: '150px 16px' }}>
             <CoursesList />
-            <EditableList />
           </Content>
           <Footer style={{ textAlign: 'center' }}>
             Mate @2018 Created by Hooli-group
