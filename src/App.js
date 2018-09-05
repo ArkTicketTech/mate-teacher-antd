@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import logo from './logo.png';
+import QRcode from './QRcode_mini.jpg';
 import './App.css';
 import { Layout } from 'antd';
 import 'antd/dist/antd.css';
@@ -36,18 +37,16 @@ class App extends Component {
             <div className="App">
               <header className="App-header">
                 <img src={logo} className="App-logo" alt="logo" />
-                <h1 className="App-title">Welcome to React</h1>
+                <h1 className="App-title">Welcome to Mate</h1>
               </header>
-              <p className="App-intro">
-                To get started, edit <code>src/App.js</code> and save to reload.
-            </p>
             </div>
           </Header>
           <Content style={{ margin: '150px 16px' }}>
             <CoursesList />
           </Content>
           <Footer style={{ textAlign: 'center' }}>
-            Mate @2018 Created by Hooli-group
+            <img src={QRcode} alt="QRcode"/>
+            <p>Mate @2018 Created by Hooli-group</p>
           </Footer>
         </Layout>
       </Layout>
