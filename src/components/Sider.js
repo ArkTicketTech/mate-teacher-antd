@@ -1,14 +1,18 @@
-import React from 'react'
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Menu, Icon } from 'antd';
 
 const SubMenu = Menu.SubMenu;
 
 class MySider extends React.Component {
-    rootSubmenuKeys = ['sub1', 'sub2', 'sub4'];
-
-    state = {
-        openKeys: ['sub1'],
+    constructor(props) {
+        super(props);
+        this.state = {
+            openKeys: ['sub1']
+        };
     };
+
+    rootSubmenuKeys = ['sub1', 'sub2', 'sub4'];
 
     onOpenChange = (openKeys) => {
         const latestOpenKey = openKeys.find(key => this.state.openKeys.indexOf(key) === -1);
@@ -21,16 +25,29 @@ class MySider extends React.Component {
         }
     }
 
+    onClick = (items) => {
+        // console.log(items.keyPath[0]);
+        const itemKey = items.keyPath[0];
+        // var content = "CoursesList";
+        /* if (itemKey === 5) {
+            content = "Profile";
+        } else if (itemKey !== 1) {
+            content = null;
+        }
+        this.props.content = content; */
+    }
+
     render() {
         return (
             <Menu
                 mode="inline"
                 openKeys={this.state.openKeys}
+                onClick={this.onClick}
                 onOpenChange={this.onOpenChange}
                 theme="dark"
             >
                 <SubMenu key="sub1" title={<span><Icon type="appstore" /><span>Courses Management</span></span>}>
-                    <Menu.Item key="1" onClick={this.onClick}>Courses Management</Menu.Item>
+                    <Menu.Item key="1">Courses Management</Menu.Item>
                     <Menu.Item key="2">Option 2</Menu.Item>
                     <Menu.Item key="3">Option 3</Menu.Item>
                     <Menu.Item key="4">Option 4</Menu.Item>
