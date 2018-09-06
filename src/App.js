@@ -15,7 +15,6 @@ class App extends Component {
     this.state = {
       collapsed: false,
       openKeys: ['sub1'],
-      // content: "CoursesList",
     };
   }
 
@@ -32,36 +31,12 @@ class App extends Component {
     }
   }
 
-  /* onClick = (items) => {
-    const itemKey = items.keyPath[0];
-    console.log(itemKey);
-    if (itemKey === 3) {
-      this.setState({ content: "Profile" });
-      console.log(itemKey);
-    } else if (itemKey !== 1) {
-      this.setState({ content: null });
-    }
-  } */
-
   onCollapse = (collapsed) => {
     console.log(collapsed);
     this.setState({ collapsed });
   }
 
   render() {
-    /* const con = this.state.content;
-    console.log(con);
-    var content = () => {
-      if (con === "CoursesList") {
-        console.log(con);
-        // return <CoursesList />
-      } else if (con === "Profile") {
-        // return <EditableList />
-      } else {
-        return null
-      }
-    }; */
-
     return (
       <Layout style={{ minHeight: '100vh' }}>
         <Sider
