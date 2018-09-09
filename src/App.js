@@ -5,6 +5,7 @@ import './App.css';
 import { Layout, Menu, Icon} from 'antd';
 import 'antd/dist/antd.css';
 import CoursesList from './components/CoursesList';
+import LoginDialog from './components/Login';
 
 const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
