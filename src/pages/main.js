@@ -3,6 +3,8 @@ import logo from '../logo.png';
 import QRcode from '../QRcode_mini.jpg';
 import { Layout, Menu, Icon } from 'antd';
 import CoursesList from '../components/CoursesList';
+import EditableList from '../components/EditableList';
+import { BrowserRouter, Route } from 'react-router-dom';
 
 const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -34,6 +36,14 @@ class MainPage extends React.Component {
     this.setState({ collapsed });
   }
 
+  onClick = (item) => {
+    console.log(item.key, typeof item.key);
+    if (item.key === '2')
+      window.location.href = '/main/EditableList';
+    if (item.key === '1')
+      window.location.href = '/main';
+  }
+
   render() {
     return (
       <Layout style={{ minHeight: '100vh' }}>
@@ -50,11 +60,13 @@ class MainPage extends React.Component {
             onClick={this.onClick}
             theme="dark"
           >
-            <SubMenu key="sub1" title={<span><Icon type="appstore" /><span>Courses Management</span></span>}>
+              <p id="username">用户名：hund</p>
+              <a id="logout" href="/">登出</a>
+            <SubMenu className="submenu" key="sub1" title={<span><Icon type="appstore" /><span>Courses Management</span></span>}>
               <Menu.Item key="1">Courses List</Menu.Item>
               <Menu.Item key="2">Quiz</Menu.Item>
             </SubMenu>
-            <SubMenu key="sub2" title={<span><Icon type="appstore" /><span>blablabla</span></span>}>
+            <SubMenu className="submenu" key="sub2" title={<span><Icon type="appstore" /><span>blablabla</span></span>}>
               <Menu.Item key="3">Profile</Menu.Item>
               <Menu.Item key="4">Config</Menu.Item>
             </SubMenu>
@@ -70,9 +82,12 @@ class MainPage extends React.Component {
             </div>
           </Header>
           <Content className="wrapper-content" style={{ margin: '150px 16px' }}>
-            <div className="tab-content">
-              <CoursesList />
-            </div>
+            <BrowserRouter>
+              <div>
+                <Route exact path='/main' component={CoursesList} />
+                <Route path='/main/EditableList' component={EditableList} />
+              </div>
+            </BrowserRouter>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
             <img src={QRcode} alt="QRcode"/>

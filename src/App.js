@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import 'antd/dist/antd.css';
-import LoginDialog from './components/Login';
+import LoginDialog from './pages/Login';
 import MainPage from './pages/main';
 import { BrowserRouter, Route } from 'react-router-dom';
 

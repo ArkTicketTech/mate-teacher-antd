@@ -49,6 +49,9 @@
 }
 
 .login-form {
+  position: absolute;
+  top: 40%;
+  left: 42%;
   text-align: center;
   max-width: 300px;
 }
@@ -57,4 +60,13 @@
 }
 .login-form-button {
   width: 100%;
+}
+
+#username {
+  position: relative;
+  top: 10px;
+  padding: 20px 11px;
+}
+#logout {
+  padding: 11px;
 }
