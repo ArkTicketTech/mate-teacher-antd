@@ -1,9 +1,10 @@
 import React from 'react';
-import logo from '../logo.png';
 import QRcode from '../QRcode_mini.jpg';
-import { Layout, Menu, Icon } from 'antd';
+import { Layout, Menu, Icon, Row, Col } from 'antd';
 import CoursesList from '../components/CoursesList';
 import EditableList from '../components/EditableList';
+import Profile from '../components/Profile';
+import DescriptionItem from '../components/DescriptionItem';
 import { BrowserRouter, Route } from 'react-router-dom';
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -60,8 +61,6 @@ class MainPage extends React.Component {
             onClick={this.onClick}
             theme="dark"
           >
-              <p id="username">用户名：hund</p>
-              <a id="logout" href="/">登出</a>
             <SubMenu className="submenu" key="sub1" title={<span><Icon type="appstore" /><span>Courses Management</span></span>}>
               <Menu.Item key="1">Courses List</Menu.Item>
               <Menu.Item key="2">Quiz</Menu.Item>
@@ -73,11 +72,10 @@ class MainPage extends React.Component {
           </Menu>
         </Sider>
         <Layout>
-          <Header style={{ background: '#fff', padding: 0 }}>
+          <Header style={{ background: '#eee', padding: 0 }}>
             <div className="App">
               <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <h1 className="App-title">Welcome to Mate</h1>
+                <Profile></Profile>
               </header>
             </div>
           </Header>
