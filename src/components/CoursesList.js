@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table, Divider, Button, Input, InputNumber, Form, Popconfirm } from 'antd';
+import quizStatus from './quizStatus';
 
 const FormItem = Form.Item;
 const EditableContext = React.createContext();
@@ -112,6 +113,7 @@ class CoursesList extends React.Component {
             selectedRowKeys: [],
             courses: [],
             count: 15,
+            quizStatusOn: true,
         };
 
         this.columns = [{
@@ -139,7 +141,7 @@ class CoursesList extends React.Component {
             key: 'action',
             render: () => (
                 <span>
-                    <a href="javascript::">问卷状态</a>
+                    <a onClick={this.showQuizStatus}>问卷状态</a>
                     <Divider type="vertical" />
                     <a href="javascript::">生成报告</a>
                 </span>
@@ -157,6 +159,13 @@ class CoursesList extends React.Component {
             });
         }
     }
+
+    showQuizStatus = () => {
+        console.log(this.state.quizStatusOn);
+        this.setState({
+            quizStatusOn: true,
+        });
+    };
 
     onSelectChange = (selectedRowKeys) => {
         console.log('seletedRowKeys changed: ', selectedRowKeys);
@@ -260,6 +269,7 @@ class CoursesList extends React.Component {
                     rowSelection={rowSelection}
                     dataSource={courses}
                     columns={columns} />
+                <quizStatus visible={this.state.quizStatusOn} />
             </div>
         )
     }

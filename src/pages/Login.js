@@ -21,10 +21,10 @@ class LoginForm extends React.Component {
         return (
             <div>
                 <div className="App">
-                <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo" />
+                    <header className="App-header">
+                        <img src={logo} className="App-logo" alt="logo" />
+                    </header>
                     <h1 className="App-title">Welcome to Mate</h1>
-                </header>
                 </div>
                 <Form onSubmit={this.handleSubmit} className="login-form">
                     <FormItem>

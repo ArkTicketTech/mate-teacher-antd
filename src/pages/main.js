@@ -2,9 +2,7 @@ import React from 'react';
 import QRcode from '../QRcode_mini.jpg';
 import { Layout, Menu, Icon, Row, Col } from 'antd';
 import CoursesList from '../components/CoursesList';
-import EditableList from '../components/EditableList';
 import Profile from '../components/Profile';
-import DescriptionItem from '../components/DescriptionItem';
 import { BrowserRouter, Route } from 'react-router-dom';
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -83,7 +81,7 @@ class MainPage extends React.Component {
             <BrowserRouter>
               <div>
                 <Route exact path='/main' component={CoursesList} />
-                <Route path='/main/EditableList' component={EditableList} />
+                <Route path='/main/EditableList' component={CoursesList} />
               </div>
             </BrowserRouter>
           </Content>
