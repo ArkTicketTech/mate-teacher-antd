@@ -1,6 +1,5 @@
 import React from 'react';
 import logo from '../logo.png';
-import QRcode from '../QRcode_mini.jpg';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 
 const FormItem = Form.Item;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const DescriptionItem = ({ title, content, color }) => (
+const DescriptionItem = ({ title, content }) => (
   <div
     style={{
       fontSize: 14,

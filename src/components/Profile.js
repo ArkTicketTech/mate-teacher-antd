@@ -11,6 +11,7 @@ class Profile extends React.Component {
       visible: false,
       fullName: 'hund030',
       Account: "mate2018@hooligroup.com",
+      School: "SJTU",
       City: "Shanghai",
       Country: "China",
       Message: "too lazy to metion anything",
@@ -72,7 +73,7 @@ class Profile extends React.Component {
           </Row>
           <Row>
             <Col span={12}>
-              <DescriptionItem title="Birthday" content="February 2,1900" />
+              <DescriptionItem title="School" content={this.state.School} />
             </Col>
             <Col span={12}>
               <DescriptionItem title="Website" content="-" />

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Menu, Icon } from 'antd';
 
 const SubMenu = Menu.SubMenu;
