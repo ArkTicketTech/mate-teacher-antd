@@ -1,6 +1,6 @@
 import React from 'react';
 import QRcode from '../QRcode_mini.jpg';
-import { Layout, Menu, Icon, Row, Col } from 'antd';
+import { Layout, Menu, Icon } from 'antd';
 import CoursesList from '../components/CoursesList';
 import Profile from '../components/Profile';
 import { BrowserRouter, Route } from 'react-router-dom';
@@ -31,11 +31,14 @@ class MainPage extends React.Component {
   }
 
   onCollapse = (collapsed) => {
-    console.log(collapsed);
-    this.setState({ collapsed });
+    const openKeys = collapsed ? [] : ['sub1'];
+    this.setState({
+      collapsed,
+      openKeys
+    });
   }
 
-  onClick = (item) => {
+  onMenuClick = (item) => {
     console.log(item.key, typeof item.key);
     if (item.key === '2')
       window.location.href = '/main/EditableList';
@@ -56,7 +59,7 @@ class MainPage extends React.Component {
             mode="inline"
             openKeys={this.state.openKeys}
             onOpenChange={this.onOpenChange}
-            onClick={this.onClick}
+            onClick={this.onMenuClick}
             theme="dark"
           >
             <SubMenu className="submenu" key="sub1" title={<span><Icon type="appstore" /><span>Courses Management</span></span>}>
