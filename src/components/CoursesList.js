@@ -1,6 +1,6 @@
 import React from 'react';
-import { Table, Divider, Button, Input, InputNumber, Form, Popconfirm } from 'antd';
-import quizStatus from './quizStatus';
+import { Table, Button, Input, Form } from 'antd';
+import QuizStatus from './QuizStatus';
 
 const FormItem = Form.Item;
 const EditableContext = React.createContext();
@@ -108,13 +108,22 @@ class CoursesList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            testArray: [1, 2],
-            editingKey: '',
             selectedRowKeys: [],
             courses: [],
-            count: 15,
+            count: 15, //课程总数
             quizStatusOn: true,
         };
+
+        for (let i = 0; i < 15; i++) {
+            this.state.courses.push({
+                key: i,
+                name: '示例课程' + i,
+                season: '2018秋季',
+                members: 30 + i,
+                site: '东上院507',
+                removed: false,
+            });
+        }
 
         this.columns = [{
             title: '课程名称',
@@ -139,33 +148,14 @@ class CoursesList extends React.Component {
         }, {
             title: '操作',
             key: 'action',
-            render: () => (
+            render: (record) => (
                 <span>
-                    <a onClick={this.showQuizStatus}>问卷状态</a>
-                    <Divider type="vertical" />
+                    <QuizStatus courseID={record.key} />
                     <a href="javascript::">生成报告</a>
                 </span>
             )
         }];
-
-        for (let i = 0; i < 15; i++) {
-            this.state.courses.push({
-                key: i,
-                name: '示例课程'+i,
-                season: '2018秋季',
-                members: 30 + i,
-                site: '东上院507',
-                removed: false,
-            });
-        }
     }
-
-    showQuizStatus = () => {
-        console.log(this.state.quizStatusOn);
-        this.setState({
-            quizStatusOn: true,
-        });
-    };
 
     onSelectChange = (selectedRowKeys) => {
         console.log('seletedRowKeys changed: ', selectedRowKeys);
@@ -269,7 +259,6 @@ class CoursesList extends React.Component {
                     rowSelection={rowSelection}
                     dataSource={courses}
                     columns={columns} />
-                <quizStatus visible={this.state.quizStatusOn} />
             </div>
         )
     }
