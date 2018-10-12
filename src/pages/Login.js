@@ -1,6 +1,6 @@
 import React from 'react';
 import logo from '../logo.png';
-import { Form, Icon, Input, Button, Checkbox, Modal } from 'antd';
+import { Form, Icon, Input, Button,  Modal } from 'antd';
 
 const FormItem = Form.Item;
 
@@ -16,7 +16,7 @@ class LoginForm extends React.Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
-                window.location.href = '/main';
+                window.location.href = '/CoursesList';
             }
         });
     }

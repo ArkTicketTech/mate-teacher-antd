@@ -3,10 +3,11 @@ import QRcode from '../QRcode_mini.jpg';
 import { Layout, Menu, Icon } from 'antd';
 import CoursesList from '../components/CoursesList';
 import Profile from '../components/Profile';
+import EditProfile from './EditProfile';
+import SurveyList from './SurveyList';
 import { BrowserRouter, Route } from 'react-router-dom';
 
 const { Header, Content, Footer, Sider } = Layout;
-const SubMenu = Menu.SubMenu;
 
 class MainPage extends React.Component {
   constructor(props) {
@@ -41,9 +42,11 @@ class MainPage extends React.Component {
   onMenuClick = (item) => {
     console.log(item.key, typeof item.key);
     if (item.key === '2')
-      window.location.href = '/main/EditableList';
+      window.location.href = '/SurveyList';
     if (item.key === '1')
-      window.location.href = '/main';
+      window.location.href = '/CoursesList';
+    if (item.key === '3')
+      window.location.href = '/Profile';
   }
 
   render() {
@@ -62,14 +65,10 @@ class MainPage extends React.Component {
             onClick={this.onMenuClick}
             theme="dark"
           >
-            <SubMenu className="submenu" key="sub1" title={<span><Icon type="appstore" /><span>Courses Management</span></span>}>
-              <Menu.Item key="1">Courses List</Menu.Item>
-              <Menu.Item key="2">Quiz</Menu.Item>
-            </SubMenu>
-            <SubMenu className="submenu" key="sub2" title={<span><Icon type="appstore" /><span>blablabla</span></span>}>
-              <Menu.Item key="3">Profile</Menu.Item>
-              <Menu.Item key="4">Config</Menu.Item>
-            </SubMenu>
+            <Menu.Item key="1">Courses List</Menu.Item>
+            <Menu.Item key="2">Quiz</Menu.Item>
+            <Menu.Item key="3">Profile</Menu.Item>
+            <Menu.Item key="4">Config</Menu.Item>
           </Menu>
         </Sider>
         <Layout>
@@ -83,8 +82,9 @@ class MainPage extends React.Component {
           <Content className="wrapper-content" style={{ margin: '150px 16px' }}>
             <BrowserRouter>
               <div>
-                <Route exact path='/main' component={CoursesList} />
-                <Route path='/main/EditableList' component={CoursesList} />
+                <Route exact path='/CoursesList' component={CoursesList} />
+                <Route path='/SurveyList' component={SurveyList} />
+                <Route path='/Profile' component={EditProfile} />
               </div>
             </BrowserRouter>
           </Content>

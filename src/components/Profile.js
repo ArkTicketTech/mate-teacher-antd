@@ -35,7 +35,7 @@ class Profile extends React.Component {
     return (
       <div>
         <Row type="flex" justify="end">
-          <Col span={2}> <img src={logo} className="Main-logo" alt="logo" /> </Col>
+          <Col span={2}> <img src={logo} className="main-logo" alt="logo" /> </Col>
           <Col span={2}>
             <Row type="flex" align="middle">
               <DescriptionItem title="用户名" content="hund"/>
