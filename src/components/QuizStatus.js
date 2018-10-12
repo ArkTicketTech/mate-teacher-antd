@@ -1,6 +1,8 @@
 import React from 'react';
 import { Drawer, Divider, Col, Row } from 'antd';
 import DescriptionItem from './DescriptionItem';
+import { ProgressBar } from 'react-bootstrap';
+import pStyle from './pStyle';
 
 class QuizStatus extends React.Component {
   constructor(props) {
@@ -62,6 +64,10 @@ class QuizStatus extends React.Component {
   };
 
   render() {
+    const failedStu = this.state.quizs[0].invalid * 100 / this.state.quizs[0].totalNumber;
+    const failedTea = this.state.quizs[1].invalid * 100 / this.state.quizs[1].totalNumber;
+    const successStu = this.state.quizs[0].degree - failedStu;
+    const successTea = this.state.quizs[1].degree - failedTea;
     return (
       <div>
         <a onClick={this.onShow}>问卷状态</a>
@@ -72,11 +78,7 @@ class QuizStatus extends React.Component {
           onClose={this.onClose}
           visible={this.state.visible}
         >
-          <Row>
-            <Col span={12}>
-              <DescriptionItem title="问卷名称" content={this.state.quizs[0].name}/>
-            </Col>
-          </Row>
+          <p style={pStyle}>学生问卷</p>
           <Row>
             <Col span={12}>
               <DescriptionItem title="创建时间" content={this.state.quizs[0].createTime} />
@@ -84,6 +86,18 @@ class QuizStatus extends React.Component {
             <Col span={12}>
               <DescriptionItem title="截止时间" content={this.state.quizs[0].dueTime} />
             </Col>
+            <Col span={24}>
+              <DescriptionItem title="问卷地址" content={this.state.quizs[0].site} />
+            </Col>
+          </Row>
+          <p style={pStyle}>问卷完成情况</p>
+          <Row>
+            <ProgressBar>
+              <ProgressBar active bsStyle="success" now={successStu} key={1} />
+              <ProgressBar active bsStyle="danger" now={failedStu} key={2} />
+            </ProgressBar>
+          </Row>
+          <Row>
             <Col span={12}>
               <DescriptionItem title="发放人数" content={this.state.quizs[0].totalNumber} />
             </Col>
@@ -97,17 +111,8 @@ class QuizStatus extends React.Component {
               <DescriptionItem title="无效问卷数" content={this.state.quizs[0].invalid} />
             </Col>
           </Row>
-          <Row>
-            <Col span={24}>
-              <DescriptionItem title="问卷地址" content={this.state.quizs[0].site} />
-            </Col>
-          </Row>
           <Divider />
-          <Row>
-            <Col span={12}>
-              <DescriptionItem title="问卷名称" content={this.state.quizs[1].name}/>
-            </Col>
-          </Row>
+          <p style={pStyle}>专家问卷</p>
           <Row>
             <Col span={12}>
               <DescriptionItem title="创建时间" content={this.state.quizs[1].createTime} />
@@ -115,6 +120,18 @@ class QuizStatus extends React.Component {
             <Col span={12}>
               <DescriptionItem title="截止时间" content={this.state.quizs[1].dueTime} />
             </Col>
+            <Col span={24}>
+              <DescriptionItem title="问卷地址" content={this.state.quizs[1].site} />
+            </Col>
+          </Row>
+          <p style={pStyle}>问卷完成情况</p>
+          <Row>
+            <ProgressBar>
+              <ProgressBar active bsStyle="success" now={successTea} key={1} />
+              <ProgressBar active bsStyle="danger" now={failedTea} key={2} />
+            </ProgressBar>
+          </Row>
+          <Row>
             <Col span={12}>
               <DescriptionItem title="发放人数" content={this.state.quizs[1].totalNumber} />
             </Col>
@@ -126,11 +143,6 @@ class QuizStatus extends React.Component {
             </Col>
             <Col span={12}>
               <DescriptionItem title="无效问卷数" content={this.state.quizs[1].invalid} />
-            </Col>
-          </Row>
-          <Row>
-            <Col span={24}>
-              <DescriptionItem title="问卷地址" content={this.state.quizs[1].site} />
             </Col>
           </Row>
         </Drawer>
