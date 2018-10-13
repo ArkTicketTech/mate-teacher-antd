@@ -1,14 +1,10 @@
+/* Login */
 .App {
   text-align: center;
 }
 
 .App-logo {
   height: 80px;
-}
-
-.Main-logo {
-  height: 80px;
-  width: 80px;
 }
 
 .App-header {
@@ -18,10 +14,16 @@
   color: white;
 }
 
-#username {
-  height: 30px;
+.login-form {
+  position: absolute;
+  top: 40%;
+  left: 42%;
+  text-align: center;
+  max-width: 300px;
 }
-
+.login-form-button {
+  width: 100%;
+}
 .App-title {
   font-size: 1.5em;
 }
@@ -30,11 +32,24 @@
   font-size: large;
 }
 
+/* Profile */
+.main-logo {
+  height: 80px;
+  width: 80px;
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 
+/* EditProfile */
+.profile-form {
+  position: absolute;
+  left: 47%;
+}
+
+/* EditableCell */
 .editable-cell {
   position: relative;
 }
@@ -54,15 +69,4 @@
   position: absolute;
   font-size: 12px;
   margin-top: -4px;
-}
-
-.login-form {
-  position: absolute;
-  top: 40%;
-  left: 42%;
-  text-align: center;
-  max-width: 300px;
-}
-.login-form-button {
-  width: 100%;
 }
