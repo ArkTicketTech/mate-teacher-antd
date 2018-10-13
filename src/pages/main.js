@@ -14,39 +14,23 @@ class MainPage extends React.Component {
     super(props);
     this.state = {
       collapsed: false,
-      openKeys: ['sub1'],
     };
   }
 
-  rootSubmenuKeys = ['sub1', 'sub2', 'sub4'];
-
-  onOpenChange = (openKeys) => {
-    const latestOpenKey = openKeys.find(key => this.state.openKeys.indexOf(key) === -1);
-    if (this.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
-      this.setState({ openKeys });
-    } else {
-      this.setState({
-        openKeys: latestOpenKey ? [latestOpenKey] : [],
-      });
-    }
-  }
-
   onCollapse = (collapsed) => {
-    const openKeys = collapsed ? [] : ['sub1'];
     this.setState({
-      collapsed,
-      openKeys
+      collapsed
     });
   }
 
   onMenuClick = (item) => {
     console.log(item.key, typeof item.key);
-    if (item.key === '2')
-      window.location.href = '/SurveyList';
     if (item.key === '1')
-      window.location.href = '/CoursesList';
+      window.location.href = '/main/CoursesList';
+    if (item.key === '2')
+      window.location.href = '/main/SurveyList';
     if (item.key === '3')
-      window.location.href = '/Profile';
+      window.location.href = '/main/Profile';
   }
 
   render() {
@@ -65,10 +49,9 @@ class MainPage extends React.Component {
             onClick={this.onMenuClick}
             theme="dark"
           >
-            <Menu.Item key="1">Courses List</Menu.Item>
-            <Menu.Item key="2">Quiz</Menu.Item>
-            <Menu.Item key="3">Profile</Menu.Item>
-            <Menu.Item key="4">Config</Menu.Item>
+            <Menu.Item key="1"><Icon type="hdd" theme="outlined" />Courses List</Menu.Item>
+            <Menu.Item key="2"><Icon type="book" theme="outlined" />Quiz</Menu.Item>
+            <Menu.Item key="3"><Icon type="user" theme="outlined" />Profile</Menu.Item>
           </Menu>
         </Sider>
         <Layout>
@@ -82,9 +65,9 @@ class MainPage extends React.Component {
           <Content className="wrapper-content" style={{ margin: '150px 16px' }}>
             <BrowserRouter>
               <div>
-                <Route exact path='/CoursesList' component={CoursesList} />
-                <Route path='/SurveyList' component={SurveyList} />
-                <Route path='/Profile' component={EditProfile} />
+                <Route exact path='/main/CoursesList' component={CoursesList} />
+                <Route path='/main/SurveyList' component={SurveyList} />
+                <Route path='/main/Profile' component={EditProfile} />
               </div>
             </BrowserRouter>
           </Content>
