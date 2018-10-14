@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table, Button, Form } from 'antd';
 import QuizStatus from './QuizStatus';
-import EditableCell from './EditableCell';
+import EditableFormCell from './EditableCell';
 
 const EditableContext = React.createContext();
 
@@ -88,6 +88,9 @@ class CoursesList extends React.Component {
         const newData = [...this.state.courses];
         const index = newData.findIndex(item => row.key === item.key);
         const item = newData[index];
+        console.log(typeof row.members)
+        if (typeof row.members !== 'number')
+            row.members = parseInt(row.members)
         newData.splice(index, 1, {
             ...item,
             ...row,
@@ -121,7 +124,7 @@ class CoursesList extends React.Component {
         const components = {
             body: {
                 row: EditableFormRow,
-                cell: EditableCell,
+                cell: EditableFormCell,
             },
         };
         const columns = this.columns.map((col) => {

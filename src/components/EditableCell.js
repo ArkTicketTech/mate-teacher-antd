@@ -39,7 +39,7 @@ class EditableCell extends React.Component {
 
     save = () => {
         const { record, handleSave } = this.props;
-        this.form.validateFields((error, values) => {
+        this.props.form.validateFields((error, values) => {
             if (error) {
                 return;
             }
@@ -50,6 +50,7 @@ class EditableCell extends React.Component {
 
     render() {
         const { editing } = this.state;
+        const { getFieldDecorator } = this.props.form;
         const {
             editable,
             dataIndex,
@@ -63,12 +64,11 @@ class EditableCell extends React.Component {
             <td ref={node => (this.cell = node)} {...restProps}>
                 {editable ? (
                     <EditableContext.Consumer>
-                        {(form) => {
-                            this.form = form;
+                        {() => {
                             return (
                                 editing ? (
                                     <FormItem style={{ margin: 0 }}>
-                                        {form.getFieldDecorator(dataIndex, {
+                                        {getFieldDecorator(dataIndex, {
                                             rules: [{
                                                 required: true,
                                                 message: title + ' is required.',
@@ -95,4 +95,6 @@ class EditableCell extends React.Component {
     }
 }
 
-export default EditableCell;
+const EditableFormCell = Form.create()(EditableCell)
+
+export default EditableFormCell;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Icon, Input, Button, Modal } from 'antd';
+import { Form, Icon, Input, Button } from 'antd';
 import ProfileData from '../api/Profile';
 
 const FormItem = Form.Item;
