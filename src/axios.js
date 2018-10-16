@@ -41,11 +41,11 @@ export default {
     },
 
 	// 获得课程信息
-	getCourses(data) {
-		return instance.get('/api/v1/courses?teacher_id=' + data.id)
+	getCourses(teacher_id) {
+		return instance.get('/api/v1/courses?teacher_id=' + teacher_id)
 	},
 	// 获得问卷状态
-	getAnsFormStatus(data) {
-		return instance.get('/api/v1/ansForm/getStatus?sourse_id=' + data.id)
+	getAnsFormStatus(course_id, form_id) {
+		return instance.get('/api/v1/ansForm/getStatus?course_id=' + course_id + '&form_id=' + form_id)
 	}
 }

@@ -3,6 +3,7 @@ import QRcode from '../QRcode_mini.jpg';
 import { Layout, Menu, Icon } from 'antd';
 import CoursesList from '../components/CoursesList';
 import Profile from '../components/Profile';
+import ProfileData from '../api/ProfileData';
 import EditProfile from './EditProfile';
 import SurveyList from './SurveyList';
 import { BrowserRouter, Route } from 'react-router-dom';
@@ -16,6 +17,7 @@ class MainPage extends React.Component {
       collapsed: false,
     };
   }
+  data = ProfileData;
 
   onCollapse = (collapsed) => {
     this.setState({
@@ -58,14 +60,14 @@ class MainPage extends React.Component {
           <Header style={{ background: '#eee', padding: 0 }}>
             <div className="App">
               <header className="App-header">
-                <Profile></Profile>
+                <Profile teacher={this.data}/>
               </header>
             </div>
           </Header>
           <Content className="wrapper-content" style={{ margin: '150px 16px' }}>
             <BrowserRouter>
               <div>
-                <Route exact path='/main/CoursesList' component={CoursesList} />
+                <Route exact path='/main/CoursesList' component={() => <CoursesList teacher_id="5bc2b5e9a741d422287f16ff" />} />
                 <Route path='/main/SurveyList' component={SurveyList} />
                 <Route path='/main/Profile' component={EditProfile} />
               </div>

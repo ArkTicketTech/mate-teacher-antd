@@ -1,4 +1,5 @@
 import React from 'react';
+import api from '../axios';
 import { Drawer, Divider, Col, Row } from 'antd';
 import DescriptionItem from './DescriptionItem';
 import { ProgressBar } from 'react-bootstrap';
@@ -29,6 +30,10 @@ class QuizStatus extends React.Component {
       }],
       visible: false,
     };
+  }
+
+  componentDidMount() {
+    api.getAnsFormStatus(this.props.course_id, this.props.form_id);
   }
 
   onClose = () => {

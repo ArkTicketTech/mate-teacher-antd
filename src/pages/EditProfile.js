@@ -1,7 +1,7 @@
 import React from 'react';
 import api from '../axios';
 import { Form, Icon, Input, Button } from 'antd';
-import ProfileData from '../api/Profile';
+import ProfileData from '../api/ProfileData';
 
 const FormItem = Form.Item;
 

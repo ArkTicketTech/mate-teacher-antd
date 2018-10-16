@@ -75,6 +75,10 @@ class CoursesList extends React.Component {
         }];
     }
 
+    componentDidMount() {
+        api.getCourses(this.props.teacher_id)
+    }
+
     onSelectChange = (selectedRowKeys) => {
         // console.log('seletedRowKeys changed: ', selectedRowKeys);
         this.setState({ selectedRowKeys });

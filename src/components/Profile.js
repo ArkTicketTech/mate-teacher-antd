@@ -9,13 +9,6 @@ class Profile extends React.Component {
     super(props);
     this.state = {
       visible: false,
-      fullName: 'hund030',
-      Account: "mate2018@hooligroup.com",
-      School: "SJTU",
-      City: "Shanghai",
-      Country: "China",
-      Message: "too lazy to metion anything",
-      Email: "mate2018@hooligroup.com",
     };
   }
 
@@ -23,6 +16,7 @@ class Profile extends React.Component {
     this.setState({
       visible: true,
     });
+    console.log(this.props.teacher);
   };
 
   onClose = () => {
@@ -57,34 +51,25 @@ class Profile extends React.Component {
           <p style={pStyle}>Personal</p>
           <Row>
             <Col span={12}>
-              <DescriptionItem title="Full Name" content={this.state.fullName}/>
+              <DescriptionItem title="Full Name" content={this.props.teacher.username}/>
             </Col>
             <Col span={12}>
-              <DescriptionItem title="Account" content={this.state.Account} />
+              <DescriptionItem title="E-mail" content={this.props.teacher.mail} />
             </Col>
           </Row>
           <Row>
             <Col span={12}>
-              <DescriptionItem title="City" content={this.state.City} />
+              <DescriptionItem title="City" content={this.props.teacher.city} />
             </Col>
             <Col span={12}>
-              <DescriptionItem title="Country" content={this.state.Country} />
+              <DescriptionItem title="School" content={this.props.teacher.school} />
             </Col>
           </Row>
           <Row>
             <Col span={12}>
-              <DescriptionItem title="School" content={this.state.School} />
-            </Col>
-            <Col span={12}>
-              <DescriptionItem title="Website" content="-" />
+              <DescriptionItem title="Website" content={this.props.teacher.website} />
             </Col>
           </Row>
-          <Row>
-            <Col span={24}>
-              <DescriptionItem title="Message" content={this.state.Message} />
-            </Col>
-          </Row>
-          <Divider />
         </Drawer>
       </div>
     );
