@@ -1,4 +1,5 @@
 import React from 'react';
+import api from '../axios';
 import { Form, Icon, Input, Button } from 'antd';
 import ProfileData from '../api/Profile';
 
@@ -20,32 +21,27 @@ class ProfileForm extends React.Component {
             var username = values.username;
             var school = values.school;
             var city = values.city;
-            var country = values.country;
+            var mail = values.mail;
             var website = values.website;
-            var signature = values.signature;
             if (!username)
                 username = data.username;
             if (!school)
                 school = data.school;
             if (!city)
                 city = data.city;
-            if (!country)
-                country = data.country;
             if (!website)
                 website = data.website;
-            if (!signature)
-                signature = data.signature;
+            if (!mail)
+                mail = data.mail;
             var newData = {
-                username: username,
+                id: data.id,
+                name: username,
                 school: school,
                 city: city,
-                country: country,
                 website: website,
-                signature: signature
+                mail: mail,
             };
-            this.setState({
-                data: newData
-            });
+            api.UpdateUserInfo(newData);
             window.location.href = '/main/Profile';
         })
     }
@@ -75,35 +71,28 @@ class ProfileForm extends React.Component {
                     {...formItemLayout}
                     label="School">
                     {getFieldDecorator('school')(
-                        <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder={this.state.data.school} />
+                        <Input prefix={<Icon type="team" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder={this.state.data.school} />
                     )}
                 </FormItem>
                 <FormItem
                     {...formItemLayout}
                     label="City">
                     {getFieldDecorator('city')(
-                        <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder={this.state.data.city} />
+                        <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder={this.state.data.city} />
                     )}
                 </FormItem>
                 <FormItem
                     {...formItemLayout}
-                    label="Country">
-                    {getFieldDecorator('country')(
-                        <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder={this.state.data.country} />
+                    label="mail">
+                    {getFieldDecorator('mail')(
+                        <Input prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder={this.state.data.mail} />
                     )}
                 </FormItem>
                 <FormItem
                     {...formItemLayout}
                     label="website">
                     {getFieldDecorator('website')(
-                        <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder={this.state.data.website} />
-                    )}
-                </FormItem>
-                <FormItem
-                    {...formItemLayout}
-                    label="personalized signature">
-                    {getFieldDecorator('signature')(
-                        <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder={this.state.data.signature} />
+                        <Input prefix={<Icon type="cloud" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder={this.state.data.website} />
                     )}
                 </FormItem>
                 <FormItem>

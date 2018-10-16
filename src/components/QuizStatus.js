@@ -38,7 +38,6 @@ class QuizStatus extends React.Component {
   };
 
   onShow = () => {
-    const id = this.props.courseID;
     this.setState({
       visible: true,
       quizs: [{
@@ -46,7 +45,7 @@ class QuizStatus extends React.Component {
         degree: 49,
         createTime: "2018-10-1",
         dueTime: "2018-10-10",
-        totalNumber: 100 + id,
+        totalNumber: 100,
         doneNumber: 49,
         invalid: 4,
         site: "https://blablabla.edu.cn",
@@ -55,7 +54,7 @@ class QuizStatus extends React.Component {
         degree: 75,
         createTime: "2018-10-1",
         dueTime: "2018-10-20",
-        totalNumber: 8 + id,
+        totalNumber: 8,
         doneNumber: 6,
         invalid: 1,
         site: "https://blablabla.edu.cn",

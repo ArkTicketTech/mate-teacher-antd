@@ -1,4 +1,5 @@
 import React from 'react';
+import api from '../axios';
 import logo from '../logo.png';
 import { Form, Icon, Input, Button,  Modal } from 'antd';
 
@@ -32,10 +33,8 @@ class LoginForm extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
-                if (values.password !== values.confirm) {
-                    console.log('warning', values.password, values.confirm);
-                }
+                api.userRegister(values);
+                // console.log('Received values of form: ', values);
             }
         });
         this.setState({ loading: true, registering: false });
@@ -90,7 +89,7 @@ class LoginForm extends React.Component {
                     <FormItem
                         {...formItemLayout}
                         label="Username">
-                        {getFieldDecorator('userName', {
+                        {getFieldDecorator('Username', {
                             rules: [{ required: true, message: 'Please input your username!' }],
                         })(
                             <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="Username" />
@@ -99,7 +98,7 @@ class LoginForm extends React.Component {
                     <FormItem
                         {...formItemLayout}
                         label="Password">
-                        {getFieldDecorator('password', {
+                        {getFieldDecorator('Password', {
                             rules: [{ required: true, message: 'Please input your Password!' }],
                         })(
                             <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,..25)' }} />} type="password" placeholder="Password" />
@@ -124,7 +123,7 @@ class LoginForm extends React.Component {
                         <FormItem
                             {...formItemLayout}
                             label="E-mail">
-                            {getFieldDecorator('Email', {
+                            {getFieldDecorator('mail', {
                                 rules: [{
                                     required: registering, message: 'Please input your email address!'
                                 }, {
@@ -137,7 +136,7 @@ class LoginForm extends React.Component {
                         <FormItem
                             {...formItemLayout}
                             label="Username">
-                            {getFieldDecorator('userName', {
+                            {getFieldDecorator('name', {
                                 rules: [{ required: registering, message: 'Please input your username!' }],
                             })(
                                 <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="Username" />
@@ -167,6 +166,13 @@ class LoginForm extends React.Component {
                                 }],
                             })(
                                 <Input prefix={<Icon type="password" style={{ color: 'rgba(0,0,0,..25)' }} />} type="password" placeholder="Confirm your password" />
+                            )}
+                        </FormItem>
+                        <FormItem
+                            {...formItemLayout}
+                            label="Website">
+                            {getFieldDecorator('website')(
+                                <Input prefix={<Icon type="cloud" style={{ color: 'rgba(0,0,0,..25)' }} />} type="cloud" placeholder="your website" />
                             )}
                         </FormItem>
                         <FormItem>
