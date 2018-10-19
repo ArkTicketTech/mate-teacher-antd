@@ -32,6 +32,10 @@ instance.interceptors.response.use(response => {
 })
 
 export default {
+	// 教师登陆
+	userLogin(data) {
+		return instance.post('/api/v1/teacher/login', data);
+	},
 	// 用户注册
 	userRegister(data) {
 		return instance.post('/api/v1/teacher', data)

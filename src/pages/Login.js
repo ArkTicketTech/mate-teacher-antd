@@ -16,8 +16,22 @@ class LoginForm extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
-                window.location.href = '/main/CoursesList';
+                const mail = values.Email;
+                const psw = values.Password;
+                // console.log('Received values of form: ', values);
+                const userData = {
+                    "mail": mail,
+                    "password": psw
+                };
+                api.userLogin(userData).then(({
+                    data
+                }) => {
+                    if (data.success) {
+                        localStorage.setItem("token", data.token);
+                        localStorage.setItem("userID", data._id);
+                        window.location.href = '/main/CoursesList';
+                    }
+                })
             }
         });
     }
