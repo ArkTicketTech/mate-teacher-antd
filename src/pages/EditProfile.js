@@ -41,8 +41,14 @@ class ProfileForm extends React.Component {
                 website: website,
                 mail: mail,
             };
-            api.UpdateUserInfo(newData);
-            window.location.href = '/main/Profile';
+            api.UpdateUserInfo(newData).then(({
+                data
+            }) => {
+                if (data.success) {
+                    localStorage.setItem("token", data.token);
+                    window.location.href = '/main/Profile';
+                }
+            })
         })
     }
 

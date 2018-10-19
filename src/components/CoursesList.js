@@ -24,20 +24,6 @@ class CoursesList extends React.Component {
             quizStatusOn: true,
         };
 
-        for (let i = 0; i < 15; i++) {
-            this.state.courses.push({
-                key: i,
-                course_id: '5bc2bb2539167622a39bcf64',
-                teacher_id: this.props.teacher_id,
-                title: '示例课程' + i,
-                begin_time: '2018-09-09',
-                end_time: '2018-10-09',
-                student_num: 30 + i,
-                location: '东上院507',
-                removed: false,
-            });
-        }
-
         this.columns = [{
             title: '课程名称',
             dataIndex: 'title',
@@ -68,15 +54,39 @@ class CoursesList extends React.Component {
             key: 'action',
             render: (record) => (
                 <span>
-                    <QuizStatus courseID={record.course_id} />
+                    <QuizStatus courseID={record._id} />
                     <a href="javascript::">生成报告</a>
                 </span>
             )
         }];
+
+        for (let i = 0; i < 15; i++) {
+            this.state.courses.push({
+                key: i,
+                _id: '5bc2bb2539167622a39bcf64',
+                teacher_id: this.props.teacher_id,
+                title: '示例课程' + i,
+                begin_time: '2018-09-09',
+                end_time: '2018-10-09',
+                student_num: 30 + i,
+                location: '东上院507',
+                removed: false,
+            });
+        }
     }
 
     componentDidMount() {
-        api.getCourses(this.props.teacher_id)
+        var count = this.state.count;
+        api.getCourses(this.props.teacher_id).then(({
+            data
+        }) => {
+            for (var course in data.courses) {
+                course.key = count;
+                ++count;
+                this.state.courses.push(course);
+            }
+        })
+        this.setState({ count });
     }
 
     onSelectChange = (selectedRowKeys) => {
@@ -89,11 +99,18 @@ class CoursesList extends React.Component {
         const newSelectedRowKeys = this.state.selectedRowKeys;
         // console.log('seletedRowKeys changed: ', newSelectedRowKeys);
         // console.log('Courses changed: ', newCourses);
+
+        // TODO: don't make functions within a loop
         var i = newSelectedRowKeys.length;
         while (i--) {
-            // console.log(newCourses.filter(item => item.key === newSelectedRowKeys[i])[0].course_id);
-            api.deleteCourse(newCourses.filter(item => item.key === newSelectedRowKeys[i])[0].course_id);
-            newCourses = newCourses.filter(item => item.key !== newSelectedRowKeys[i]);
+            console.log(newCourses.filter(item => item.key === newSelectedRowKeys[i])[0]._id);
+            api.deleteCourse(newCourses.filter(item => item.key === newSelectedRowKeys[i])[0]._id).then(({
+                data
+            }) => {
+                if (data.success) {
+                    newCourses = newCourses.filter(item => item.key !== newSelectedRowKeys[i]);
+                }
+            })
             // newCourses[newSelectedRowKeys[i]].removed = true;
         }
         this.setState({ selectedRowKeys: [], courses: newCourses });
@@ -111,15 +128,20 @@ class CoursesList extends React.Component {
             ...row,
         });
         // console.log(row);
-        api.updateCourse(row);
-        this.setState({ courses: newData });
+        api.updateCourse(row).then(({
+            data
+        }) => {
+            if (data.success) {
+                this.setState({ courses: newData });
+            }
+        })
     }
 
     handleAdd = () => {
         const { count, courses } = this.state;
         const newData = {
             key: count,
-            course_id: '5bc2bb2539167622a39bcf64',
+            _id: '',
             teacher_id: this.props.teacher_id,
             title: '示例课程' + count,
             begin_time: '2018-09-09',
@@ -128,12 +150,17 @@ class CoursesList extends React.Component {
             location: '东上院507',
             removed: false,
         };
+        api.createCourse(newData).then(({
+            data
+        }) => {
+            if (data.success) {
+                newData._id = data.course_id;
+            }
+        });
         this.setState({
             courses: [newData, ...courses],
             count: count + 1,
         });
-        api.createCourse(newData);
-        
     }
 
     render() {

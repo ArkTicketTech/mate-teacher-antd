@@ -33,7 +33,11 @@ class QuizStatus extends React.Component {
   }
 
   componentDidMount() {
-    api.getAnsFormStatus(this.props.course_id, this.props.form_id);
+    // console.log("componentDidMount");
+    const course_id = this.props.course_id;
+    const form_id = this.props.form_id;
+    api.getAnsFormStatus(course_id, form_id);
+    // api.getLink()
   }
 
   onClose = () => {

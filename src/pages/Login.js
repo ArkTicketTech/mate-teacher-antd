@@ -33,14 +33,20 @@ class LoginForm extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                api.userRegister(values);
+                api.userRegister(values).then(({
+                    data
+                }) => {
+                    // if (!data.info) { }
+                    if (data.success) {
+                        this.setState({ loading: true, registering: false });
+                        setTimeout(() => {
+                            this.setState({ loading: false, visible: false });
+                        }, 3000);
+                    }
+                })
                 // console.log('Received values of form: ', values);
             }
         });
-        this.setState({ loading: true, registering: false });
-        setTimeout(() => {
-            this.setState({ loading: false, visible: false });
-        }, 3000);
     }
 
     handleCancel = () => {
@@ -88,11 +94,11 @@ class LoginForm extends React.Component {
                 <Form onSubmit={this.onLogin} className="login-form">
                     <FormItem
                         {...formItemLayout}
-                        label="Username">
-                        {getFieldDecorator('Username', {
+                        label="Email">
+                        {getFieldDecorator('Email', {
                             rules: [{ required: true, message: 'Please input your username!' }],
                         })(
-                            <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="Username" />
+                            <Input prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="Email" />
                         )}
                     </FormItem>
                     <FormItem

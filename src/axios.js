@@ -6,6 +6,31 @@ axios.defaults.headers.post['Content-Type'] = 'application/json'
 const instance = axios.create();
 instance.defaults.headers.post['Content-Type'] = 'application/json'
 
+axios.interceptors.request.use = instance.interceptors.request.use
+instance.interceptors.request.use(config => {
+	if (localStorage.getItem('token')) {
+		config.headers.Authorization = `token ${localStorage.getItem('token')}`
+			.replace(/(^\")|(\"$)/g, '')
+	}
+	return config
+}, err => {
+	return Promise.reject(err)
+})
+// axios拦截响应
+instance.interceptors.response.use(response => {
+	return response
+}, err => {
+	if (err.response) {
+		switch (err.response.status) {
+			case 401:
+				// 返回 401 清除token信息并跳转到登录页面
+				localStorage.removeItem('token');
+				window.location.href = '/';
+		}
+	}
+	return Promise.reject(err)
+})
+
 export default {
 	// 用户注册
 	userRegister(data) {
