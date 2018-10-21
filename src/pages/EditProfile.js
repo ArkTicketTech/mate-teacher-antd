@@ -21,7 +21,6 @@ class ProfileForm extends React.Component {
             var username = values.username;
             var school = values.school;
             var city = values.city;
-            var mail = values.mail;
             var website = values.website;
             if (!username)
                 username = data.username;
@@ -31,15 +30,12 @@ class ProfileForm extends React.Component {
                 city = data.city;
             if (!website)
                 website = data.website;
-            if (!mail)
-                mail = data.mail;
             var newData = {
                 id: data.id,
                 name: username,
                 school: school,
                 city: city,
                 website: website,
-                mail: mail,
             };
             api.UpdateUserInfo(newData).then(({
                 data
@@ -85,13 +81,6 @@ class ProfileForm extends React.Component {
                     label="City">
                     {getFieldDecorator('city')(
                         <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder={this.state.data.city} />
-                    )}
-                </FormItem>
-                <FormItem
-                    {...formItemLayout}
-                    label="mail">
-                    {getFieldDecorator('mail')(
-                        <Input prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder={this.state.data.mail} />
                     )}
                 </FormItem>
                 <FormItem

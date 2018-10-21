@@ -155,11 +155,11 @@ class CoursesList extends React.Component {
         }) => {
             if (data.success) {
                 newData._id = data.course_id;
+                this.setState({
+                    courses: [newData, ...courses],
+                    count: count + 1,
+                });
             }
-        });
-        this.setState({
-            courses: [newData, ...courses],
-            count: count + 1,
         });
     }
 
