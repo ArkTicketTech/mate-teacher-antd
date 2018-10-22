@@ -12,17 +12,8 @@ const { Header, Content, Footer, Sider } = Layout;
 class MainPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      // collapsed: false,
-    };
   }
   data = ProfileData;
-
-  onCollapse = (collapsed) => {
-    this.setState({
-      collapsed
-    });
-  }
 
   onMenuClick = (item) => {
     console.log(item.key, typeof item.key);
@@ -41,20 +32,19 @@ class MainPage extends React.Component {
           // collapsible
           // collapsed={this.state.collapsed}
           // onCollapse={this.onCollapse}
-          width='256'
+          width='224'
         >
           <Menu
             mode="inline"
-            openKeys={this.state.openKeys}
-            onOpenChange={this.onOpenChange}
             onClick={this.onMenuClick}
             theme="dark"
           >
             <Menu.Item key="1"><Icon type="hdd" theme="outlined" />Courses List</Menu.Item>
             <Menu.Item key="3"><Icon type="user" theme="outlined" />Profile</Menu.Item>
             <div className="footer">
-              <img src={QRcode} alt="QRcode"/>
-              <p>Mate @2018 Created by Hooli-group</p>
+              <img src={QRcode} className="QRcode" alt="QRcode"/>
+              <p className="text">Mate @2018 </p>
+              <p className="text">Created by Hooli-group</p>
             </div>
           </Menu>
         </Sider>

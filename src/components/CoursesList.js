@@ -213,7 +213,8 @@ class CoursesList extends React.Component {
                     bordered
                     rowSelection={rowSelection}
                     dataSource={courses}
-                    columns={columns} />
+                    columns={columns}
+                    pagination={{ pageSize: 6 }} />
             </div>
         )
     }

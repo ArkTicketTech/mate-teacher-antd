@@ -32,6 +32,25 @@
   font-size: large;
 }
 
+/* main */
+.footer {
+  position: absolute;
+  bottom: 80px;
+}
+
+.footer .QRcode {
+  position: relative;
+  left: 12px;
+  padding: 16px;
+  height: 200px;
+  width: 200px;
+}
+
+.footer .text {
+  text-align: center;
+  padding: 5px, 16px;
+}
+
 /* Profile */
 .main-logo {
   height: 80px;
