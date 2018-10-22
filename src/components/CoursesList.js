@@ -1,10 +1,12 @@
 import React from 'react';
 import api from '../axios';
-import { Table, Button, Form } from 'antd';
+import { Table, Button, Form, Modal, Input, Icon } from 'antd';
 import QuizStatus from './QuizStatus';
 import EditableFormCell from './EditableCell';
+import { getFileItem } from 'antd/lib/upload/utils';
 
 const EditableContext = React.createContext();
+const FormItem = Form.Item;
 
 const EditableRow = ({ form, index, ...props }) => (
     <EditableContext.Provider value={form}>
@@ -18,6 +20,8 @@ class CoursesList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            modalVisible: false,
+            modalLoading: false,
             selectedRowKeys: [],
             courses: [],
             count: 15, //课程总数
@@ -27,17 +31,17 @@ class CoursesList extends React.Component {
         this.columns = [{
             title: '课程名称',
             dataIndex: 'title',
-            editable: true,
+            editable: false,
             key: 'title'
         }, {
             title: '开始时间',
             dataIndex: 'begin_time',
-            editable: true,
+            editable: false,
             key: 'begin_time'
         }, {
             title: '结束时间',
             dataIndex: 'end_time',
-            editable: true,
+            editable: false,
             key: 'end_time'
         }, {
             title: '上课人数',
@@ -89,6 +93,26 @@ class CoursesList extends React.Component {
         this.setState({ count });
     }
 
+    showModal = () => {
+        this.setState({
+            modalVisible: true,
+        });
+    }
+
+    handleModalSubmit = (e) => {
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                this.handleAdd(values);
+                this.setState({ modalVisible: false });
+            }
+        })
+    }
+
+    handleModalCancel = () => {
+        this.setState({ modalVisible: false });
+    }
+
     onSelectChange = (selectedRowKeys) => {
         // console.log('seletedRowKeys changed: ', selectedRowKeys);
         this.setState({ selectedRowKeys });
@@ -137,17 +161,19 @@ class CoursesList extends React.Component {
         })
     }
 
-    handleAdd = () => {
+    handleAdd = (values) => {
         const { count, courses } = this.state;
+        console.log(values);
         const newData = {
             key: count,
             _id: '',
             teacher_id: this.props.teacher_id,
-            title: '示例课程' + count,
-            begin_time: '2018-09-09',
-            end_time: '2018-10-09',
-            student_num: 30 + count,
-            location: '东上院507',
+            title: values.title,
+            begin_time: values.begin_time,
+            end_time: values.end_time,
+            survey_end_time: values.survey_end_time,
+            student_num: values.student_num,
+            location: values.location,
             removed: false,
         };
         api.createCourse(newData).then(({
@@ -164,7 +190,7 @@ class CoursesList extends React.Component {
     }
 
     render() {
-        const { selectedRowKeys, courses } = this.state;
+        const { selectedRowKeys, courses, modalLoading, modalVisible } = this.state;
         const rowSelection = {
             selectedRowKeys,
             onChange: this.onSelectChange,
@@ -191,13 +217,26 @@ class CoursesList extends React.Component {
                 }),
             };
         });
+        const { getFieldDecorator } = this.props.form;
+        // 表单元素label和input的样式
+        const formItemLayout = {
+            labelCol: {
+                xs: { span: 16 },
+                sm: { span: 8 },
+            },
+            wrapperCol: {
+                xs: { span: 16 },
+                sm: { span: 16 },
+            },
+        };
 
         return (
             <div>
                 <span>
                     <Button type="primary"
-                        style={{ margin: '5px 5px'}}
-                        onClick={this.handleAdd}>
+                        style={{ margin: '5px 5px' }}
+                        // onClick={this.handleAdd}>
+                        onClick={this.showModal}>
                         添加课程
                     </Button>
                     <Button type="primary"
@@ -215,9 +254,44 @@ class CoursesList extends React.Component {
                     dataSource={courses}
                     columns={columns}
                     pagination={{ pageSize: 6 }} />
+                <Modal
+                    visible={modalVisible}
+                    title="课程信息"
+                    onCancel={this.handleModalCancel}
+                    footer={[
+                        <Button key="back" onClick={this.handleModalCancel}>Return</Button>,
+                    ]}
+                >
+                    <Form onSubmit={this.handleModalSubmit}>
+                        <FormItem
+                            {...formItemLayout}
+                            label="Title">
+                            {getFieldDecorator('title', {
+                                rules: [{ required: true, message: 'Please input the title of the course' }],
+                            })(
+                                <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="课程名称" />
+                            )}
+                        </FormItem>
+                        <FormItem
+                            {...formItemLayout}
+                            label="Location">
+                            {getFieldDecorator('location', {
+                                rules: [{ required: true, message: 'Please input the location of the course' }],
+                            })(
+                                <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="上课地点" />
+                            )}
+                        </FormItem>
+                        <FormItem>
+                            <Button htmlType="submit" type="primary" className="form-button" loading={modalLoading}>
+                                Submit
+                            </Button>
+                        </FormItem>
+                    </Form>
+                </Modal>
             </div>
         )
     }
 }
 
+CoursesList = Form.create({})(CoursesList);
 export default CoursesList;

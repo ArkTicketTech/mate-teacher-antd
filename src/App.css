@@ -68,6 +68,13 @@
   left: 47%;
 }
 
+/* CoursesList */
+.form-button {
+  position: relative;
+  left: 50%;
+  width: 40%;
+}
+
 /* EditableCell */
 .editable-cell {
   position: relative;
