@@ -5,11 +5,11 @@ import DescriptionItem from './DescriptionItem';
 import { ProgressBar } from 'react-bootstrap';
 import pStyle from './pStyle';
 
-class QuizStatus extends React.Component {
+class FormStatus extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      quizs: [{
+      forms: [{
         name: "for student",
         degree: 49,
         createTime: "2018-10-1",
@@ -35,8 +35,15 @@ class QuizStatus extends React.Component {
   componentDidMount() {
     // console.log("componentDidMount");
     const course_id = this.props.course_id;
-    const form_id = this.props.form_id;
-    api.getAnsFormStatus(course_id, form_id);
+    const self_form_id = this.props.self_form;
+    const expert_form_id = this.props.expert_form;
+    const student_form_id = this.props.student_form;
+    api.getAnsFormStatus(course_id, self_form_id).then(({
+      data
+    }) => {
+      this.setState({
+      })
+    })
     // api.getLink()
   }
 
@@ -47,9 +54,10 @@ class QuizStatus extends React.Component {
   };
 
   onShow = () => {
+    console.log(this.props.courseID)
     this.setState({
       visible: true,
-      quizs: [{
+      forms: [{
         name: "for student",
         degree: 49,
         createTime: "2018-10-1",
@@ -72,10 +80,10 @@ class QuizStatus extends React.Component {
   };
 
   render() {
-    const failedStu = this.state.quizs[0].invalid * 100 / this.state.quizs[0].totalNumber;
-    const failedTea = this.state.quizs[1].invalid * 100 / this.state.quizs[1].totalNumber;
-    const successStu = this.state.quizs[0].degree - failedStu;
-    const successTea = this.state.quizs[1].degree - failedTea;
+    const failedStu = this.state.forms[0].invalid * 100 / this.state.quizs[0].totalNumber;
+    const failedTea = this.state.forms[1].invalid * 100 / this.state.quizs[1].totalNumber;
+    const successStu = this.state.forms[0].degree - failedStu;
+    const successTea = this.state.forms[1].degree - failedTea;
     return (
       <div>
         <a onClick={this.onShow}>问卷状态</a>
@@ -89,13 +97,13 @@ class QuizStatus extends React.Component {
           <p style={pStyle}>学生问卷</p>
           <Row>
             <Col span={12}>
-              <DescriptionItem title="创建时间" content={this.state.quizs[0].createTime} />
+              <DescriptionItem title="创建时间" content={this.state.forms[0].createTime} />
             </Col>
             <Col span={12}>
-              <DescriptionItem title="截止时间" content={this.state.quizs[0].dueTime} />
+              <DescriptionItem title="截止时间" content={this.state.forms[0].dueTime} />
             </Col>
             <Col span={24}>
-              <DescriptionItem title="问卷地址" content={this.state.quizs[0].site} />
+              <DescriptionItem title="问卷地址" content={this.state.forms[0].site} />
             </Col>
           </Row>
           <p style={pStyle}>问卷完成情况</p>
@@ -107,29 +115,29 @@ class QuizStatus extends React.Component {
           </Row>
           <Row>
             <Col span={12}>
-              <DescriptionItem title="发放人数" content={this.state.quizs[0].totalNumber} />
+              <DescriptionItem title="发放人数" content={this.state.forms[0].totalNumber} />
             </Col>
             <Col span={12}>
-              <DescriptionItem title="已完成人数" content={this.state.quizs[0].doneNumber} />
+              <DescriptionItem title="已完成人数" content={this.state.forms[0].doneNumber} />
             </Col>
             <Col span={12}>
-              <DescriptionItem title="完成度" content={this.state.quizs[0].degree} />
+              <DescriptionItem title="完成度" content={this.state.forms[0].degree} />
             </Col>
             <Col span={12}>
-              <DescriptionItem title="无效问卷数" content={this.state.quizs[0].invalid} />
+              <DescriptionItem title="无效问卷数" content={this.state.forms[0].invalid} />
             </Col>
           </Row>
           <Divider />
           <p style={pStyle}>专家问卷</p>
           <Row>
             <Col span={12}>
-              <DescriptionItem title="创建时间" content={this.state.quizs[1].createTime} />
+              <DescriptionItem title="创建时间" content={this.state.forms[1].createTime} />
             </Col>
             <Col span={12}>
-              <DescriptionItem title="截止时间" content={this.state.quizs[1].dueTime} />
+              <DescriptionItem title="截止时间" content={this.state.forms[1].dueTime} />
             </Col>
             <Col span={24}>
-              <DescriptionItem title="问卷地址" content={this.state.quizs[1].site} />
+              <DescriptionItem title="问卷地址" content={this.state.forms[1].site} />
             </Col>
           </Row>
           <p style={pStyle}>问卷完成情况</p>
@@ -141,16 +149,16 @@ class QuizStatus extends React.Component {
           </Row>
           <Row>
             <Col span={12}>
-              <DescriptionItem title="发放人数" content={this.state.quizs[1].totalNumber} />
+              <DescriptionItem title="发放人数" content={this.state.forms[1].totalNumber} />
             </Col>
             <Col span={12}>
-              <DescriptionItem title="已完成人数" content={this.state.quizs[1].doneNumber} />
+              <DescriptionItem title="已完成人数" content={this.state.forms[1].doneNumber} />
             </Col>
             <Col span={12}>
-              <DescriptionItem title="完成度" content={this.state.quizs[1].degree} />
+              <DescriptionItem title="完成度" content={this.state.forms[1].degree} />
             </Col>
             <Col span={12}>
-              <DescriptionItem title="无效问卷数" content={this.state.quizs[1].invalid} />
+              <DescriptionItem title="无效问卷数" content={this.state.forms[1].invalid} />
             </Col>
           </Row>
         </Drawer>
@@ -159,4 +167,4 @@ class QuizStatus extends React.Component {
   }
 }
 
-export default QuizStatus;
+export default FormStatus;

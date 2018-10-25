@@ -1,9 +1,8 @@
 import React from 'react';
 import api from '../axios';
 import { Table, Button, Form, Modal, Input, Icon } from 'antd';
-import QuizStatus from './QuizStatus';
+import QuizStatus from './FormStatus';
 import EditableFormCell from './EditableCell';
-import { getFileItem } from 'antd/lib/upload/utils';
 
 const EditableContext = React.createContext();
 const FormItem = Form.Item;
@@ -58,7 +57,11 @@ class CoursesList extends React.Component {
             key: 'action',
             render: (record) => (
                 <span>
-                    <QuizStatus courseID={record._id} />
+                    <QuizStatus
+                        course_id={record.course_id}
+                        self_form={record.self_form}
+                        expert_form={record.expert_form}
+                        student_form={record.student_form} />
                     <a href="javascript::">生成报告</a>
                 </span>
             )
@@ -69,12 +72,18 @@ class CoursesList extends React.Component {
                 key: i,
                 _id: '5bc2bb2539167622a39bcf64',
                 teacher_id: this.props.teacher_id,
+                student: [],
+                self_form: "5bc88fb10e16c3bda5150822",
+                expert_form: "5bc8901b0e16c3bda5150826",
+                student_form: "5bc88f660e16c3bda515081e",
                 title: '示例课程' + i,
                 begin_time: '2018-09-09',
                 end_time: '2018-10-09',
                 student_num: 30 + i,
                 location: '东上院507',
                 removed: false,
+                __v: 0,
+                self_form_link: "/form/1"
             });
         }
     }
