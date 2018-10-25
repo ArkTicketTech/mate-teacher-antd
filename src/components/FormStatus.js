@@ -1,6 +1,6 @@
 import React from 'react';
 import api from '../axios';
-import { Drawer, Divider, Col, Row } from 'antd';
+import { Drawer, Divider, Col, Row, message } from 'antd';
 import DescriptionItem from './DescriptionItem';
 import { ProgressBar } from 'react-bootstrap';
 import pStyle from './pStyle';
@@ -10,22 +10,27 @@ class FormStatus extends React.Component {
     super(props);
     this.state = {
       forms: [{
-        name: "for student",
-        degree: 49,
-        createTime: "2018-10-1",
-        dueTime: "2018-10-10",
-        totalNumber: 100,
-        doneNumber: 49,
-        invalid: 4,
+        name: "for self",
+        doneNumber: 0,
+        invalid: 0,
         site: "https://blablabla.edu.cn",
       }, {
-        name: "for teacher",
-        degree: 75,
+        name: "for expert",
+        degree: 50,
+        createTime: "2018-10-1",
+        dueTime: "2018-10-10",
+        totalNumber: 10,
+        doneNumber: 4,
+        invalid: 1,
+        site: "https://blablabla.edu.cn",
+      }, {
+        name: "for student",
+        degree: 100,
         createTime: "2018-10-1",
         dueTime: "2018-10-20",
-        totalNumber: 8,
-        doneNumber: 6,
-        invalid: 1,
+        totalNumber: 80,
+        doneNumber: 60,
+        invalid: 20,
         site: "https://blablabla.edu.cn",
       }],
       visible: false,
@@ -35,16 +40,84 @@ class FormStatus extends React.Component {
   componentDidMount() {
     // console.log("componentDidMount");
     const course_id = this.props.course_id;
-    const self_form_id = this.props.self_form;
-    const expert_form_id = this.props.expert_form;
-    const student_form_id = this.props.student_form;
-    api.getAnsFormStatus(course_id, self_form_id).then(({
+    const totalStu = this.props.totalNum;
+    const self = {
+      type: "self",
+      course_id: course_id,
+      form_id: this.props.self_form_id
+    };
+    const expert = {
+      type: "expert",
+      course_id: course_id,
+      form_id: this.props.expert_form_id
+    };
+    const student = {
+      type: "student",
+      course_id: course_id,
+      form_id: this.props.student_form_id
+    }
+    var self_route = '';
+    var expert_route = '';
+    var student_route = '';
+    var forms = [];
+    api.getLink(self).then(({
       data
     }) => {
-      this.setState({
-      })
+      self_route = data.route;
     })
-    // api.getLink()
+    api.getLink(expert).then(({
+      data
+    }) => {
+      expert_route = data.route;
+    })
+    api.getLink(student).then(({
+      data
+    }) => {
+      student_route = data.route;
+    })
+    api.getAnsFormStatus(course_id, self.form_id).then(({
+      data
+    }) => {
+      forms[0] = {
+        name: "for self",
+        doneNumber: data.filled,
+        invalid: data.invalid,
+        site: self_route,
+      }
+    })
+    api.getAnsFormStatus(course_id, expert.form_id).then(({
+      data
+    }) => {
+      forms[1] = {
+        name: "for expert",
+        degree: (Number)((data.filled + data.invalid) * 100 / totalStu),
+        // createTime: "2018-10-1",
+        // dueTime: "2018-10-10",
+        createTime: data.create_time,
+        dueTime: data.due_time,
+        totalNumber: totalStu,
+        doneNumber: data.filled,
+        invalid: data.invalid,
+        site: expert_route,
+      }
+    })
+    api.getAnsFormStatus(course_id, student.form_id).then(({
+      data
+    }) => {
+      forms[2] = {
+        name: "for student",
+        degree: (Number)((data.filled + data.invalid) * 100 / totalStu),
+        // createTime: "2018-10-1",
+        // dueTime: "2018-10-10",
+        createTime: data.create_time,
+        dueTime: data.due_time,
+        totalNumber: totalStu,
+        doneNumber: data.filled,
+        invalid: data.invalid,
+        site: student_route,
+      }
+    })
+    // this.setState({ forms: forms })
   }
 
   onClose = () => {
@@ -54,36 +127,19 @@ class FormStatus extends React.Component {
   };
 
   onShow = () => {
-    console.log(this.props.courseID)
+    // console.log(this.props.courseID)
     this.setState({
-      visible: true,
-      forms: [{
-        name: "for student",
-        degree: 49,
-        createTime: "2018-10-1",
-        dueTime: "2018-10-10",
-        totalNumber: 100,
-        doneNumber: 49,
-        invalid: 4,
-        site: "https://blablabla.edu.cn",
-      }, {
-        name: "for teacher",
-        degree: 75,
-        createTime: "2018-10-1",
-        dueTime: "2018-10-20",
-        totalNumber: 8,
-        doneNumber: 6,
-        invalid: 1,
-        site: "https://blablabla.edu.cn",
-      }],
+      visible: true
     });
   };
 
   render() {
-    const failedStu = this.state.forms[0].invalid * 100 / this.state.quizs[0].totalNumber;
-    const failedTea = this.state.forms[1].invalid * 100 / this.state.quizs[1].totalNumber;
-    const successStu = this.state.forms[0].degree - failedStu;
-    const successTea = this.state.forms[1].degree - failedTea;
+    const { forms } = this.state;
+    const failedStu = forms[2].invalid * 100 / forms[2].totalNumber;
+    const failedExp = forms[1].invalid * 100 / forms[1].totalNumber;
+    const successStu = forms[2].degree - failedStu;
+    const successExp = forms[1].degree - failedExp;
+
     return (
       <div>
         <a onClick={this.onShow}>问卷状态</a>
@@ -97,13 +153,13 @@ class FormStatus extends React.Component {
           <p style={pStyle}>学生问卷</p>
           <Row>
             <Col span={12}>
-              <DescriptionItem title="创建时间" content={this.state.forms[0].createTime} />
+              <DescriptionItem title="创建时间" content={forms[2].createTime} />
             </Col>
             <Col span={12}>
-              <DescriptionItem title="截止时间" content={this.state.forms[0].dueTime} />
+              <DescriptionItem title="截止时间" content={forms[2].dueTime} />
             </Col>
             <Col span={24}>
-              <DescriptionItem title="问卷地址" content={this.state.forms[0].site} />
+              <DescriptionItem title="问卷地址" content={<a>{forms[2].site}</a>} />
             </Col>
           </Row>
           <p style={pStyle}>问卷完成情况</p>
@@ -115,50 +171,60 @@ class FormStatus extends React.Component {
           </Row>
           <Row>
             <Col span={12}>
-              <DescriptionItem title="发放人数" content={this.state.forms[0].totalNumber} />
+              <DescriptionItem title="发放人数" content={forms[2].totalNumber} />
             </Col>
             <Col span={12}>
-              <DescriptionItem title="已完成人数" content={this.state.forms[0].doneNumber} />
+              <DescriptionItem title="已完成人数" content={forms[2].doneNumber} />
             </Col>
             <Col span={12}>
-              <DescriptionItem title="完成度" content={this.state.forms[0].degree} />
+              <DescriptionItem title="完成度" content={forms[2].degree} />
             </Col>
             <Col span={12}>
-              <DescriptionItem title="无效问卷数" content={this.state.forms[0].invalid} />
+              <DescriptionItem title="无效问卷数" content={forms[2].invalid} />
             </Col>
           </Row>
           <Divider />
           <p style={pStyle}>专家问卷</p>
           <Row>
             <Col span={12}>
-              <DescriptionItem title="创建时间" content={this.state.forms[1].createTime} />
+              <DescriptionItem title="创建时间" content={forms[1].createTime} />
             </Col>
             <Col span={12}>
-              <DescriptionItem title="截止时间" content={this.state.forms[1].dueTime} />
+              <DescriptionItem title="截止时间" content={forms[1].dueTime} />
             </Col>
             <Col span={24}>
-              <DescriptionItem title="问卷地址" content={this.state.forms[1].site} />
+              <DescriptionItem title="问卷地址" content={<a>{forms[1].site}</a>} />
             </Col>
           </Row>
           <p style={pStyle}>问卷完成情况</p>
           <Row>
             <ProgressBar>
-              <ProgressBar active bsStyle="success" now={successTea} key={1} />
-              <ProgressBar active bsStyle="danger" now={failedTea} key={2} />
+              <ProgressBar active bsStyle="success" now={successExp} key={1} />
+              <ProgressBar active bsStyle="danger" now={failedExp} key={2} />
             </ProgressBar>
           </Row>
           <Row>
             <Col span={12}>
-              <DescriptionItem title="发放人数" content={this.state.forms[1].totalNumber} />
+              <DescriptionItem title="发放人数" content={forms[1].totalNumber} />
             </Col>
             <Col span={12}>
-              <DescriptionItem title="已完成人数" content={this.state.forms[1].doneNumber} />
+              <DescriptionItem title="已完成人数" content={forms[1].doneNumber} />
             </Col>
             <Col span={12}>
-              <DescriptionItem title="完成度" content={this.state.forms[1].degree} />
+              <DescriptionItem title="完成度" content={forms[1].degree} />
             </Col>
             <Col span={12}>
-              <DescriptionItem title="无效问卷数" content={this.state.forms[1].invalid} />
+              <DescriptionItem title="无效问卷数" content={forms[1].invalid} />
+            </Col>
+          </Row>
+          <Divider />
+          <p style={pStyle}>自测问卷</p>
+          <Row>
+            <Col span={12}>
+              <p> {forms[0].doneNumber ? "已完成" : "未完成"}</p>
+            </Col>
+            <Col span={12}>
+              <DescriptionItem title="问卷地址" content={<a>{forms[0].site}</a>} />
             </Col>
           </Row>
         </Drawer>
