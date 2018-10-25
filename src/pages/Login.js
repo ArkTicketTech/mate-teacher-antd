@@ -1,14 +1,18 @@
 import React from 'react';
 import api from '../axios';
 import logo from '../logo.png';
-import { Form, Icon, Input, Button,  Modal } from 'antd';
+import { Form, Icon, Input, Button, Modal, message } from 'antd';
 
 const FormItem = Form.Item;
+const failedRegister = () => {
+    message.error('failed to register, please try again.');
+};
+const failedLogin = () => {
+    message.error('failed to login, please check your password.');
+};
 
 class LoginForm extends React.Component {
     state = {
-        loading: false,
-        visible: false,
         registering: false,
     }
 
@@ -30,6 +34,8 @@ class LoginForm extends React.Component {
                         localStorage.setItem("token", data.token);
                         localStorage.setItem("userID", data._id);
                         window.location.href = '/main/CoursesList';
+                    } else {
+                        failedLogin();
                     }
                 })
             }
@@ -38,7 +44,6 @@ class LoginForm extends React.Component {
 
     onRegister = () => {
         this.setState({
-            visible: true,
             registering: true,
         });
     }
@@ -52,10 +57,11 @@ class LoginForm extends React.Component {
                 }) => {
                     // if (!data.info) { }
                     if (data.success) {
-                        this.setState({ loading: true, registering: false });
                         setTimeout(() => {
-                            this.setState({ loading: false, visible: false });
+                            this.setState({ registering: false });
                         }, 3000);
+                    } else {
+                        failedRegister();
                     }
                 })
                 // console.log('Received values of form: ', values);
@@ -64,7 +70,7 @@ class LoginForm extends React.Component {
     }
 
     handleCancel = () => {
-        this.setState({ visible: false });
+        this.setState({ registering: false });
     }
 
     compareToFirstPassword = (rule, value, callback) => {
@@ -86,7 +92,7 @@ class LoginForm extends React.Component {
 
     render() {
         const { getFieldDecorator } = this.props.form;
-        const { visible, loading, registering } = this.state;
+        const { registering } = this.state;
         const formItemLayout = {
             labelCol: {
                 xs: { span: 16 },
@@ -133,7 +139,7 @@ class LoginForm extends React.Component {
                     </FormItem>
                 </Form>
                 <Modal
-                    visible={visible}
+                    visible={registering}
                     title="Register"
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
