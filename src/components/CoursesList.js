@@ -1,11 +1,15 @@
 import React from 'react';
 import api from '../axios';
-import { Table, Button, Form, Modal, Input, Icon } from 'antd';
+import { Table, Button, Form, Modal, Input, Icon, message } from 'antd';
 import QuizStatus from './FormStatus';
 import EditableFormCell from './EditableCell';
 
 const EditableContext = React.createContext();
 const FormItem = Form.Item;
+
+const failMessage = (m) => {
+  message.error('failed to ' + m + ', please try again.');
+};
 
 const EditableRow = ({ form, index, ...props }) => (
     <EditableContext.Provider value={form}>
@@ -59,6 +63,7 @@ class CoursesList extends React.Component {
                 <span>
                     <QuizStatus
                         course_id={record.course_id}
+                        totalNum={record.student_num}
                         self_form={record.self_form}
                         expert_form={record.expert_form}
                         student_form={record.student_form} />
@@ -142,6 +147,8 @@ class CoursesList extends React.Component {
             }) => {
                 if (data.success) {
                     newCourses = newCourses.filter(item => item.key !== newSelectedRowKeys[i]);
+                } else {
+                    failMessage('remove course');
                 }
             })
             // newCourses[newSelectedRowKeys[i]].removed = true;
@@ -166,6 +173,8 @@ class CoursesList extends React.Component {
         }) => {
             if (data.success) {
                 this.setState({ courses: newData });
+            } else {
+                failMessage('edit course data');
             }
         })
     }
@@ -194,6 +203,8 @@ class CoursesList extends React.Component {
                     courses: [newData, ...courses],
                     count: count + 1,
                 });
+            } else {
+                failMessage('add course');
             }
         });
     }
