@@ -41,8 +41,12 @@ export default {
 		return instance.post('/api/v1/teacher', data)
 	},
 	// 修改用户信息
-	UpdateUserInfo(data) {
+	updateUserInfo(data) {
 		return instance.post('/api/v1/teacher', data)
+	},
+	// 更改密码
+	updatePwd(data) {
+		return instance.post('/api/v1/teacher/updatePwd', data)
 	},
 	// 创建课程
 	createCourse(data) {
@@ -60,7 +64,7 @@ export default {
 	createForm(data) {
 		return instance.post('/api/v1/form/cr', data)
     },
-    // 保持答案
+    // 保存答案
     saveAnsForm(data) {
         return instance.post('/api/v1/ansForm', data)
     },

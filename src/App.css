@@ -68,6 +68,11 @@
   left: 47%;
 }
 
+.change-pwd {
+  position: relative;
+  left: 40%;
+}
+
 /* CoursesList */
 .form-button {
   position: relative;
