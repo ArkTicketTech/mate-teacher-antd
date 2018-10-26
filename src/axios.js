@@ -32,17 +32,17 @@ instance.interceptors.response.use(response => {
 })
 
 export default {
+	// 用户注册
+	userRegister(data) {
+		return instance.post('/api/v1/teacher/register', data)
+	},
 	// 教师登陆
 	userLogin(data) {
 		return instance.post('/api/v1/teacher/login', data);
 	},
-	// 用户注册
-	userRegister(data) {
-		return instance.post('/api/v1/teacher', data)
-	},
 	// 修改用户信息
 	updateUserInfo(data) {
-		return instance.post('/api/v1/teacher', data)
+		return instance.post('/api/v1/teacher/updateInfo', data)
 	},
 	// 更改密码
 	updatePwd(data) {
@@ -50,15 +50,15 @@ export default {
 	},
 	// 创建课程
 	createCourse(data) {
-		return instance.post('/api/v1/course', data)
+		return instance.post('/api/v1/course/create', data)
 	},
 	// 编辑课程信息
 	updateCourse(data) {
-		return instance.post('/api/v1/course', data)
+		return instance.post('/api/v1/course/update', data)
 	},
 	// 删除课程
 	deleteCourse(data) {
-		return instance.post('/api/v1/course', data)
+		return instance.post('/api/v1/course/delete', data)
     },
     // 创建问卷
 	createForm(data) {
@@ -66,7 +66,7 @@ export default {
     },
     // 保存答案
     saveAnsForm(data) {
-        return instance.post('/api/v1/ansForm', data)
+        return instance.post('/api/v1/ansForm/save', data)
     },
     // 获取问卷地址
     getLink(data) {
