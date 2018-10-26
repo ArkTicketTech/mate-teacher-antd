@@ -35,6 +35,7 @@ class LoginForm extends React.Component {
                         localStorage.setItem("userID", data._id);
                         window.location.href = '/main/CoursesList';
                     } else {
+                        // console.log(data)
                         failedLogin();
                     }
                 })
@@ -57,9 +58,10 @@ class LoginForm extends React.Component {
                 }) => {
                     // if (!data.info) { }
                     if (data.success) {
+                        // console.log(values);
                         setTimeout(() => {
                             this.setState({ registering: false });
-                        }, 3000);
+                        }, 1000);
                     } else {
                         failedRegister();
                     }
