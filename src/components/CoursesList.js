@@ -3,6 +3,8 @@ import api from '../axios';
 import { Table, Button, Form, Modal, Input, Icon, message } from 'antd';
 import QuizStatus from './FormStatus';
 import EditableFormCell from './EditableCell';
+import { getFileItem } from 'antd/lib/upload/utils';
+import {withRouter} from "react-router-dom";
 
 const EditableContext = React.createContext();
 const FormItem = Form.Item;
@@ -71,6 +73,10 @@ class CoursesList extends React.Component {
                 </span>
             )
         }];
+    }
+
+    RouterPush = () => {
+        this.props.history.push("/main/Report");
     }
 
     componentDidMount() {
@@ -339,5 +345,5 @@ class CoursesList extends React.Component {
 }
 
 CoursesList = Form.create({})(CoursesList);
-export default CoursesList;
+export default withRouter(CoursesList);
 // TODO: 添加课程Modal待完善，时间选择可用日历，人数输入验证类型为number
