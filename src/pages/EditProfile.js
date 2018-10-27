@@ -1,12 +1,16 @@
 import React from 'react';
 import api from '../axios';
-import { Form, Icon, Input, Button } from 'antd';
+import { Form, Icon, Input, Button, message, Modal } from 'antd';
 import ProfileData from '../api/ProfileData';
 
 const FormItem = Form.Item;
+const failMessage = (m) => {
+    message.error('failed to ' + m + ', please try again.');
+};
 
 class ProfileForm extends React.Component {
     state = {
+        updatingPwd: false,
         data: ProfileData
     }
 
@@ -37,19 +41,54 @@ class ProfileForm extends React.Component {
                 city: city,
                 website: website,
             };
-            api.UpdateUserInfo(newData).then(({
+            api.updateUserInfo(newData).then(({
                 data
             }) => {
                 if (data.success) {
                     localStorage.setItem("token", data.token);
                     window.location.href = '/main/Profile';
+                } else {
+                    failMessage('update user information');
                 }
             })
         })
     }
 
+    showUpdatePwd = () => {
+        this.setState({
+            updatingPwd: true
+        });
+    }
+
+    onUpdatePwd = (e) => {
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                api.updatePwd(values).then(({
+                    data
+                }) => {
+                    if (data.success) {
+                        message.success('update password success!');
+                        this.setState({
+                            updatingPwd: false
+                        })
+                    } else {
+                        failMessage('update password');
+                    }
+                })
+            }
+        });
+    }
+
+    onCancelPwd = () => {
+        this.setState({
+            updatingPwd: false
+        });
+    }
+
     render() {
         const { getFieldDecorator } = this.props.form;
+        const { updatingPwd } = this.state;
         const formItemLayout = {
             labelCol: {
                 xs: { span: 16 },
@@ -61,6 +100,7 @@ class ProfileForm extends React.Component {
             },
         };
         return (
+            <div>
             <Form onSubmit={this.onEditProfile} className="profile-form">
                 <FormItem
                     {...formItemLayout}
@@ -95,7 +135,42 @@ class ProfileForm extends React.Component {
                         Submit
                     </Button>
                 </FormItem>
-            </Form>
+                <a className="change-pwd" onClick={this.showUpdatePwd}>修改密码</a>
+                </Form>
+                <Modal
+                    className="change-pwd-modal"
+                    visible={updatingPwd}
+                    onOk={this.onUpdatePwd}
+                    onCancel={this.onCancelPwd}
+                >
+                    <FormItem
+                        {...formItemLayout}
+                        label="Password">
+                        {getFieldDecorator('oldPassword', {
+                            rules: [{
+                                required: updatingPwd, message: 'Please input your Password!'
+                            }, {
+                                validator: this.validateToNextPassword,
+                            }],
+                        })(
+                            <Input prefix={<Icon type="password" style={{ color: 'rgba(0,0,0,..25)' }} />} type="password" placeholder="Password" />
+                        )}
+                    </FormItem>
+                    <FormItem
+                        {...formItemLayout}
+                        label="Confirm">
+                        {getFieldDecorator('newPassword', {
+                            rules: [{
+                                required: updatingPwd, message: 'Please input your Password again!'
+                            }, {
+                                validator: this.compareToFirstPassword,
+                            }],
+                        })(
+                            <Input prefix={<Icon type="password" style={{ color: 'rgba(0,0,0,..25)' }} />} type="password" placeholder="Confirm your password" />
+                        )}
+                    </FormItem>
+                </Modal>
+            </div>
         )
     }
 }

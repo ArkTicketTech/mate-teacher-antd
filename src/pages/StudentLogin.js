@@ -1,95 +1,43 @@
 import React from 'react';
-import api from '../axios';
-import logo from '../resources/logo.png';
-import { Form, Icon, Input, Button, Modal, message } from 'antd';
+import logo from '../logo.png';
+import { Form, Icon, Input, Button, Checkbox, Modal } from 'antd';
 
 const FormItem = Form.Item;
-const failedRegister = () => {
-    message.error('failed to register, please try again.');
-};
-const failedLogin = () => {
-    message.error('failed to login, please check your password.');
-};
 
 class LoginForm extends React.Component {
     state = {
         registering: false,
     }
 
-    onLogin = (e) => {
+    handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                const mail = values.Email;
-                const psw = values.Password;
-                // console.log('Received values of form: ', values);
-                const userData = {
-                    "mail": mail,
-                    "password": psw
-                };
-                api.userLogin(userData).then(({
-                    data
-                }) => {
-                    if (data.success) {
-                        localStorage.setItem("token", data.token);
-                        localStorage.setItem("userID", data._id);
-                        window.location.href = '/main/CoursesList';
-                    } else {
-                        // console.log(data)
-                        failedLogin();
-                    }
-                })
+                console.log('Received values of form: ', values);
+                window.location.href = '/main';
             }
         });
     }
 
-    onRegister = () => {
+    showRegister = () => {
         this.setState({
-            registering: true,
-        });
+            registering: true
+        })
     }
 
-    handleOk = (e) => {
+    cancelRegister = () => {
+        this.setState({
+            registering: false
+        })
+    }
+
+    register = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                api.userRegister(values).then(({
-                    data
-                }) => {
-                    // if (!data.info) { }
-                    if (data.success) {
-                        // console.log(values);
-                        setTimeout(() => {
-                            this.setState({ registering: false });
-                        }, 1000);
-                    } else {
-                        failedRegister();
-                    }
-                })
-                // console.log('Received values of form: ', values);
+                console.log(values)
             }
-        });
-    }
-
-    handleCancel = () => {
-        this.setState({ registering: false });
-    }
-
-    compareToFirstPassword = (rule, value, callback) => {
-        const form = this.props.form;
-        if (value && value !== form.getFieldValue('password')) {
-            callback('Two passwords that you enter is inconsistent!');
-        } else {
-            callback();
-        }
-    }
-
-    validateToNextPassword = (rule, value, callback) => {
-        const form = this.props.form;
-        if (value && this.state.confirmDirty) {
-            form.validateFields(['confirm'], { force: true });
-        }
-        callback();
+        })
     }
 
     render() {
@@ -110,48 +58,38 @@ class LoginForm extends React.Component {
                 <div className="App">
                     <header className="App-header">
                         <img src={logo} className="App-logo" alt="logo" />
+                        <h1 className="App-title">Welcome to Mate</h1>
                     </header>
-                    <h1 className="App-title">Welcome to Mate</h1>
                 </div>
-                <Form onSubmit={this.onLogin} className="login-form">
-                    <FormItem
-                        {...formItemLayout}
-                        label="Email">
-                        {getFieldDecorator('Email', {
-                            rules: [{ required: true, message: 'Please input your username!' }],
+                <Form onSubmit={this.handleSubmit} className="login-form">
+                    <FormItem>
+                        {getFieldDecorator('userName', {
+                            rules: [{ required: true, message: '请输入你的学号' }],
                         })(
-                            <Input prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="Email" />
-                        )}
-                    </FormItem>
-                    <FormItem
-                        {...formItemLayout}
-                        label="Password">
-                        {getFieldDecorator('Password', {
-                            rules: [{ required: true, message: 'Please input your Password!' }],
-                        })(
-                            <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,..25)' }} />} type="password" placeholder="Password" />
+                            <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="学号" />
                         )}
                     </FormItem>
                     <FormItem>
-                        <a className="login-form-jaccount" href="">jaccount</a>
                         <Button type="primary" htmlType="submit" className="login-form-button">
-                            Login
+                            登陆
                         </Button>
-                        Or <a onClick={this.onRegister}>register now!</a>
+                        <Button type="primary" onClick={this.showRegister} className="login-form-button">
+                            注册
+                        </Button>
                     </FormItem>
                 </Form>
                 <Modal
                     visible={registering}
-                    title="Register"
-                    onOk={this.handleOk}
-                    onCancel={this.handleCancel}
+                    title="注册"
+                    onOk={this.register}
+                    onCancel={this.cancelRegister}
                     footer={null}
                 >
                     <Form onSubmit={this.handleOk} >
                         <FormItem
                             {...formItemLayout}
-                            label="E-mail">
-                            {getFieldDecorator('mail', {
+                            label="学号">
+                            {getFieldDecorator('studentCode', {
                                 rules: [{
                                     required: registering, message: 'Please input your email address!'
                                 }, {
@@ -163,8 +101,17 @@ class LoginForm extends React.Component {
                         </FormItem>
                         <FormItem
                             {...formItemLayout}
-                            label="Username">
-                            {getFieldDecorator('name', {
+                            label="学校">
+                            {getFieldDecorator('university', {
+                                rules: [{ required: registering, message: 'Please input your username!' }],
+                            })(
+                                <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="Username" />
+                            )}
+                        </FormItem>
+                        <FormItem
+                            {...formItemLayout}
+                            label="学院">
+                            {getFieldDecorator('school', {
                                 rules: [{ required: registering, message: 'Please input your username!' }],
                             })(
                                 <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="Username" />
@@ -196,16 +143,9 @@ class LoginForm extends React.Component {
                                 <Input prefix={<Icon type="password" style={{ color: 'rgba(0,0,0,..25)' }} />} type="password" placeholder="Confirm your password" />
                             )}
                         </FormItem>
-                        <FormItem
-                            {...formItemLayout}
-                            label="Website">
-                            {getFieldDecorator('website')(
-                                <Input prefix={<Icon type="cloud" style={{ color: 'rgba(0,0,0,..25)' }} />} type="cloud" placeholder="your website" />
-                            )}
-                        </FormItem>
                         <FormItem>
                             <Button type="primary" htmlType="submit" className="login-form-button">
-                                Register
+                                注册
                             </Button>
                         </FormItem>
                     </Form>

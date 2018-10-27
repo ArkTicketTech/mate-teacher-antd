@@ -1,5 +1,5 @@
 import React from 'react';
-import QRcode from '../QRcode_mini.jpg';
+import QRcode from '../resources/QRcode_mini.jpg';
 import { Layout, Menu, Icon } from 'antd';
 import CoursesList from '../components/CoursesList';
 import Profile from '../components/Profile';

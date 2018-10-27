@@ -1,13 +1,17 @@
 import React from 'react';
 import api from '../axios';
-import { Table, Button, Form, Modal, Input, Icon } from 'antd';
-import QuizStatus from './QuizStatus';
+import { Table, Button, Form, Modal, Input, Icon, message } from 'antd';
+import QuizStatus from './FormStatus';
 import EditableFormCell from './EditableCell';
 import { getFileItem } from 'antd/lib/upload/utils';
 import {withRouter} from "react-router-dom";
 
 const EditableContext = React.createContext();
 const FormItem = Form.Item;
+
+const failMessage = (m) => {
+  message.error('failed to ' + m + ', please try again.');
+};
 
 const EditableRow = ({ form, index, ...props }) => (
     <EditableContext.Provider value={form}>
@@ -59,25 +63,16 @@ class CoursesList extends React.Component {
             key: 'action',
             render: (record) => (
                 <span>
-                    <QuizStatus courseID={record._id} />
-                    <a onClick={this.RouterPush}>生成报告</a>
+                    <QuizStatus
+                        course_id={record._id}
+                        totalNum={record.students.length}
+                        self_form={record.self_form}
+                        expert_form={record.expert_form}
+                        student_form={record.student_form} />
+                    <a href="javascript::">生成报告</a>
                 </span>
             )
         }];
-
-        for (let i = 0; i < 15; i++) {
-            this.state.courses.push({
-                key: i,
-                _id: '5bc2bb2539167622a39bcf64',
-                teacher_id: this.props.teacher_id,
-                title: '示例课程' + i,
-                begin_time: '2018-09-09',
-                end_time: '2018-10-09',
-                student_num: 30 + i,
-                location: '东上院507',
-                removed: false,
-            });
-        }
     }
 
     RouterPush = () => {
@@ -89,10 +84,14 @@ class CoursesList extends React.Component {
         api.getCourses(this.props.teacher_id).then(({
             data
         }) => {
-            for (var course in data.courses) {
-                course.key = count;
-                ++count;
-                this.state.courses.push(course);
+            // console.log('componentDidMount');
+            console.log(data);
+            for (var key in data) {
+                let course = data[key];
+                course.key = key;
+                // console.log(course);
+                count = key;
+                this.setState({ courses: [...this.state.courses, course] });
             }
         })
         this.setState({ count });
@@ -133,16 +132,22 @@ class CoursesList extends React.Component {
         var i = newSelectedRowKeys.length;
         while (i--) {
             console.log(newCourses.filter(item => item.key === newSelectedRowKeys[i])[0]._id);
-            api.deleteCourse(newCourses.filter(item => item.key === newSelectedRowKeys[i])[0]._id).then(({
+            let data = {
+                "id": newCourses.filter(item => item.key === newSelectedRowKeys[i])[0]._id
+            };
+            api.deleteCourse(data).then(({
                 data
             }) => {
                 if (data.success) {
-                    newCourses = newCourses.filter(item => item.key !== newSelectedRowKeys[i]);
+                    // newCourses = newCourses.filter(item => item.key !== newSelectedRowKeys[i]);
+                } else {
+                    failMessage('remove course');
                 }
             })
             // newCourses[newSelectedRowKeys[i]].removed = true;
         }
-        this.setState({ selectedRowKeys: [], courses: newCourses });
+        window.location.href = '/main/CoursesList';
+        // this.setState({ selectedRowKeys: [], courses: newCourses });
     }
 
     handleSave = (row) => {
@@ -156,12 +161,14 @@ class CoursesList extends React.Component {
             ...item,
             ...row,
         });
-        // console.log(row);
+        console.log(row);
         api.updateCourse(row).then(({
             data
         }) => {
             if (data.success) {
                 this.setState({ courses: newData });
+            } else {
+                failMessage('edit course data');
             }
         })
     }
@@ -185,11 +192,14 @@ class CoursesList extends React.Component {
             data
         }) => {
             if (data.success) {
+                // console.log(data);
                 newData._id = data.course_id;
                 this.setState({
                     courses: [newData, ...courses],
                     count: count + 1,
                 });
+            } else {
+                failMessage('add course');
             }
         });
     }
@@ -270,7 +280,7 @@ class CoursesList extends React.Component {
                     <Form onSubmit={this.handleModalSubmit}>
                         <FormItem
                             {...formItemLayout}
-                            label="Title">
+                            label="课程名称">
                             {getFieldDecorator('title', {
                                 rules: [{ required: true, message: 'Please input the title of the course' }],
                             })(
@@ -279,7 +289,43 @@ class CoursesList extends React.Component {
                         </FormItem>
                         <FormItem
                             {...formItemLayout}
-                            label="Location">
+                            label="课程开始时间">
+                            {getFieldDecorator('begin_time', {
+                                rules: [{ required: true, message: 'Please input the begin time of the course' }],
+                            })(
+                                <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="课程开始时间" />
+                            )}
+                        </FormItem>
+                        <FormItem
+                            {...formItemLayout}
+                            label="课程结束时间">
+                            {getFieldDecorator('end_time', {
+                                rules: [{ required: true, message: 'Please input the title of the course' }],
+                            })(
+                                <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="课程开始时间" />
+                            )}
+                        </FormItem>
+                        <FormItem
+                            {...formItemLayout}
+                            label="问卷截止时间">
+                            {getFieldDecorator('form_end_time', {
+                                rules: [{ required: true, message: 'Please input the title of the course' }],
+                            })(
+                                <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="课程名称" />
+                            )}
+                        </FormItem>
+                        <FormItem
+                            {...formItemLayout}
+                            label="上课人数">
+                            {getFieldDecorator('student_num', {
+                                rules: [{ required: true, message: 'Please input the title of the course' }],
+                            })(
+                                <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="上课人数" />
+                            )}
+                        </FormItem>
+                        <FormItem
+                            {...formItemLayout}
+                            label="上课地点">
                             {getFieldDecorator('location', {
                                 rules: [{ required: true, message: 'Please input the location of the course' }],
                             })(
@@ -300,3 +346,4 @@ class CoursesList extends React.Component {
 
 CoursesList = Form.create({})(CoursesList);
 export default withRouter(CoursesList);
+// TODO: 添加课程Modal待完善，时间选择可用日历，人数输入验证类型为number
