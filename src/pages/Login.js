@@ -1,6 +1,6 @@
 import React from 'react';
 import api from '../axios';
-import logo from '../logo.png';
+import logo from '../resources/logo.png';
 import { Form, Icon, Input, Button, Modal, message } from 'antd';
 
 const FormItem = Form.Item;

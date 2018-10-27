@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../logo.png';
+import logo from '../resources/logo.png';
 import { Drawer, Divider, Col, Row } from 'antd';
 import DescriptionItem from './DescriptionItem';
 import pStyle from './pStyle';

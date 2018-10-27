@@ -41,6 +41,7 @@ class FormStatus extends React.Component {
     // console.log("componentDidMount");
     const course_id = this.props.course_id;
     const totalStu = this.props.totalNum;
+    console.log(course_id, this.props);
     const self = {
       type: "self",
       course_id: course_id,
@@ -63,21 +64,25 @@ class FormStatus extends React.Component {
     api.getLink(self).then(({
       data
     }) => {
+      console.log('self link', data);
       self_route = data.route;
     })
     api.getLink(expert).then(({
       data
     }) => {
+      console.log('expert link', data);
       expert_route = data.route;
     })
     api.getLink(student).then(({
       data
     }) => {
+      console.log('student link', data);
       student_route = data.route;
     })
     api.getAnsFormStatus(course_id, self.form_id).then(({
       data
     }) => {
+      console.log('self form', data);
       forms[0] = {
         name: "for self",
         doneNumber: data.filled,
@@ -88,6 +93,7 @@ class FormStatus extends React.Component {
     api.getAnsFormStatus(course_id, expert.form_id).then(({
       data
     }) => {
+      console.log('expert form', data);
       forms[1] = {
         name: "for expert",
         degree: (Number)((data.filled + data.invalid) * 100 / totalStu),
@@ -104,6 +110,7 @@ class FormStatus extends React.Component {
     api.getAnsFormStatus(course_id, student.form_id).then(({
       data
     }) => {
+      console.log('student form', data);
       forms[2] = {
         name: "for student",
         degree: (Number)((data.filled + data.invalid) * 100 / totalStu),

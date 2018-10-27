@@ -62,8 +62,8 @@ class CoursesList extends React.Component {
             render: (record) => (
                 <span>
                     <QuizStatus
-                        course_id={record.course_id}
-                        totalNum={record.student_num}
+                        course_id={record._id}
+                        totalNum={record.students.length}
                         self_form={record.self_form}
                         expert_form={record.expert_form}
                         student_form={record.student_form} />
@@ -79,7 +79,7 @@ class CoursesList extends React.Component {
             data
         }) => {
             // console.log('componentDidMount');
-            // console.log(data);
+            console.log(data);
             for (var key in data) {
                 let course = data[key];
                 course.key = key;
