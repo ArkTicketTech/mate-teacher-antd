@@ -1,6 +1,6 @@
 import React from 'react';
 import logo from '../logo.png';
-import { Drawer, Divider, Col, Row } from 'antd';
+import { Drawer, Divider, Col, Row, Avatar, Tag } from 'antd';
 import DescriptionItem from './DescriptionItem';
 import pStyle from './pStyle';
 
@@ -29,19 +29,19 @@ class Profile extends React.Component {
     return (
       <div>
         <Row type="flex" justify="end">
-          <Col span={2}> <img src={logo} className="main-logo" alt="logo" /> </Col>
+          <Col span={2}> <Avatar src={logo} size={60} shape='square' alt="logo" /> </Col>
           <Col span={2}>
-            <Row type="flex" align="middle">
-              <DescriptionItem title="用户名" content="hund"/>
+            <Row type="flex">
+              <Tag color="#1890ff"><a onClick={this.showDrawer}>详情</a></Tag>
+              <Tag color="#1890ff"><a href="/">登出</a></Tag>
             </Row>
-            <Row type="flex" align="top">
-              <Col span={8}> <a onClick={this.showDrawer}>详情</a> </Col>
-              <Col span={8}> <a href="/">登出</a> </Col>
+            <Row type="flex">
+              <DescriptionItem title="用户名" content="hund"/>
             </Row>
           </Col>
         </Row>
         <Drawer
-          width={640}
+          width={560}
           placement="right"
           closable={false}
           onClose={this.onClose}

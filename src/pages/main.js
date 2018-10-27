@@ -5,6 +5,7 @@ import CoursesList from '../components/CoursesList';
 import Profile from '../components/Profile';
 import ProfileData from '../api/ProfileData';
 import EditProfile from './EditProfile';
+import Report from './Report';
 import { BrowserRouter, Route } from 'react-router-dom';
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -23,6 +24,8 @@ class MainPage extends React.Component {
       window.location.href = '/main/SurveyList';
     if (item.key === '3')
       window.location.href = '/main/Profile';
+    if (item.key === '4')
+      window.location.href = '/main/Report';
   }
 
   render() {
@@ -32,7 +35,7 @@ class MainPage extends React.Component {
           // collapsible
           // collapsed={this.state.collapsed}
           // onCollapse={this.onCollapse}
-          width='224'
+          width='180'
         >
           <Menu
             mode="inline"
@@ -41,6 +44,7 @@ class MainPage extends React.Component {
           >
             <Menu.Item key="1"><Icon type="hdd" theme="outlined" />Courses List</Menu.Item>
             <Menu.Item key="3"><Icon type="user" theme="outlined" />Profile</Menu.Item>
+            <Menu.Item key="4"><Icon type="file-text" theme="outlined" />Report</Menu.Item>
             <div className="footer">
               <img src={QRcode} className="QRcode" alt="QRcode"/>
               <p className="text">Mate @2018 </p>
@@ -56,11 +60,12 @@ class MainPage extends React.Component {
               </header>
             </div>
           </Header>
-          <Content className="wrapper-content" style={{ margin: '150px 16px' }}>
+          <Content className="wrapper-content" style={{ margin: '60px 16px' }}>
             <BrowserRouter>
               <div>
                 <Route exact path='/main/CoursesList' component={() => <CoursesList teacher_id="5bc2b5e9a741d422287f16ff" />} />
                 <Route path='/main/Profile' component={EditProfile} />
+                <Route path='/main/Report' component={Report} />
               </div>
             </BrowserRouter>
           </Content>

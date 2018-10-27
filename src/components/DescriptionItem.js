@@ -4,7 +4,7 @@ const DescriptionItem = ({ title, content }) => (
   <div
     style={{
       fontSize: 14,
-      lineHeight: '22px',
+      lineHeight: '60px',
       marginBottom: 7,
     }}
   >

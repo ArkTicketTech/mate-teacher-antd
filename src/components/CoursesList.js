@@ -4,6 +4,7 @@ import { Table, Button, Form, Modal, Input, Icon } from 'antd';
 import QuizStatus from './QuizStatus';
 import EditableFormCell from './EditableCell';
 import { getFileItem } from 'antd/lib/upload/utils';
+import {withRouter} from "react-router-dom";
 
 const EditableContext = React.createContext();
 const FormItem = Form.Item;
@@ -59,7 +60,7 @@ class CoursesList extends React.Component {
             render: (record) => (
                 <span>
                     <QuizStatus courseID={record._id} />
-                    <a href="javascript::">生成报告</a>
+                    <a onClick={this.RouterPush}>生成报告</a>
                 </span>
             )
         }];
@@ -77,6 +78,10 @@ class CoursesList extends React.Component {
                 removed: false,
             });
         }
+    }
+
+    RouterPush = () => {
+        this.props.history.push("/main/Report");
     }
 
     componentDidMount() {
@@ -294,4 +299,4 @@ class CoursesList extends React.Component {
 }
 
 CoursesList = Form.create({})(CoursesList);
-export default CoursesList;
+export default withRouter(CoursesList);

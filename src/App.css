@@ -9,7 +9,7 @@
 
 .App-header {
   background-color: #222;
-  height: 150px;
+  height: 100px;
   padding: 20px;
   color: white;
 }
@@ -35,15 +35,15 @@
 /* main */
 .footer {
   position: absolute;
-  bottom: 80px;
+  bottom: 50px;
 }
 
 .footer .QRcode {
-  position: relative;
+  position: center;
   left: 12px;
   padding: 16px;
-  height: 200px;
-  width: 200px;
+  height: 160px;
+  width: 160px;
 }
 
 .footer .text {
@@ -52,10 +52,10 @@
 }
 
 /* Profile */
-.main-logo {
+/* .main-logo {
   height: 80px;
   width: 80px;
-}
+} */
 
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
