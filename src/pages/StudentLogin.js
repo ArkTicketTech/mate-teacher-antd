@@ -1,8 +1,9 @@
 import React from 'react';
 import logo from '../resources/logo.png';
-import { Form, Icon, Input, Button, Checkbox, Modal } from 'antd';
+import { Form, Icon, Input, Button, Checkbox, Modal, Radio } from 'antd';
 
 const FormItem = Form.Item;
+const RadioGroup = Radio.Group;
 
 class LoginForm extends React.Component {
     state = {
@@ -40,8 +41,28 @@ class LoginForm extends React.Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 console.log(values)
+                setTimeout(() => {
+                    this.setState({ registering: false });
+                }, 1000);
             }
         })
+    }
+
+    compareToFirstPassword = (rule, value, callback) => {
+        const form = this.props.form;
+        if (value && value !== form.getFieldValue('password')) {
+            callback('Two passwords that you enter is inconsistent!');
+        } else {
+            callback();
+        }
+    }
+
+    validateToNextPassword = (rule, value, callback) => {
+        const form = this.props.form;
+        if (value && this.state.confirmDirty) {
+            form.validateFields(['confirm'], { force: true });
+        }
+        callback();
     }
 
     render() {
@@ -66,11 +87,22 @@ class LoginForm extends React.Component {
                     </header>
                 </div>
                 <Form onSubmit={this.handleSubmit} className="login-form">
-                    <FormItem>
+                    <FormItem
+                        {...formItemLayout}
+                        label="学号">
                         {getFieldDecorator('userName', {
-                            rules: [{ required: true, message: '请输入你的学号' }],
+                            rules: [{ required: !registering, message: '请输入你的学号' }],
                         })(
                             <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="学号" />
+                        )}
+                    </FormItem>
+                    <FormItem
+                        {...formItemLayout}
+                        label="密码">
+                        {getFieldDecorator('Password', {
+                            rules: [{ required: !registering, message: 'Please input your Password!' }],
+                        })(
+                            <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,..25)' }} />} type="password" placeholder="Password" />
                         )}
                     </FormItem>
                     <FormItem>
@@ -89,7 +121,7 @@ class LoginForm extends React.Component {
                     onCancel={this.cancelRegister}
                     footer={null}
                 >
-                    <Form onSubmit={this.handleOk} >
+                    <Form onSubmit={this.register} >
                         <FormItem
                             {...formItemLayout}
                             label="学号">
@@ -107,18 +139,18 @@ class LoginForm extends React.Component {
                             {...formItemLayout}
                             label="学校">
                             {getFieldDecorator('university', {
-                                rules: [{ required: registering, message: 'Please input your username!' }],
+                                rules: [{ required: registering, message: 'Please input your university name!' }],
                             })(
-                                <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="Username" />
+                                <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="Username" />
                             )}
                         </FormItem>
                         <FormItem
                             {...formItemLayout}
                             label="学院">
                             {getFieldDecorator('school', {
-                                rules: [{ required: registering, message: 'Please input your username!' }],
+                                rules: [{ required: registering, message: 'Please input your school name!' }],
                             })(
-                                <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="Username" />
+                                <Input prefix={<Icon type="shop" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="Username" />
                             )}
                         </FormItem>
                         <FormItem
@@ -145,6 +177,18 @@ class LoginForm extends React.Component {
                                 }],
                             })(
                                 <Input prefix={<Icon type="password" style={{ color: 'rgba(0,0,0,..25)' }} />} type="password" placeholder="Confirm your password" />
+                            )}
+                        </FormItem>
+                        <FormItem
+                            {...formItemLayout}
+                            label="性别">
+                            {getFieldDecorator('sex', {
+                                rules: [{ required: registering, message: 'Please input your sex!' }],
+                            })(
+                                <RadioGroup>
+                                    <Radio value="male">男</Radio>
+                                    <Radio value="female">女</Radio>
+                                </RadioGroup>
                             )}
                         </FormItem>
                         <FormItem>
