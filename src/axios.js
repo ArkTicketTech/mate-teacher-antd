@@ -8,8 +8,8 @@ instance.defaults.headers.post['Content-Type'] = 'application/json'
 
 axios.interceptors.request.use = instance.interceptors.request.use
 instance.interceptors.request.use(config => {
-	if (localStorage.getItem('token')) {
-		config.headers.Authorization = `token ${localStorage.getItem('token')}`
+	if (localStorage.getItem('mateToken')) {
+		config.headers.Authorization = `token ${localStorage.getItem('mateToken')}`
 			.replace(/(^\")|(\"$)/g, '')
 	}
 	return config
@@ -22,9 +22,9 @@ instance.interceptors.response.use(response => {
 }, err => {
 	if (err.response) {
 		switch (err.response.status) {
-			case 401:
-				// 返回 401 清除token信息并跳转到登录页面
-				localStorage.removeItem('token');
+			case 500:
+				// 返回 500 清除token信息并跳转到登录页面
+				localStorage.removeItem('mateToken');
 				window.location.href = '/';
 		}
 	}

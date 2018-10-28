@@ -31,8 +31,8 @@ class LoginForm extends React.Component {
                     data
                 }) => {
                     if (data.success) {
-                        localStorage.setItem("token", data.token);
-                        localStorage.setItem("userID", data._id);
+                        localStorage.setItem("mateToken", data.token);
+                        localStorage.setItem("mateAccountInfo", JSON.stringify(data.accountInfo));
                         window.location.href = '/main/CoursesList';
                     } else {
                         // console.log(data)

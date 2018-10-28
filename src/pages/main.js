@@ -3,7 +3,6 @@ import QRcode from '../resources/QRcode_mini.jpg';
 import { Layout, Menu, Icon } from 'antd';
 import CoursesList from '../components/CoursesList';
 import Profile from '../components/Profile';
-import ProfileData from '../api/ProfileData';
 import EditProfile from './EditProfile';
 import Report from './Report';
 import { BrowserRouter, Route } from 'react-router-dom';
@@ -11,10 +10,8 @@ import { BrowserRouter, Route } from 'react-router-dom';
 const { Header, Content, Footer, Sider } = Layout;
 
 class MainPage extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  data = ProfileData;
+
+  userInfo = JSON.parse(localStorage.getItem("mateAccountInfo"));
 
   onMenuClick = (item) => {
     console.log(item.key, typeof item.key);
@@ -56,7 +53,7 @@ class MainPage extends React.Component {
           <Header style={{ background: '#eee', padding: 0 }}>
             <div className="App">
               <header className="App-header">
-                <Profile teacher={this.data}/>
+                <Profile userInfo={this.userInfo}/>
               </header>
             </div>
           </Header>
