@@ -39,7 +39,7 @@ class Profile extends React.Component {
               <Tag color="#1890ff"><a href="/">登出</a></Tag>
             </Row>
             <Row type="flex">
-              <DescriptionItem title="用户名" content={info.name}/>
+              <DescriptionItem title="用户名" content={info ? info.name : "-"}/>
             </Row>
           </Col>
         </Row>
@@ -54,23 +54,23 @@ class Profile extends React.Component {
           <p style={pStyle}>Personal</p>
           <Row>
             <Col span={12}>
-              <DescriptionItem title="Full Name" content={info.name}/>
+              <DescriptionItem title="Full Name" content={info ? info.name : "-"}/>
             </Col>
             <Col span={12}>
-              <DescriptionItem title="E-mail" content={info.mail} />
-            </Col>
-          </Row>
-          <Row>
-            <Col span={12}>
-              <DescriptionItem title="City" content={info.city} />
-            </Col>
-            <Col span={12}>
-              <DescriptionItem title="School" content={info.school} />
+              <DescriptionItem title="E-mail" content={info ? info.mail : "-"} />
             </Col>
           </Row>
           <Row>
             <Col span={12}>
-              <DescriptionItem title="Website" content={info.website} />
+              <DescriptionItem title="City" content={info ? info.city : "-"} />
+            </Col>
+            <Col span={12}>
+              <DescriptionItem title="School" content={info ? info.school : "-"} />
+            </Col>
+          </Row>
+          <Row>
+            <Col span={12}>
+              <DescriptionItem title="Website" content={info ? info.website : "-"} />
             </Col>
           </Row>
         </Drawer>

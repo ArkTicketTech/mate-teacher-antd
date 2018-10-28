@@ -133,7 +133,7 @@ class LoginForm extends React.Component {
                         )}
                     </FormItem>
                     <FormItem>
-                        <a className="login-form-jaccount" href="">jaccount</a>
+                        <a className="login-form-jaccount" href="/main/CourseList">jaccount</a>
                         <Button type="primary" htmlType="submit" className="login-form-button">
                             Login
                         </Button>

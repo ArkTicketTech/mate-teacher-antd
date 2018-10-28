@@ -127,28 +127,28 @@ class ProfileForm extends React.Component {
                     {...formItemLayout}
                     label="Username">
                     {getFieldDecorator('username')(
-                        <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder={userInfo.name} />
+                        <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder={userInfo ? userInfo.name : '-'} />
                     )}
                 </FormItem>
                 <FormItem
                     {...formItemLayout}
                     label="School">
                     {getFieldDecorator('school')(
-                        <Input prefix={<Icon type="team" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder={userInfo.school} />
+                        <Input prefix={<Icon type="team" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder={userInfo ? userInfo.school : '-'} />
                     )}
                 </FormItem>
                 <FormItem
                     {...formItemLayout}
                     label="City">
                     {getFieldDecorator('city')(
-                        <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder={userInfo.city} />
+                        <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder={userInfo ? userInfo.city : '-'} />
                     )}
                 </FormItem>
                 <FormItem
                     {...formItemLayout}
                     label="website">
                     {getFieldDecorator('website')(
-                        <Input prefix={<Icon type="cloud" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder={userInfo.website} />
+                        <Input prefix={<Icon type="cloud" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder={userInfo ? userInfo.website : '-'} />
                     )}
                 </FormItem>
                 <FormItem>

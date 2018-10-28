@@ -182,7 +182,8 @@ class App extends Component {
   renderResult() {
     var ans = {};
     ans.form_id = quizQuestions.form._id;
-    // ans.course_id = 
+    ans.course_id = quizQuestions.course_id;
+    ans.type = quizQuestions.type;
     ans.is_valid = (quizQuestions.common.ans === this.state.answer)
     ans.student_id = localStorage.getItem("student_id");
     ans.answers = []
