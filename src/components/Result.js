@@ -16,6 +16,11 @@ function Result(props) {
     >
       <div>
         问卷完成! 欢迎关注我们的公众号
+        <div>
+          <img src={QRcode} className="QRcode" alt="QRcode"/>
+          <p>Mate @2018 </p>
+          <p>Created by Hooli-group</p>
+        </div>
         {/* You prefer <strong>{props.quizResult}</strong>! */}
       </div>
     </ReactCSSTransitionGroup>

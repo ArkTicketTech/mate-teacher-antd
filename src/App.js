@@ -4,6 +4,7 @@ import 'antd/dist/antd.css';
 import LoginDialog from './pages/Login';
 import MainPage from './pages/main';
 import Form from './pages/Form';
+import SLoginDialog from './pages/StudentLogin';
 import { BrowserRouter, Route } from 'react-router-dom';
 
 class App extends Component {
@@ -14,6 +15,7 @@ class App extends Component {
           <Route exact path='/' component={LoginDialog} />
           <Route path='/main' component={MainPage} />
           <Route path='/host/form/' component={Form} />
+          <Route path='/host/login/' component={SLoginDialog} />
         </div>
       </BrowserRouter>
     )

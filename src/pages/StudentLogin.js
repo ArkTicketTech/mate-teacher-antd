@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../logo.png';
+import logo from '../resources/logo.png';
 import { Form, Icon, Input, Button, Checkbox, Modal } from 'antd';
 
 const FormItem = Form.Item;
@@ -14,7 +14,11 @@ class LoginForm extends React.Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
-                window.location.href = '/main';
+                localStorage.setItem("student_id", values.userName);
+                const code = window.location.href.split('/')[5]
+                if (code) {
+                    window.location.href = '/host/form/' + code;
+                }
             }
         });
     }
@@ -155,6 +159,6 @@ class LoginForm extends React.Component {
     }
 }
 
-const LoginDialog = Form.create()(LoginForm);
+const SLoginDialog = Form.create()(LoginForm);
 
-export default LoginDialog;
+export default SLoginDialog;

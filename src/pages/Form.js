@@ -1,8 +1,33 @@
 import React, { Component } from 'react';
+import { message } from 'antd';
 import update from 'react-addons-update';
 import quizQuestions from '../api/quizQuestions';
 import Quiz from '../components/Quiz';
 import Result from '../components/Result';
+import api from '../axios';
+
+  const answerOptions = [
+    {
+      type: '5',
+      content: '5'
+    }, 
+    {
+      type: '4',
+      content: '4'
+    },
+    {
+      type: '3',
+      content: '3'
+    },
+    {
+      type: '2',
+      content: '2'
+    },
+    {
+      type: '1',
+      content: '1'
+    }
+  ]
 
 class App extends Component {
   constructor(props) {
@@ -16,13 +41,14 @@ class App extends Component {
       answerOptions: [],
       answer: '',
       answersCount: {
-        A: 0,
-        B: 0,
-        C: 0,
-        D: 0,
-        E: 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
       },
       answers: [],
+      questions: quizQuestions.questions,
       result: ''
     };
 
@@ -30,16 +56,38 @@ class App extends Component {
   }
 
   componentWillMount() {
-    console.log(window.location.href.split('/'));
-    const shuffledAnswerOptions = quizQuestions.map(
-      question => question.answers
-      // this.shuffleArray(question.answers)
-    );
-    console.log(shuffledAnswerOptions);
-    this.setState({
-      question: quizQuestions[0].question,
-      answerOptions: shuffledAnswerOptions[0]
-    });
+    if (localStorage.getItem("student_id") === null) {
+      window.location.href = '/host/login/' + window.location.href.split('/')[5];
+    } else if (localStorage.getItem("mateDone") === localStorage.getItem("student_id")) {
+      message.success('你已经填过问卷了');
+    } else {
+      this.setState({
+        login: true
+      })
+      /* const form_link = '/' + window.location.href.split('/')[4] + '/' + window.location.href.split('/')[5];
+      api.getForm(form_link).then(({
+        data
+      }) => {
+        if (data.success) {
+          this.setState({
+            questions: data.questions
+          })
+        }
+      })*/
+
+      var { questions } = this.state;
+      // console.log("question", questions)
+      /* const shuffledAnswerOptions = questions.map(
+        content => content.choices
+        // this.shuffleArray(question.answers)
+      ); */
+      // console.log("shuffled", shuffledAnswerOptions);
+      questions.push(quizQuestions.common)
+      this.setState({
+        question: questions[0].content,
+        answerOptions: answerOptions
+      });
+    }
   }
 
   shuffleArray(array) {
@@ -65,7 +113,7 @@ class App extends Component {
   handleAnswerSelected(event) {
     this.setUserAnswer(event.currentTarget.value);
 
-    if (this.state.questionId < quizQuestions.length) {
+    if (this.state.questionId < this.state.questions.length) {
       setTimeout(() => this.setNextQuestion(), 300);
     } else {
       setTimeout(() => this.setResults(this.getResults()), 300);
@@ -76,7 +124,7 @@ class App extends Component {
     const updatedAnswersCount = update(this.state.answersCount, {
       [answer]: { $apply: currentValue => currentValue + 1 }
     });
-    console.log(answer);
+    // console.log("answer", answer);
     var updateAnswers = this.state.answers;
     updateAnswers = [...updateAnswers, answer];
 
@@ -90,12 +138,13 @@ class App extends Component {
   setNextQuestion() {
     const counter = this.state.counter + 1;
     const questionId = this.state.questionId + 1;
+    const questions = this.state.questions;
 
     this.setState({
       counter: counter,
       questionId: questionId,
-      question: quizQuestions[counter].question,
-      answerOptions: quizQuestions[counter].answers,
+      question: questions[counter].content,
+      answerOptions: questions[counter].answers,
       answer: ''
     });
   }
@@ -121,17 +170,45 @@ class App extends Component {
     return (
       <Quiz
         answer={this.state.answer}
-        answerOptions={this.state.answerOptions}
+        answerOptions={answerOptions}
         questionId={this.state.questionId}
         question={this.state.question}
-        questionTotal={quizQuestions.length}
+        questionTotal={this.state.questions.length}
         onAnswerSelected={this.handleAnswerSelected}
       />
     );
   }
 
   renderResult() {
-    console.log(this.state);
+    var ans = {};
+    ans.form_id = quizQuestions.form._id;
+    // ans.course_id = 
+    ans.is_valid = (quizQuestions.common.ans === this.state.answer)
+    ans.student_id = localStorage.getItem("student_id");
+    ans.answers = []
+    for (var i in quizQuestions.form.question_ids) {
+      ans.answers.push({
+        question_id: quizQuestions.form.question_ids[i],
+        choice: this.state.answers[i]
+      })
+    }
+
+    if (localStorage.getItem("mateDone") === localStorage.getItem("student_id")) {
+      message.success("你已经填过问卷了");
+      return <Result quizResult={this.state.result} />;
+    }
+
+    api.saveAnsForm(ans).then(({
+      data
+    }) => {
+      if (data.success) {
+        message.success("问卷填写完成， 感谢您的配合");
+      }
+    })
+
+    localStorage.setItem("mateDone", ans.student_id);
+    console.log(ans);
+    // console.log(this.state);
     return <Result quizResult={this.state.result} />;
   }
 

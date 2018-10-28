@@ -80,5 +80,9 @@ export default {
 	// 获得问卷状态
 	getAnsFormStatus(course_id, form_id) {
 		return instance.get('/api/v1/ansForm/getStatus?course_id=' + course_id + '&form_id=' + form_id)
+	},
+	//获得问卷
+	getForm(form_link) {
+		return instance.get('/api/v1' + form_link);
 	}
 }
