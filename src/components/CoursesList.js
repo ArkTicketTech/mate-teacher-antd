@@ -1,13 +1,14 @@
 import React from 'react';
 import api from '../axios';
-import { Table, Button, Form, Modal, Input, Icon, message } from 'antd';
+import { Table, Button, Form, Modal, Input, Icon, message, DatePicker, InputNumber } from 'antd';
 import QuizStatus from './FormStatus';
 import EditableFormCell from './EditableCell';
-import { getFileItem } from 'antd/lib/upload/utils';
 import {withRouter} from "react-router-dom";
+import moment from 'moment';
 
 const EditableContext = React.createContext();
 const FormItem = Form.Item;
+const { RangePicker } = DatePicker;
 
 const failMessage = (m) => {
   message.error('failed to ' + m + ', please try again.');
@@ -65,11 +66,11 @@ class CoursesList extends React.Component {
                 <span>
                     <QuizStatus
                         course_id={record._id}
-                        totalNum={record.students.length}
+                        totalNum={record.student_num}
                         self_form={record.self_form}
                         expert_form={record.expert_form}
                         student_form={record.student_form} />
-                    <a href="javascript::">生成报告</a>
+                    <a onClick={this.RouterPush}>生成报告</a>
                 </span>
             )
         }];
@@ -85,16 +86,21 @@ class CoursesList extends React.Component {
             data
         }) => {
             // console.log('componentDidMount');
-            console.log(data);
+            // console.log(data);
             for (var key in data) {
                 let course = data[key];
                 course.key = key;
-                // console.log(course);
+                course.begin_time = course.begin_time.split("T")[0];
+                course.end_time = course.end_time.split("T")[0];
                 count = key;
                 this.setState({ courses: [...this.state.courses, course] });
             }
         })
         this.setState({ count });
+    }
+
+    disabledDate(current) {
+        return current && current < moment().endOf('day');
     }
 
     showModal = () => {
@@ -107,6 +113,10 @@ class CoursesList extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
+                values.begin_time = values.course_time[0]._d.toISOString();
+                values.end_time = values.course_time[1]._d.toISOString();
+                values.form_end_time = values.form_end_time._d.toISOString();
+                // console.log(values);
                 this.handleAdd(values);
                 this.setState({ modalVisible: false });
             }
@@ -272,6 +282,7 @@ class CoursesList extends React.Component {
                 <Modal
                     visible={modalVisible}
                     title="课程信息"
+                    width={550}
                     onCancel={this.handleModalCancel}
                     footer={[
                         <Button key="back" onClick={this.handleModalCancel}>Return</Button>,
@@ -289,38 +300,32 @@ class CoursesList extends React.Component {
                         </FormItem>
                         <FormItem
                             {...formItemLayout}
-                            label="课程开始时间">
-                            {getFieldDecorator('begin_time', {
+                            label="课程时间">
+                            {getFieldDecorator('course_time', {
                                 rules: [{ required: true, message: 'Please input the begin time of the course' }],
                             })(
-                                <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="课程开始时间" />
-                            )}
-                        </FormItem>
-                        <FormItem
-                            {...formItemLayout}
-                            label="课程结束时间">
-                            {getFieldDecorator('end_time', {
-                                rules: [{ required: true, message: 'Please input the title of the course' }],
-                            })(
-                                <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="课程开始时间" />
+                                <RangePicker showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }} />
+                                // <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="课程开始时间" />
                             )}
                         </FormItem>
                         <FormItem
                             {...formItemLayout}
                             label="问卷截止时间">
                             {getFieldDecorator('form_end_time', {
-                                rules: [{ required: true, message: 'Please input the title of the course' }],
+                                rules: [{ required: true, message: 'Please add the end time of the survey' }],
                             })(
-                                <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="课程名称" />
+                                <DatePicker disabledDate={this.disabledDate}
+                                    showTime={{ defaultValue: moment('00:00:00') }} />
+                                // <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="课程名称" />
                             )}
                         </FormItem>
                         <FormItem
                             {...formItemLayout}
                             label="上课人数">
                             {getFieldDecorator('student_num', {
-                                rules: [{ required: true, message: 'Please input the title of the course' }],
+                                rules: [{ required: true, message: 'Please input the students\'number of the course' }],
                             })(
-                                <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="上课人数" />
+                                <InputNumber />
                             )}
                         </FormItem>
                         <FormItem
@@ -346,4 +351,3 @@ class CoursesList extends React.Component {
 
 CoursesList = Form.create({})(CoursesList);
 export default withRouter(CoursesList);
-// TODO: 添加课程Modal待完善，时间选择可用日历，人数输入验证类型为number

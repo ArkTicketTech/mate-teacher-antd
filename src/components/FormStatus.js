@@ -39,50 +39,52 @@ class FormStatus extends React.Component {
 
   componentDidMount() {
     // console.log("componentDidMount");
+    const href = "http://" + window.location.href.split('/')[2] + "/host";
     const course_id = this.props.course_id;
     const totalStu = this.props.totalNum;
-    console.log(course_id, this.props);
+    // console.log(course_id, this.props);
+
     const self = {
       type: "self",
       course_id: course_id,
-      form_id: this.props.self_form_id
+      form_id: this.props.self_form
     };
     const expert = {
       type: "expert",
       course_id: course_id,
-      form_id: this.props.expert_form_id
+      form_id: this.props.expert_form
     };
     const student = {
       type: "student",
       course_id: course_id,
-      form_id: this.props.student_form_id
+      form_id: this.props.student_form
     }
-    var self_route = '';
-    var expert_route = '';
-    var student_route = '';
-    var forms = [];
+    let self_route = '';
+    let expert_route = '';
+    let student_route = '';
+    let { forms } = this.state;
+
     api.getLink(self).then(({
       data
     }) => {
-      console.log('self link', data);
-      self_route = data.route;
+      self_route = href + data.route;
     })
     api.getLink(expert).then(({
       data
     }) => {
-      console.log('expert link', data);
-      expert_route = data.route;
+      expert_route = href + data.route;
     })
     api.getLink(student).then(({
       data
     }) => {
-      console.log('student link', data);
-      student_route = data.route;
+      student_route = href + data.route;
     })
+    console.log('links', self_route, expert_route, student_route);
+
     api.getAnsFormStatus(course_id, self.form_id).then(({
       data
     }) => {
-      console.log('self form', data);
+      // console.log('self form', data);
       forms[0] = {
         name: "for self",
         doneNumber: data.filled,
@@ -93,7 +95,7 @@ class FormStatus extends React.Component {
     api.getAnsFormStatus(course_id, expert.form_id).then(({
       data
     }) => {
-      console.log('expert form', data);
+      // console.log('expert form', data);
       forms[1] = {
         name: "for expert",
         degree: (Number)((data.filled + data.invalid) * 100 / totalStu),
@@ -110,7 +112,7 @@ class FormStatus extends React.Component {
     api.getAnsFormStatus(course_id, student.form_id).then(({
       data
     }) => {
-      console.log('student form', data);
+      // console.log('student form', data);
       forms[2] = {
         name: "for student",
         degree: (Number)((data.filled + data.invalid) * 100 / totalStu),
@@ -124,7 +126,8 @@ class FormStatus extends React.Component {
         site: student_route,
       }
     })
-    // this.setState({ forms: forms })
+    this.setState({ forms: forms })
+    console.log("didmount", forms)
   }
 
   onClose = () => {
@@ -142,6 +145,7 @@ class FormStatus extends React.Component {
 
   render() {
     const { forms } = this.state;
+    // console.log("forms", forms)
     const failedStu = forms[2].invalid * 100 / forms[2].totalNumber;
     const failedExp = forms[1].invalid * 100 / forms[1].totalNumber;
     const successStu = forms[2].degree - failedStu;
@@ -160,13 +164,10 @@ class FormStatus extends React.Component {
           <p style={pStyle}>学生问卷</p>
           <Row>
             <Col span={12}>
-              <DescriptionItem title="创建时间" content={forms[2].createTime} />
-            </Col>
-            <Col span={12}>
               <DescriptionItem title="截止时间" content={forms[2].dueTime} />
             </Col>
             <Col span={24}>
-              <DescriptionItem title="问卷地址" content={<a>{forms[2].site}</a>} />
+              <DescriptionItem title="问卷地址" content={<a href={forms[2].site}>{forms[2].site}</a>} />
             </Col>
           </Row>
           <p style={pStyle}>问卷完成情况</p>
@@ -194,13 +195,10 @@ class FormStatus extends React.Component {
           <p style={pStyle}>专家问卷</p>
           <Row>
             <Col span={12}>
-              <DescriptionItem title="创建时间" content={forms[1].createTime} />
-            </Col>
-            <Col span={12}>
               <DescriptionItem title="截止时间" content={forms[1].dueTime} />
             </Col>
             <Col span={24}>
-              <DescriptionItem title="问卷地址" content={<a>{forms[1].site}</a>} />
+              <DescriptionItem title="问卷地址" content={<a href={forms[1].site}>{forms[1].site}</a>} />
             </Col>
           </Row>
           <p style={pStyle}>问卷完成情况</p>
@@ -231,7 +229,7 @@ class FormStatus extends React.Component {
               <p> {forms[0].doneNumber ? "已完成" : "未完成"}</p>
             </Col>
             <Col span={12}>
-              <DescriptionItem title="问卷地址" content={<a>{forms[0].site}</a>} />
+              <DescriptionItem title="问卷地址" content={<a href={forms[0].site}>{forms[0].site}</a>} />
             </Col>
           </Row>
         </Drawer>
@@ -239,5 +237,7 @@ class FormStatus extends React.Component {
     );
   }
 }
+
+// TODO: 后端返回问卷截止时间
 
 export default FormStatus;

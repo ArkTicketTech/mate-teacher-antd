@@ -12,11 +12,13 @@ class Profile extends React.Component {
     };
   }
 
+  componentDidMount() {
+  }
+
   showDrawer = () => {
     this.setState({
       visible: true,
     });
-    console.log(this.props.teacher);
   };
 
   onClose = () => {
@@ -26,6 +28,7 @@ class Profile extends React.Component {
   };
 
   render() {
+    const info = this.props.userInfo;
     return (
       <div>
         <Row type="flex" justify="end">
@@ -36,7 +39,7 @@ class Profile extends React.Component {
               <Tag color="#1890ff"><a href="/">登出</a></Tag>
             </Row>
             <Row type="flex">
-              <DescriptionItem title="用户名" content="hund"/>
+              <DescriptionItem title="用户名" content={info.name}/>
             </Row>
           </Col>
         </Row>
@@ -51,23 +54,23 @@ class Profile extends React.Component {
           <p style={pStyle}>Personal</p>
           <Row>
             <Col span={12}>
-              <DescriptionItem title="Full Name" content={this.props.teacher.username}/>
+              <DescriptionItem title="Full Name" content={info.name}/>
             </Col>
             <Col span={12}>
-              <DescriptionItem title="E-mail" content={this.props.teacher.mail} />
-            </Col>
-          </Row>
-          <Row>
-            <Col span={12}>
-              <DescriptionItem title="City" content={this.props.teacher.city} />
-            </Col>
-            <Col span={12}>
-              <DescriptionItem title="School" content={this.props.teacher.school} />
+              <DescriptionItem title="E-mail" content={info.mail} />
             </Col>
           </Row>
           <Row>
             <Col span={12}>
-              <DescriptionItem title="Website" content={this.props.teacher.website} />
+              <DescriptionItem title="City" content={info.city} />
+            </Col>
+            <Col span={12}>
+              <DescriptionItem title="School" content={info.school} />
+            </Col>
+          </Row>
+          <Row>
+            <Col span={12}>
+              <DescriptionItem title="Website" content={info.website} />
             </Col>
           </Row>
         </Drawer>
