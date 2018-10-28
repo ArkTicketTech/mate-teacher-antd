@@ -9,30 +9,7 @@ class FormStatus extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      forms: [{
-        name: "for self",
-        doneNumber: 0,
-        invalid: 0,
-        site: "https://blablabla.edu.cn",
-      }, {
-        name: "for expert",
-        degree: 50,
-        createTime: "2018-10-1",
-        dueTime: "2018-10-10",
-        totalNumber: 10,
-        doneNumber: 4,
-        invalid: 1,
-        site: "https://blablabla.edu.cn",
-      }, {
-        name: "for student",
-        degree: 100,
-        createTime: "2018-10-1",
-        dueTime: "2018-10-20",
-        totalNumber: 80,
-        doneNumber: 60,
-        invalid: 20,
-        site: "https://blablabla.edu.cn",
-      }],
+      forms: [],
       visible: false,
     };
   }
