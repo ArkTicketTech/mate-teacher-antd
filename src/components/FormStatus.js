@@ -9,12 +9,36 @@ class FormStatus extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      forms: [],
+      // 假数据用于完成与服务器交互之前的逻辑渲染，否则网页报错
+      forms: [{
+        name: "for self",
+        doneNumber: 0,
+        invalid: 0,
+        site: "https://blablabla.edu.cn",
+      }, {
+        name: "for expert",
+        degree: 50,
+        createTime: "2018-10-1",
+        dueTime: "2018-10-10",
+        totalNumber: 10,
+        doneNumber: 4,
+        invalid: 1,
+        site: "https://blablabla.edu.cn",
+      }, {
+        name: "for student",
+        degree: 100,
+        createTime: "2018-10-1",
+        dueTime: "2018-10-20",
+        totalNumber: 80,
+        doneNumber: 60,
+        invalid: 20,
+        site: "https://blablabla.edu.cn",
+      }],
       visible: false,
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     // console.log("componentDidMount");
     const href = "http://" + window.location.href.split('/')[2] + "/host";
     const course_id = this.props.course_id;
@@ -122,7 +146,7 @@ class FormStatus extends React.Component {
 
   render() {
     const { forms } = this.state;
-    // console.log("forms", forms)
+    console.log("forms", forms)
     const failedStu = forms[2].invalid * 100 / forms[2].totalNumber;
     const failedExp = forms[1].invalid * 100 / forms[1].totalNumber;
     const successStu = forms[2].degree - failedStu;
