@@ -56,12 +56,15 @@ class LoginForm extends React.Component {
                 api.userRegister(values).then(({
                     data
                 }) => {
-                    // if (!data.info) { }
+                    console.log(data);
                     if (data.success) {
                         // console.log(values);
                         setTimeout(() => {
                             this.setState({ registering: false });
                         }, 1000);
+                        localStorage.setItem("mateToken", data.token);
+                        localStorage.setItem("mateAccountInfo", JSON.stringify(data.accountInfo));
+                        window.location.href = '/main/CoursesList';
                     } else {
                         failedRegister();
                     }
@@ -118,7 +121,7 @@ class LoginForm extends React.Component {
                         {...formItemLayout}
                         label="Email">
                         {getFieldDecorator('Email', {
-                            rules: [{ required: true, message: 'Please input your username!' }],
+                            rules: [{ required: !registering, message: 'Please input your username!' }],
                         })(
                             <Input prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="Email" />
                         )}
@@ -127,7 +130,7 @@ class LoginForm extends React.Component {
                         {...formItemLayout}
                         label="Password">
                         {getFieldDecorator('Password', {
-                            rules: [{ required: true, message: 'Please input your Password!' }],
+                            rules: [{ required: !registering, message: 'Please input your Password!' }],
                         })(
                             <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,..25)' }} />} type="password" placeholder="Password" />
                         )}
@@ -198,9 +201,23 @@ class LoginForm extends React.Component {
                         </FormItem>
                         <FormItem
                             {...formItemLayout}
+                            label="School">
+                            {getFieldDecorator('school')(
+                                <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="your school" />
+                            )}
+                        </FormItem>
+                        <FormItem
+                            {...formItemLayout}
+                            label="Country">
+                            {getFieldDecorator('country')(
+                                <Input prefix={<Icon type="global" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="your country" />
+                            )}
+                        </FormItem>
+                        <FormItem
+                            {...formItemLayout}
                             label="Website">
                             {getFieldDecorator('website')(
-                                <Input prefix={<Icon type="cloud" style={{ color: 'rgba(0,0,0,..25)' }} />} type="cloud" placeholder="your website" />
+                                <Input prefix={<Icon type="cloud" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="your website" />
                             )}
                         </FormItem>
                         <FormItem>

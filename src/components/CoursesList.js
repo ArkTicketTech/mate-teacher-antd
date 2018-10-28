@@ -141,7 +141,7 @@ class CoursesList extends React.Component {
         // TODO: don't make functions within a loop
         var i = newSelectedRowKeys.length;
         while (i--) {
-            console.log(newCourses.filter(item => item.key === newSelectedRowKeys[i])[0]._id);
+            // console.log(newCourses.filter(item => item.key === newSelectedRowKeys[i])[0]._id);
             let data = {
                 "id": newCourses.filter(item => item.key === newSelectedRowKeys[i])[0]._id
             };
@@ -166,12 +166,12 @@ class CoursesList extends React.Component {
         const item = newData[index];
         // console.log(typeof row.student_num)
         if (typeof row.student_num !== 'number')
-            row.student_num = parseInt(row.members)
+            row.student_num = parseInt(row.student_num);
         newData.splice(index, 1, {
             ...item,
             ...row,
         });
-        console.log(row);
+        // console.log(row);
         api.updateCourse(row).then(({
             data
         }) => {
@@ -185,7 +185,7 @@ class CoursesList extends React.Component {
 
     handleAdd = (values) => {
         const { count, courses } = this.state;
-        console.log(values);
+        // console.log(values);
         const newData = {
             key: count,
             _id: '',
@@ -204,6 +204,8 @@ class CoursesList extends React.Component {
             if (data.success) {
                 // console.log(data);
                 newData._id = data.course_id;
+                newData.begin_time = newData.begin_time.split("T")[0];
+                newData.end_time = newData.end_time.split("T")[0];
                 this.setState({
                     courses: [newData, ...courses],
                     count: count + 1,

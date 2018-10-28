@@ -1,6 +1,6 @@
 var quizQuestions = {
   success: true,
-  type: "student",
+  type: "self",
   form: {
     "question_ids": [
       "5bc88fb10e16c3bda5150823",

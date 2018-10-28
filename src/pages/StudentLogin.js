@@ -1,4 +1,5 @@
 import React from 'react';
+import api from '../axios';
 import logo from '../resources/logo.png';
 import { Form, Icon, Input, Button, Checkbox, Modal, Radio } from 'antd';
 
@@ -14,12 +15,21 @@ class LoginForm extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
-                localStorage.setItem("student_id", values.userName);
-                const code = window.location.href.split('/')[5]
-                if (code) {
-                    window.location.href = '/host/form/' + code;
-                }
+                values.student_id = values.student_ID;
+                values.password = values.Password;
+                // console.log('Received values of form: ', values);
+                api.studentLogin(values).then(({
+                    data
+                }) => {
+                    if (data.success) {
+                        localStorage.setItem("mateToken", data.token);
+                        localStorage.setItem("mateAccountInfo", JSON.stringify(data.accountInfo));
+                        const code = window.location.href.split('/')[5]
+                        if (code) {
+                            window.location.href = '/host/form/' + code;
+                        }
+                    }
+                })
             }
         });
     }
@@ -40,7 +50,19 @@ class LoginForm extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log(values)
+                console.log(values);
+                api.studentRegister(values).then(({
+                    data
+                }) => {
+                    if (data.success) {
+                        localStorage.setItem("mateToken", data.token);
+                        localStorage.setItem("mateAccountInfo", JSON.stringify(data.accountInfo));
+                        const code = window.location.href.split('/')[5]
+                        if (code) {
+                            window.location.href = '/host/form/' + code;
+                        }
+                    }
+                })
                 setTimeout(() => {
                     this.setState({ registering: false });
                 }, 1000);
@@ -90,7 +112,7 @@ class LoginForm extends React.Component {
                     <FormItem
                         {...formItemLayout}
                         label="学号">
-                        {getFieldDecorator('userName', {
+                        {getFieldDecorator('student_ID', {
                             rules: [{ required: !registering, message: '请输入你的学号' }],
                         })(
                             <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="学号" />
@@ -125,32 +147,41 @@ class LoginForm extends React.Component {
                         <FormItem
                             {...formItemLayout}
                             label="学号">
-                            {getFieldDecorator('studentCode', {
+                            {getFieldDecorator('student_id', {
+                                rules: [{ required: registering, message: 'Please input your student id!' }],
+                            })(
+                                <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="student id" />
+                            )}
+                        </FormItem>
+                        <FormItem
+                            {...formItemLayout}
+                            label="邮件">
+                            {getFieldDecorator('mail', {
                                 rules: [{
                                     required: registering, message: 'Please input your email address!'
                                 }, {
                                     type: 'email', message: 'The input is not valid E-mail',
                                 }],
                             })(
-                                <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="Email address" />
+                                <Input prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="Email address" />
+                            )}
+                        </FormItem>
+                        <FormItem
+                            {...formItemLayout}
+                            label="城市">
+                            {getFieldDecorator('city', {
+                                rules: [{ required: registering, message: 'Please input your university name!' }],
+                            })(
+                                <Input prefix={<Icon type="copyright" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="Username" />
                             )}
                         </FormItem>
                         <FormItem
                             {...formItemLayout}
                             label="学校">
-                            {getFieldDecorator('university', {
-                                rules: [{ required: registering, message: 'Please input your university name!' }],
-                            })(
-                                <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="Username" />
-                            )}
-                        </FormItem>
-                        <FormItem
-                            {...formItemLayout}
-                            label="学院">
                             {getFieldDecorator('school', {
                                 rules: [{ required: registering, message: 'Please input your school name!' }],
                             })(
-                                <Input prefix={<Icon type="shop" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="Username" />
+                                <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="Username" />
                             )}
                         </FormItem>
                         <FormItem
@@ -163,7 +194,7 @@ class LoginForm extends React.Component {
                                     validator: this.validateToNextPassword,
                                 }],
                             })(
-                                <Input prefix={<Icon type="password" style={{ color: 'rgba(0,0,0,..25)' }} />} type="password" placeholder="Password" />
+                                <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,..25)' }} />} type="password" placeholder="Password" />
                             )}
                         </FormItem>
                         <FormItem
@@ -176,13 +207,13 @@ class LoginForm extends React.Component {
                                     validator: this.compareToFirstPassword,
                                 }],
                             })(
-                                <Input prefix={<Icon type="password" style={{ color: 'rgba(0,0,0,..25)' }} />} type="password" placeholder="Confirm your password" />
+                                <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,..25)' }} />} type="password" placeholder="Confirm your password" />
                             )}
                         </FormItem>
                         <FormItem
                             {...formItemLayout}
                             label="性别">
-                            {getFieldDecorator('sex', {
+                            {getFieldDecorator('gender', {
                                 rules: [{ required: registering, message: 'Please input your sex!' }],
                             })(
                                 <RadioGroup>

@@ -60,8 +60,6 @@ class App extends Component {
       window.location.href = '/host/login/' + window.location.href.split('/')[5];
     } else if (quizQuestions.type === 'self' && localStorage.getItem("mateToken") === null) {
       window.location.href = '/';
-    } else if (localStorage.getItem("mateDone") === localStorage.getItem("student_id")) {
-      message.success('你已经填过问卷了');
     } else {
       this.setState({
         login: true

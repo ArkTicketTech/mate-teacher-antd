@@ -48,6 +48,13 @@ export default {
 	updatePwd(data) {
 		return instance.post('/api/v1/teacher/updatePwd', data)
 	},
+	// 学生注册
+	studentRegister(data) {
+		return instance.post('/api/v1/student/register', data)
+	},
+	studentLogin(data) {
+		return instance.post('/api/v1/student/login', data);
+	},
 	// 创建课程
 	createCourse(data) {
 		return instance.post('/api/v1/course/create', data)
@@ -84,5 +91,9 @@ export default {
 	//获得问卷
 	getForm(form_link) {
 		return instance.get('/api/v1' + form_link);
+	},
+	// 获得问卷地址二维码
+	getQr() {
+		return instance.get();
 	}
 }
