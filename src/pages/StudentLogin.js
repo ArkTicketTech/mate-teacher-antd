@@ -108,7 +108,7 @@ class LoginForm extends React.Component {
                         <h1 className="App-title">Welcome to Mate</h1>
                     </header>
                 </div>
-                <Form onSubmit={this.handleSubmit} className="login-form">
+                <Form onSubmit={this.handleSubmit} className="student-login-form">
                     <FormItem
                         {...formItemLayout}
                         label="学号">
