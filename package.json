@@ -5,6 +5,7 @@
   "dependencies": {
     "antd": "^3.8.4",
     "axios": "^0.18.0",
+    "echarts": "^4.2.0-rc.2",
     "react": "^16.4.2",
     "react-addons-css-transition-group": "^15.6.2",
     "react-addons-update": "^15.6.2",
