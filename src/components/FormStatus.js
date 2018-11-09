@@ -170,6 +170,9 @@ class FormStatus extends React.Component {
             <Col span={24}>
               <DescriptionItem title="问卷地址" content={<a href={forms[2].site}>{forms[2].site}</a>} />
             </Col>
+            <Col span={24}>
+              <a src={'http://47.88.223.165/api/v1/qr?detailedURL=' + forms[2].site} size={10} />
+            </Col>
           </Row>
           <p style={pStyle}>问卷完成情况</p>
           <Row>

@@ -35,7 +35,7 @@ class LoginForm extends React.Component {
                         localStorage.setItem("mateAccountInfo", JSON.stringify(data.accountInfo));
                         window.location.href = '/main/CoursesList';
                     } else {
-                        // console.log(data)
+                        console.log(data)
                         failedLogin();
                     }
                 })
@@ -56,7 +56,7 @@ class LoginForm extends React.Component {
                 api.userRegister(values).then(({
                     data
                 }) => {
-                    console.log(data);
+                    // console.log(data);
                     if (data.success) {
                         // console.log(values);
                         setTimeout(() => {
@@ -136,7 +136,7 @@ class LoginForm extends React.Component {
                         )}
                     </FormItem>
                     <FormItem>
-                        <a className="login-form-jaccount" href="/main/CourseList">jaccount</a>
+                        <a className="login-form-jaccount" href="https://jaccount.sjtu.edu.cn/oauth2/authorize?client_id=Fk2Hgi6HSquH6IaZOBIH&scope=essential&response_type=code&redirect_uri=http://localhost:3000/oauth/jaccount/teacher">jaccount</a>
                         <Button type="primary" htmlType="submit" className="login-form-button">
                             Login
                         </Button>
@@ -183,7 +183,7 @@ class LoginForm extends React.Component {
                                     validator: this.validateToNextPassword,
                                 }],
                             })(
-                                <Input prefix={<Icon type="password" style={{ color: 'rgba(0,0,0,..25)' }} />} type="password" placeholder="Password" />
+                                <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,..25)' }} />} type="password" placeholder="Password" />
                             )}
                         </FormItem>
                         <FormItem
@@ -196,7 +196,7 @@ class LoginForm extends React.Component {
                                     validator: this.compareToFirstPassword,
                                 }],
                             })(
-                                <Input prefix={<Icon type="password" style={{ color: 'rgba(0,0,0,..25)' }} />} type="password" placeholder="Confirm your password" />
+                                <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,..25)' }} />} type="password" placeholder="Confirm your password" />
                             )}
                         </FormItem>
                         <FormItem
@@ -204,6 +204,34 @@ class LoginForm extends React.Component {
                             label="School">
                             {getFieldDecorator('school')(
                                 <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="your school" />
+                            )}
+                        </FormItem>
+                        <FormItem
+                            {...formItemLayout}
+                            label="Title">
+                            {getFieldDecorator('title')(
+                                <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="your title" />
+                            )}
+                        </FormItem>
+                        <FormItem
+                            {...formItemLayout}
+                            label="Organize">
+                            {getFieldDecorator('organize')(
+                                <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="your organize" />
+                            )}
+                        </FormItem>
+                        <FormItem
+                            {...formItemLayout}
+                            label="Age">
+                            {getFieldDecorator('age')(
+                                <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="your age" />
+                            )}
+                        </FormItem>
+                        <FormItem
+                            {...formItemLayout}
+                            label="Gender">
+                            {getFieldDecorator('gender')(
+                                <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="your gender" />
                             )}
                         </FormItem>
                         <FormItem

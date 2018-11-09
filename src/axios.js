@@ -95,5 +95,13 @@ export default {
 	// 获得问卷地址二维码
 	getQr() {
 		return instance.get();
+	},
+	// 教师Jaccount登陆
+	userLoginByJaccount(data) {
+		return instance.post('/api/v1/teacher/Jlogin', data);
+	},
+	// 学生Jaccount登陆
+	studentLoginByJaccount(data) {
+		return instance.post('/api/v1/student/Jlogin', data)
 	}
 }

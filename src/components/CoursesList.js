@@ -1,7 +1,7 @@
 import React from 'react';
 import api from '../axios';
 import { Table, Button, Form, Modal, Input, Icon, message, DatePicker, InputNumber } from 'antd';
-import QuizStatus from './FormStatus';
+import FormStatus from './FormStatus';
 import EditableFormCell from './EditableCell';
 import {withRouter} from "react-router-dom";
 import moment from 'moment';
@@ -64,7 +64,7 @@ class CoursesList extends React.Component {
             key: 'action',
             render: (record) => (
                 <span>
-                    <QuizStatus
+                    <FormStatus
                         course_id={record._id}
                         totalNum={record.student_num}
                         self_form={record.self_form}

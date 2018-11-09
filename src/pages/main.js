@@ -26,6 +26,7 @@ class MainPage extends React.Component {
   }
 
   render() {
+    console.log(this.userInfo);
     return (
       <Layout style={{ minHeight: '100vh' }}>
         <Sider
@@ -60,7 +61,7 @@ class MainPage extends React.Component {
           <Content className="wrapper-content" style={{ margin: '60px 16px' }}>
             <BrowserRouter>
               <div>
-                <Route exact path='/main/CoursesList' component={() => <CoursesList teacher_id="5bc2b5e9a741d422287f16ff" />} />
+                <Route exact path='/main/CoursesList' component={() => <CoursesList teacher_id={this.userInfo._id} />} />
                 <Route path='/main/Profile' component={EditProfile} />
                 <Route path='/main/Report' component={Report} />
               </div>
