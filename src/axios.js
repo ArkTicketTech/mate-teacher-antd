@@ -10,7 +10,7 @@ axios.interceptors.request.use = instance.interceptors.request.use
 instance.interceptors.request.use(config => {
 	if (localStorage.getItem('mateToken')) {
 		config.headers.Authorization = `token ${localStorage.getItem('mateToken')}`
-			.replace(/(^\")|(\"$)/g, '')
+			.replace(/(^")|("$)/g, '')
 	}
 	return config
 }, err => {

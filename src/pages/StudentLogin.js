@@ -1,7 +1,7 @@
 import React from 'react';
 import api from '../axios';
 import logo from '../resources/logo.png';
-import { Form, Icon, Input, Button, Checkbox, Modal, Radio } from 'antd';
+import { Form, Icon, Input, Button, Modal, Radio } from 'antd';
 
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;

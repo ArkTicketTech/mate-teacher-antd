@@ -1,6 +1,6 @@
 import React from 'react';
 import api from '../axios';
-import { Drawer, Divider, Col, Row, message } from 'antd';
+import { Drawer, Divider, Col, Row } from 'antd';
 import DescriptionItem from './DescriptionItem';
 import { ProgressBar } from 'react-bootstrap';
 import pStyle from './pStyle';

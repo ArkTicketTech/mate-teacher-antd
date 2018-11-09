@@ -1,12 +1,9 @@
 import React from 'react';
-import { Button, Icon } from 'antd';
 import PropTypes from 'prop-types';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import Question from '../components/Question';
 import QuestionCount from '../components/QuestionCount';
 import AnswerOption from '../components/AnswerOption';
-
-const ButtonGroup = Button.Group;
 
 function Quiz(props) {
   function renderAnswerOptions(key) {
