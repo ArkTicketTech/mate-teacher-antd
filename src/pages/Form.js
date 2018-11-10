@@ -5,26 +5,26 @@ import Quiz from '../components/Quiz';
 import Result from '../components/Result';
 import api from '../axios';
 
-  const answerOptions = [
+  var answerOptions = [
     {
-      type: '5',
-      content: '5'
+      type: '1',
+      content: '1'
     }, 
     {
-      type: '4',
-      content: '4'
+      type: '2',
+      content: '2'
     },
     {
       type: '3',
       content: '3'
     },
     {
-      type: '2',
-      content: '2'
+      type: '4',
+      content: '4'
     },
     {
-      type: '1',
-      content: '1'
+      type: '5',
+      content: '5'
     }
   ]
 
@@ -74,6 +74,16 @@ class App extends Component {
             questions.push(quizQuestions.common)
           }
         }
+
+        answerOptions[0].content = questions[0].choices[0]
+        answerOptions[1].content = questions[0].choices[1]
+        answerOptions[2].content = questions[0].choices[2]
+        answerOptions[3].content = questions[0].choices[3]
+        answerOptions[4].content = questions[0].choices[4]
+        if (!answerOptions[4].content) {
+          answerOptions[4] = null
+        }
+
         this.setState({
           login: true,
           quizQuestions: data,
@@ -150,6 +160,12 @@ class App extends Component {
     }
     const counter = this.state.counter + 1;
     const questionId = this.state.questionId + 1;
+
+    answerOptions[0].content = questions[counter].choices[4]
+    answerOptions[1].content = questions[counter].choices[3]
+    answerOptions[2].content = questions[counter].choices[2]
+    answerOptions[3].content = questions[counter].choices[1]
+    answerOptions[4].content = questions[counter].choices[0]
 
     this.setState({
       counter: counter,

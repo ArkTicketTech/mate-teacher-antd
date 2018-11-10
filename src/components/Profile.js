@@ -54,32 +54,32 @@ class Profile extends React.Component {
           <p style={pStyle}>Personal</p>
           <Row>
             <Col span={12}>
-              <DescriptionItem title="Full Name" content={info ? info.name : "-"}/>
+              <DescriptionItem title="姓名" content={info ? info.name : "-"}/>
             </Col>
             <Col span={12}>
-              <DescriptionItem title="E-mail" content={info ? info.mail : "-"} />
-            </Col>
-          </Row>
-          <Row>
-            <Col span={12}>
-              <DescriptionItem title="Title" content={info ? info.title : "-"} />
-            </Col>
-            <Col span={12}>
-              <DescriptionItem title="School" content={info ? info.school : "-"} />
-            </Col>
-            <Col span={12}>
-              <DescriptionItem title="Organize" content={info ? info.organize : "-"} />
-            </Col>
-            <Col span={12}>
-              <DescriptionItem title="Age" content={info ? info.age : "-"} />
-            </Col>
-            <Col span={12}>
-              <DescriptionItem title="Gender" content={info ? info.gender : "-"} />
+              <DescriptionItem title="邮箱" content={info ? info.mail : "-"} />
             </Col>
           </Row>
           <Row>
             <Col span={12}>
-              <DescriptionItem title="Website" content={info ? info.website : "-"} />
+              <DescriptionItem title="职称" content={info ? info.title : "-"} />
+            </Col>
+            <Col span={12}>
+              <DescriptionItem title="学校" content={info ? info.school : "-"} />
+            </Col>
+            <Col span={12}>
+              <DescriptionItem title="学院" content={info ? info.organize : "-"} />
+            </Col>
+            <Col span={12}>
+              <DescriptionItem title="年龄" content={info ? info.age : "-"} />
+            </Col>
+            <Col span={12}>
+              <DescriptionItem title="姓名" content={info ? info.gender : "-"} />
+            </Col>
+          </Row>
+          <Row>
+            <Col span={12}>
+              <DescriptionItem title="个人网站" content={info ? info.website : "-"} />
             </Col>
           </Row>
         </Drawer>

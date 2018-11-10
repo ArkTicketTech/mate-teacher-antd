@@ -18,9 +18,9 @@ class LoginJc extends React.Component {
                 if (data.success) {
                     localStorage.setItem("mateToken", data.token);
                     localStorage.setItem("mateAccountInfo", JSON.stringify(data.accountInfo));
-                    window.location.href = '/main';
+                    window.location.href = '/main/CoursesList';
                 } else {
-                    message.error("failed to login")
+                    message.error("登陆失败")
                 }
             })
         } else if (user === 'student') {
@@ -37,7 +37,7 @@ class LoginJc extends React.Component {
                         console.log(this.props)
                     }
                 } else {
-                    message.error("failed to login")
+                    message.error("登陆失败")
                 }
                 console.log(data)
             })

@@ -40,9 +40,9 @@ class MainPage extends React.Component {
             onClick={this.onMenuClick}
             theme="dark"
           >
-            <Menu.Item key="1"><Icon type="hdd" theme="outlined" />Courses List</Menu.Item>
-            <Menu.Item key="3"><Icon type="user" theme="outlined" />Profile</Menu.Item>
-            <Menu.Item key="4"><Icon type="file-text" theme="outlined" />Report</Menu.Item>
+            <Menu.Item key="1"><Icon type="hdd" theme="outlined" />课程列表</Menu.Item>
+            <Menu.Item key="3"><Icon type="user" theme="outlined" />个人信息修改</Menu.Item>
+            <Menu.Item key="4"><Icon type="file-text" theme="outlined" />我的报告</Menu.Item>
             <div className="footer">
               <img src={QRcode} className="QRcode" alt="QRcode"/>
               <p className="text">Mate @2018 </p>

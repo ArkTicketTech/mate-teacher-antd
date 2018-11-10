@@ -108,7 +108,7 @@ class LoginForm extends React.Component {
                 <div className="App">
                     <header className="App-header">
                         <img src={logo} className="App-logo" alt="logo" />
-                        <h1 className="App-title">Welcome to Mate</h1>
+                        <h1 className="App-title">欢迎使用 Mate</h1>
                     </header>
                 </div>
                 <Form onSubmit={this.handleSubmit} className="student-login-form">

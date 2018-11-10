@@ -18,15 +18,16 @@
 .student-login-form {
   position: absolute;
   top: 40%;
-  left: 12%;
+  left: calc(50% - 150px);
   text-align: center;
   max-width: 300px;
+  text-align: center;
 }
 
 .login-form {
   position: absolute;
   top: 40%;
-  left: 42%;
+  left: calc(50% - 150px);
   text-align: center;
   max-width: 300px;
 }
