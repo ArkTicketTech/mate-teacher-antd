@@ -1,7 +1,9 @@
 import React from 'react';
 import api from '../axios';
 import logo from '../resources/logo.png';
-import { Form, Icon, Input, Button, Modal, message } from 'antd';
+import { Form, Icon, Input, Button, Modal, message, Radio } from 'antd';
+
+const RadioGroup = Radio.Group;
 
 const FormItem = Form.Item;
 const failedRegister = () => {
@@ -233,7 +235,10 @@ class LoginForm extends React.Component {
                             {...formItemLayout}
                             label="Gender">
                             {getFieldDecorator('gender')(
-                                <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="your gender" />
+                                <RadioGroup>
+                                    <Radio value="male">male</Radio>
+                                    <Radio value="female">female</Radio>
+                                </RadioGroup>
                             )}
                         </FormItem>
                         <FormItem

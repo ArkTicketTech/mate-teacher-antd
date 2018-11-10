@@ -62,10 +62,19 @@ class Profile extends React.Component {
           </Row>
           <Row>
             <Col span={12}>
-              <DescriptionItem title="City" content={info ? info.city : "-"} />
+              <DescriptionItem title="Title" content={info ? info.title : "-"} />
             </Col>
             <Col span={12}>
               <DescriptionItem title="School" content={info ? info.school : "-"} />
+            </Col>
+            <Col span={12}>
+              <DescriptionItem title="Organize" content={info ? info.organize : "-"} />
+            </Col>
+            <Col span={12}>
+              <DescriptionItem title="Age" content={info ? info.age : "-"} />
+            </Col>
+            <Col span={12}>
+              <DescriptionItem title="Gender" content={info ? info.gender : "-"} />
             </Col>
           </Row>
           <Row>

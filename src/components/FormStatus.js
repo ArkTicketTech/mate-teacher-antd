@@ -164,14 +164,12 @@ class FormStatus extends React.Component {
         >
           <p style={pStyle}>学生问卷</p>
           <Row>
-            <Col span={12}>
-              <DescriptionItem title="截止时间" content={forms[2].dueTime} />
-            </Col>
-            <Col span={24}>
+            <Col span={16}>
+              <DescriptionItem title="截止时间" content={forms[2].dueTime ? forms[2].dueTime : '-'} />
               <DescriptionItem title="问卷地址" content={<a href={forms[2].site}>{forms[2].site}</a>} />
             </Col>
-            <Col span={24}>
-              <a src={'http://47.88.223.165/api/v1/qr?detailedURL=' + forms[2].site} size={10} />
+            <Col span={8}>
+              <img src={'http://47.88.223.165/api/v1/qr?detailedURL='+forms[2].site+'&size=3'} />
             </Col>
           </Row>
           <p style={pStyle}>问卷完成情况</p>
@@ -198,11 +196,12 @@ class FormStatus extends React.Component {
           <Divider />
           <p style={pStyle}>专家问卷</p>
           <Row>
-            <Col span={12}>
-              <DescriptionItem title="截止时间" content={forms[1].dueTime} />
-            </Col>
-            <Col span={24}>
+            <Col span={16}>
+              <DescriptionItem title="截止时间" content={forms[1].dueTime ? forms[1].dueTime : '-'} />
               <DescriptionItem title="问卷地址" content={<a href={forms[1].site}>{forms[1].site}</a>} />
+            </Col>
+            <Col span={8}>
+              <img src={'http://47.88.223.165/api/v1/qr?detailedURL='+forms[1].site+'&size=3'} />
             </Col>
           </Row>
           <p style={pStyle}>问卷完成情况</p>
@@ -229,11 +228,12 @@ class FormStatus extends React.Component {
           <Divider />
           <p style={pStyle}>自测问卷</p>
           <Row>
-            <Col span={12}>
+            <Col span={16}>
               <p> {forms[0].doneNumber ? "已完成" : "未完成"}</p>
-            </Col>
-            <Col span={12}>
               <DescriptionItem title="问卷地址" content={<a href={forms[0].site}>{forms[0].site}</a>} />
+            </Col>
+            <Col span={8}>
+              <img src={'http://47.88.223.165/api/v1/qr?detailedURL='+forms[0].site+'&size=3'} />
             </Col>
           </Row>
         </Drawer>
