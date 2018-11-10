@@ -96,6 +96,8 @@ class LoginForm extends React.Component {
     }
 
     render() {
+        const redirect_uri = 'http://47.88.223.165:8080/oauth/jaccount/teacher';
+        // const redirect_uri = 'http://localhost:3000/oauth/jaccount/teacher';
         const { getFieldDecorator } = this.props.form;
         const { registering } = this.state;
         const formItemLayout = {
@@ -136,7 +138,7 @@ class LoginForm extends React.Component {
                         )}
                     </FormItem>
                     <FormItem>
-                        <a className="login-form-jaccount" href="https://jaccount.sjtu.edu.cn/oauth2/authorize?client_id=Fk2Hgi6HSquH6IaZOBIH&scope=essential&response_type=code&redirect_uri=http://localhost:3000/oauth/jaccount/teacher">jaccount</a>
+                        <a className="login-form-jaccount" href={"https://jaccount.sjtu.edu.cn/oauth2/authorize?client_id=Fk2Hgi6HSquH6IaZOBIH&scope=essential&response_type=code&redirect_uri="+redirect_uri}>jaccount</a>
                         <Button type="primary" htmlType="submit" className="login-form-button">
                             Login
                         </Button>

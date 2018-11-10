@@ -65,7 +65,7 @@ class App extends Component {
         const quizQuestions = data;
         var questions = quizQuestions.questions;
     
-        if (quizQuestions.type === 'student' && localStorage.getItem("mateStudentToken") === null) {
+        if (quizQuestions.type === 'student' && localStorage.getItem("mateToken") === null) {
           window.location.href = '/host/login/' + window.location.href.split('/')[5];
         } else if (quizQuestions.type === 'self' && localStorage.getItem("mateToken") === null) {
           window.location.href = '/';
