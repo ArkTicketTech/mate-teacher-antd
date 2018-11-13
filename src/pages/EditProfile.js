@@ -125,35 +125,42 @@ class ProfileForm extends React.Component {
             <Form onSubmit={this.onEditProfile} className="profile-form">
                 <FormItem
                     {...formItemLayout}
-                    label="Username">
+                    label="姓名">
                     {getFieldDecorator('username')(
                         <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder={userInfo ? userInfo.name : '-'} />
                     )}
                 </FormItem>
                 <FormItem
                     {...formItemLayout}
-                    label="School">
+                    label="职称">
+                    {getFieldDecorator('title')(
+                        <Input prefix={<Icon type="idcard" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder={userInfo ? userInfo.title : '-'} />
+                    )}
+                </FormItem>
+                <FormItem
+                    {...formItemLayout}
+                    label="学校">
                     {getFieldDecorator('school')(
-                        <Input prefix={<Icon type="team" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder={userInfo ? userInfo.school : '-'} />
+                        <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder={userInfo ? userInfo.school : '-'} />
                     )}
                 </FormItem>
                 <FormItem
                     {...formItemLayout}
-                    label="City">
-                    {getFieldDecorator('city')(
-                        <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder={userInfo ? userInfo.city : '-'} />
+                    label="学院">
+                    {getFieldDecorator('organize')(
+                        <Input prefix={<Icon type="audit" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder={userInfo ? userInfo.organize : '-'} />
                     )}
                 </FormItem>
                 <FormItem
                     {...formItemLayout}
-                    label="website">
+                    label="个人网站">
                     {getFieldDecorator('website')(
                         <Input prefix={<Icon type="cloud" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder={userInfo ? userInfo.website : '-'} />
                     )}
                 </FormItem>
                 <FormItem>
                     <Button type="primary" htmlType="submit" className="login-form-button">
-                        Submit
+                        提交
                     </Button>
                 </FormItem>
                 <a className="change-pwd" onClick={this.showUpdatePwd}>修改密码</a>

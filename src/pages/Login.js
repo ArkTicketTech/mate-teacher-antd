@@ -221,7 +221,7 @@ class LoginForm extends React.Component {
                             {...formItemLayout}
                             label="学院">
                             {getFieldDecorator('organize')(
-                                <Input prefix={<Icon type="read" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="your organize" />
+                                <Input prefix={<Icon type="audit" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="your organize" />
                             )}
                         </FormItem>
                         <FormItem

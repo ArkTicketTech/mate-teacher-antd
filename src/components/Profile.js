@@ -32,8 +32,8 @@ class Profile extends React.Component {
     return (
       <div>
         <Row type="flex" justify="end">
-          <Col span={2}> <Avatar src={logo} size={60} shape='square' alt="logo" /> </Col>
-          <Col span={2}>
+          <Col span={4}> <Avatar src={logo} size={60} shape='square' alt="logo" /> </Col>
+          <Col span={4}>
             <Row type="flex">
               <Tag color="#1890ff"><a onClick={this.showDrawer}>详情</a></Tag>
               <Tag color="#1890ff"><a href="/">登出</a></Tag>

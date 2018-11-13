@@ -287,7 +287,7 @@ class CoursesList extends React.Component {
                     width={550}
                     onCancel={this.handleModalCancel}
                     footer={[
-                        <Button key="back" onClick={this.handleModalCancel}>Return</Button>,
+                        <Button key="back" onClick={this.handleModalCancel}>取消</Button>,
                     ]}
                 >
                     <Form onSubmit={this.handleModalSubmit}>
@@ -297,7 +297,7 @@ class CoursesList extends React.Component {
                             {getFieldDecorator('title', {
                                 rules: [{ required: true, message: 'Please input the title of the course' }],
                             })(
-                                <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="课程名称" />
+                                <Input prefix={<Icon type="book" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="课程名称" />
                             )}
                         </FormItem>
                         <FormItem
@@ -341,7 +341,7 @@ class CoursesList extends React.Component {
                         </FormItem>
                         <FormItem>
                             <Button htmlType="submit" type="primary" className="form-button" loading={modalLoading}>
-                                Submit
+                                提交
                             </Button>
                         </FormItem>
                     </Form>
