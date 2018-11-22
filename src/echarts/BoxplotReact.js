@@ -1,15 +1,13 @@
-/**
- * Created by yongyuehuang on 2017/8/5.
- */
 import React from 'react'
-import echarts from 'echarts/lib/echarts' //必须
-import 'echarts/lib/chart/candlestick' //引入雷达图
+import echarts from 'echarts/lib/echarts'
+import 'echarts/lib/chart/boxplot'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/legend'
+import 'echarts/lib/component/title'
 import 'echarts/lib/component/grid'
 import 'echarts/lib/component/markLine'
 
-export default class CandlestickReact extends React.Component {
+export default class BoxplotReact extends React.Component {
   
   constructor(props) {
     super(props)
@@ -17,10 +15,10 @@ export default class CandlestickReact extends React.Component {
   }
   
   initPie() {
-    const { option={} } = this.props //外部传入的data数据
-    let myChart = echarts.init(this.ID) //初始化echarts
+    const { option={} } = this.props //input data from other file
+    let myChart = echarts.init(this.ID, 'light') //init echarts
     
-    //设置options
+    //set options
     myChart.setOption(option)
     window.onresize = function() {
       myChart.resize()
@@ -36,7 +34,7 @@ export default class CandlestickReact extends React.Component {
   }
   
   render() {
-    const { width="100%", height="300px" } = this.props
+    const { width="100%", height="245px" } = this.props
     return <div ref={ID => this.ID = ID} style={{width, height}}></div>
   }
 }

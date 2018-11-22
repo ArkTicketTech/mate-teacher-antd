@@ -1,9 +1,8 @@
-/**
- * Created by yongyuehuang on 2017/8/5.
- */
 import React from 'react'
-import echarts from 'echarts/lib/echarts' //必须
-import 'echarts/lib/chart/radar' //引入雷达图
+import echarts from 'echarts/lib/echarts'
+import 'echarts/lib/chart/radar'
+import 'echarts/lib/component/legend'
+import 'echarts/lib/component/title'
 
 export default class RadarReact extends React.Component {
   
@@ -13,10 +12,10 @@ export default class RadarReact extends React.Component {
   }
   
   initPie() {
-    const { option={} } = this.props //外部传入的data数据
-    let myChart = echarts.init(this.ID) //初始化echarts
+    const { option={} } = this.props 
+    let myChart = echarts.init(this.ID, 'light')
     
-    //设置options
+    //set options
     myChart.setOption(option)
     window.onresize = function() {
       myChart.resize()
@@ -32,7 +31,7 @@ export default class RadarReact extends React.Component {
   }
   
   render() {
-    const { width="100%", height="350px" } = this.props
+    const { width="100%", height="245px" } = this.props
     return <div ref={ID => this.ID = ID} style={{width, height}}></div>
   }
 }

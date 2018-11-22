@@ -41,7 +41,6 @@ class MainPage extends React.Component {
           >
             <Menu.Item key="1"><Icon type="hdd" theme="outlined" />Courses List</Menu.Item>
             <Menu.Item key="3"><Icon type="user" theme="outlined" />Profile</Menu.Item>
-            <Menu.Item key="4"><Icon type="file-text" theme="outlined" />Report</Menu.Item>
             <div className="footer">
               <img src={QRcode} className="QRcode" alt="QRcode"/>
               <p className="text">Mate @2018 </p>
@@ -62,7 +61,7 @@ class MainPage extends React.Component {
               <div>
                 <Route exact path='/main/CoursesList' component={() => <CoursesList teacher_id="5bc2b5e9a741d422287f16ff" />} />
                 <Route path='/main/Profile' component={EditProfile} />
-                <Route path='/main/Report' component={Report} />
+                <Route path='/main/Report/:id' component={Report} />
               </div>
             </BrowserRouter>
           </Content>

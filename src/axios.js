@@ -95,5 +95,13 @@ export default {
 	// 获得问卷地址二维码
 	getQr() {
 		return instance.get();
+	},
+	//get course data
+	getCourseInfo(course_id) {
+		return instance.get('/api/v1/course/info?course_id=' + course_id)
+	},
+	//get data for report
+	getReport(course_id) {
+		return instance.get('/api/v1/report/create?course_id=' + course_id)
 	}
 }
