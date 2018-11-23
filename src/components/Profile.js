@@ -1,5 +1,5 @@
 import React from 'react';
-import { Drawer, Divider, Col, Row, Avatar, Tag } from 'antd';
+import { Drawer, Col, Row, Avatar, Tag } from 'antd';
 import logo from '../resources/logo.png';
 import DescriptionItem from './DescriptionItem';
 import pStyle from './pStyle';
@@ -32,8 +32,8 @@ class Profile extends React.Component {
     return (
       <div>
         <Row type="flex" justify="end">
-          <Col span={2}> <Avatar src={logo} size={60} shape='square' alt="logo" /> </Col>
-          <Col span={2}>
+          <Col span={4}> <Avatar src={logo} size={60} shape='square' alt="logo" /> </Col>
+          <Col span={4}>
             <Row type="flex">
               <Tag color="#1890ff"><a onClick={this.showDrawer}>详情</a></Tag>
               <Tag color="#1890ff"><a href="/">登出</a></Tag>
@@ -54,23 +54,32 @@ class Profile extends React.Component {
           <p style={pStyle}>Personal</p>
           <Row>
             <Col span={12}>
-              <DescriptionItem title="Full Name" content={info ? info.name : "-"}/>
+              <DescriptionItem title="姓名" content={info ? info.name : "-"}/>
             </Col>
             <Col span={12}>
-              <DescriptionItem title="E-mail" content={info ? info.mail : "-"} />
-            </Col>
-          </Row>
-          <Row>
-            <Col span={12}>
-              <DescriptionItem title="City" content={info ? info.city : "-"} />
-            </Col>
-            <Col span={12}>
-              <DescriptionItem title="School" content={info ? info.school : "-"} />
+              <DescriptionItem title="邮箱" content={info ? info.mail : "-"} />
             </Col>
           </Row>
           <Row>
             <Col span={12}>
-              <DescriptionItem title="Website" content={info ? info.website : "-"} />
+              <DescriptionItem title="职称" content={info ? info.title : "-"} />
+            </Col>
+            <Col span={12}>
+              <DescriptionItem title="学校" content={info ? info.school : "-"} />
+            </Col>
+            <Col span={12}>
+              <DescriptionItem title="学院" content={info ? info.organize : "-"} />
+            </Col>
+            <Col span={12}>
+              <DescriptionItem title="年龄" content={info ? info.age : "-"} />
+            </Col>
+            <Col span={12}>
+              <DescriptionItem title="姓名" content={info ? info.gender : "-"} />
+            </Col>
+          </Row>
+          <Row>
+            <Col span={12}>
+              <DescriptionItem title="个人网站" content={info ? info.website : "-"} />
             </Col>
           </Row>
         </Drawer>

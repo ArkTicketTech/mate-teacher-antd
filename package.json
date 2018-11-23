@@ -6,6 +6,8 @@
     "antd": "^3.8.4",
     "axios": "^0.18.0",
     "echarts": "^4.2.0-rc.2",
+    "merge": "^1.2.1",
+    "query-string": "^6.2.0",
     "react": "^16.4.2",
     "react-addons-css-transition-group": "^15.6.2",
     "react-addons-update": "^15.6.2",
@@ -23,5 +25,5 @@
   "devDependencies": {
     "babel-plugin-import": "^1.8.0"
   },
-  "proxy": "http://localhost:4000"
+  "proxy": "http://47.88.223.165"
 }

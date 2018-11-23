@@ -10,7 +10,7 @@ axios.interceptors.request.use = instance.interceptors.request.use
 instance.interceptors.request.use(config => {
 	if (localStorage.getItem('mateToken')) {
 		config.headers.Authorization = `token ${localStorage.getItem('mateToken')}`
-			.replace(/(^\")|(\"$)/g, '')
+			.replace(/(^")|("$)/g, '')
 	}
 	return config
 }, err => {
@@ -103,5 +103,13 @@ export default {
 	//get data for report
 	getReport(course_id) {
 		return instance.get('/api/v1/report/create?course_id=' + course_id)
+  },
+	// 教师Jaccount登陆
+	userLoginByJaccount(data) {
+		return instance.post('/api/v1/teacher/Jlogin', data);
+	},
+	// 学生Jaccount登陆
+	studentLoginByJaccount(data) {
+		return instance.post('/api/v1/student/Jlogin', data);
 	}
 }

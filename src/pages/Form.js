@@ -1,31 +1,30 @@
 import React, { Component } from 'react';
 import { message } from 'antd';
 import update from 'react-addons-update';
-import quizQuestions from '../api/quizQuestions';
 import Quiz from '../components/Quiz';
 import Result from '../components/Result';
 import api from '../axios';
 
-  const answerOptions = [
+  var answerOptions = [
     {
-      type: '5',
-      content: '5'
+      type: '1',
+      content: '1'
     }, 
     {
-      type: '4',
-      content: '4'
+      type: '2',
+      content: '2'
     },
     {
       type: '3',
       content: '3'
     },
     {
-      type: '2',
-      content: '2'
+      type: '4',
+      content: '4'
     },
     {
-      type: '1',
-      content: '1'
+      type: '5',
+      content: '5'
     }
   ]
 
@@ -48,7 +47,7 @@ class App extends Component {
         "5": 0,
       },
       answers: [],
-      questions: quizQuestions.questions,
+      quizQuestions: {},
       result: ''
     };
 
@@ -56,38 +55,51 @@ class App extends Component {
   }
 
   componentWillMount() {
-    if (quizQuestions.type === 'student' && localStorage.getItem("student_id") === null) {
-      window.location.href = '/host/login/' + window.location.href.split('/')[5];
-    } else if (quizQuestions.type === 'self' && localStorage.getItem("mateToken") === null) {
-      window.location.href = '/';
-    } else {
-      this.setState({
-        login: true
-      })
-      /* const form_link = '/' + window.location.href.split('/')[4] + '/' + window.location.href.split('/')[5];
-      api.getForm(form_link).then(({
-        data
-      }) => {
-        if (data.success) {
-          this.setState({
-            questions: data.questions
-          })
+    const form_link = '/' + window.location.href.split('/')[4] + '/' + window.location.href.split('/')[5];
+    console.log(form_link)
+    api.getForm(form_link).then(({
+      data
+    }) => {
+      console.log(data)
+      if (data.success) {
+        const quizQuestions = data;
+        var questions = quizQuestions.questions;
+    
+        if (quizQuestions.type === 'student' && localStorage.getItem("mateToken") === null) {
+          window.location.href = '/host/login/' + window.location.href.split('/')[5];
+        } else if (quizQuestions.type === 'self' && localStorage.getItem("mateToken") === null) {
+          window.location.href = '/';
+        } else {
+          if (quizQuestions.common) {
+            questions.push(quizQuestions.common)
+          }
         }
-      })*/
 
-      var { questions } = this.state;
+        answerOptions[0].content = questions[0].choices[0]
+        answerOptions[1].content = questions[0].choices[1]
+        answerOptions[2].content = questions[0].choices[2]
+        answerOptions[3].content = questions[0].choices[3]
+        answerOptions[4].content = questions[0].choices[4]
+        if (!answerOptions[4].content) {
+          answerOptions[4] = null
+        }
+
+        this.setState({
+          login: true,
+          quizQuestions: data,
+          question: questions[0].content,
+          answerOptions: answerOptions
+        })
+      } else {
+        message.error(data.reason);
+      }
+    })
       // console.log("question", questions)
       /* const shuffledAnswerOptions = questions.map(
         content => content.choices
         // this.shuffleArray(question.answers)
       ); */
       // console.log("shuffled", shuffledAnswerOptions);
-      questions.push(quizQuestions.common)
-      this.setState({
-        question: questions[0].content,
-        answerOptions: answerOptions
-      });
-    }
   }
 
   shuffleArray(array) {
@@ -112,8 +124,13 @@ class App extends Component {
 
   handleAnswerSelected(event) {
     this.setUserAnswer(event.currentTarget.value);
+    const { quizQuestions } = this.state;
+    var questions = quizQuestions.questions;
+    if (!questions) {
+      questions = []
+    }
 
-    if (this.state.questionId < this.state.questions.length) {
+    if (this.state.questionId < questions.length) {
       setTimeout(() => this.setNextQuestion(), 300);
     } else {
       setTimeout(() => this.setResults(this.getResults()), 300);
@@ -136,9 +153,19 @@ class App extends Component {
   }
 
   setNextQuestion() {
+    const { quizQuestions } = this.state;
+    var questions = quizQuestions.questions;
+    if (!questions) {
+      questions = []
+    }
     const counter = this.state.counter + 1;
     const questionId = this.state.questionId + 1;
-    const questions = this.state.questions;
+
+    answerOptions[0].content = questions[counter].choices[4]
+    answerOptions[1].content = questions[counter].choices[3]
+    answerOptions[2].content = questions[counter].choices[2]
+    answerOptions[3].content = questions[counter].choices[1]
+    answerOptions[4].content = questions[counter].choices[0]
 
     this.setState({
       counter: counter,
@@ -167,25 +194,37 @@ class App extends Component {
   }
 
   renderQuiz() {
+    const { quizQuestions } = this.state;
+    var questions = quizQuestions.questions;
+    if (!questions) {
+      questions = []
+    }
+
     return (
       <Quiz
         answer={this.state.answer}
         answerOptions={answerOptions}
         questionId={this.state.questionId}
         question={this.state.question}
-        questionTotal={this.state.questions.length}
+        questionTotal={questions.length}
         onAnswerSelected={this.handleAnswerSelected}
       />
     );
   }
 
   renderResult() {
+    const { quizQuestions } = this.state;
     var ans = {};
     ans.form_id = quizQuestions.form._id;
     ans.course_id = quizQuestions.course_id;
     ans.type = quizQuestions.type;
-    ans.is_valid = (quizQuestions.common.ans === this.state.answer)
-    ans.student_id = localStorage.getItem("student_id");
+    if (quizQuestions.common) {
+      ans.is_valid = (quizQuestions.common.ans === this.state.answer)
+    } else {
+      ans.is_valid = true;
+    }
+    ans.student = localStorage.getItem("mateStudentAccountInfo");
+    ans.student_id = ans.student._id;
     ans.answers = []
     for (var i in quizQuestions.form.question_ids) {
       ans.answers.push({
@@ -194,7 +233,7 @@ class App extends Component {
       })
     }
 
-    if (localStorage.getItem("mateDone") === localStorage.getItem("student_id")) {
+    if (localStorage.getItem("mateDone") === ans.student_id) {
       message.success("你已经填过问卷了");
       return <Result quizResult={this.state.result} />;
     }
@@ -203,11 +242,14 @@ class App extends Component {
       data
     }) => {
       if (data.success) {
+        localStorage.setItem("mateDone", ans.student_id);
         message.success("问卷填写完成， 感谢您的配合");
+      } else {
+        message.error(data.reason)
+        console.log(data)
       }
     })
 
-    localStorage.setItem("mateDone", ans.student_id);
     console.log(ans);
     // console.log(this.state);
     return <Result quizResult={this.state.result} />;

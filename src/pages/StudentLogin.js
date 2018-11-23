@@ -1,7 +1,7 @@
 import React from 'react';
 import api from '../axios';
 import logo from '../resources/logo.png';
-import { Form, Icon, Input, Button, Checkbox, Modal, Radio } from 'antd';
+import { Form, Icon, Input, Button, Modal, Radio } from 'antd';
 
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
@@ -23,7 +23,7 @@ class LoginForm extends React.Component {
                 }) => {
                     if (data.success) {
                         localStorage.setItem("mateToken", data.token);
-                        localStorage.setItem("mateAccountInfo", JSON.stringify(data.accountInfo));
+                        localStorage.setItem("mateStudentAccountInfo", JSON.stringify(data.accountInfo));
                         const code = window.location.href.split('/')[5]
                         if (code) {
                             window.location.href = '/host/form/' + code;
@@ -56,7 +56,7 @@ class LoginForm extends React.Component {
                 }) => {
                     if (data.success) {
                         localStorage.setItem("mateToken", data.token);
-                        localStorage.setItem("mateAccountInfo", JSON.stringify(data.accountInfo));
+                        localStorage.setItem("mateStudentAccountInfo", JSON.stringify(data.accountInfo));
                         const code = window.location.href.split('/')[5]
                         if (code) {
                             window.location.href = '/host/form/' + code;
@@ -88,6 +88,9 @@ class LoginForm extends React.Component {
     }
 
     render() {
+        localStorage.setItem("formCode", window.location.pathname.split('/')[3]);
+        const redirect_uri = 'http://47.88.223.165:8080/oauth/jaccount/student';
+        // const redirect_uri = 'http://localhost:3000/oauth/jaccount/student/';
         const { getFieldDecorator } = this.props.form;
         const { registering } = this.state;
         const formItemLayout = {
@@ -105,10 +108,10 @@ class LoginForm extends React.Component {
                 <div className="App">
                     <header className="App-header">
                         <img src={logo} className="App-logo" alt="logo" />
-                        <h1 className="App-title">Welcome to Mate</h1>
+                        <h1 className="App-title">欢迎使用 Mate</h1>
                     </header>
                 </div>
-                <Form onSubmit={this.handleSubmit} className="login-form">
+                <Form onSubmit={this.handleSubmit} className="student-login-form">
                     <FormItem
                         {...formItemLayout}
                         label="学号">
@@ -128,6 +131,7 @@ class LoginForm extends React.Component {
                         )}
                     </FormItem>
                     <FormItem>
+                        <a className="login-form-jaccount" href={"https://jaccount.sjtu.edu.cn/oauth2/authorize?client_id=Fk2Hgi6HSquH6IaZOBIH&scope=essential&response_type=code&redirect_uri="+redirect_uri}>jaccount</a>
                         <Button type="primary" htmlType="submit" className="login-form-button">
                             登陆
                         </Button>
@@ -172,7 +176,7 @@ class LoginForm extends React.Component {
                             {getFieldDecorator('city', {
                                 rules: [{ required: registering, message: 'Please input your university name!' }],
                             })(
-                                <Input prefix={<Icon type="copyright" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="Username" />
+                                <Input prefix={<Icon type="copyright" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="City" />
                             )}
                         </FormItem>
                         <FormItem
@@ -181,12 +185,30 @@ class LoginForm extends React.Component {
                             {getFieldDecorator('school', {
                                 rules: [{ required: registering, message: 'Please input your school name!' }],
                             })(
-                                <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="Username" />
+                                <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="School" />
                             )}
                         </FormItem>
                         <FormItem
                             {...formItemLayout}
-                            label="Password">
+                            label="学院">
+                            {getFieldDecorator('organize', {
+                                rules: [{ required: registering, message: 'Please input your organize!' }],
+                            })(
+                                <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="Organize" />
+                            )}
+                        </FormItem>
+                        <FormItem
+                            {...formItemLayout}
+                            label="年级">
+                            {getFieldDecorator('grade', {
+                                rules: [{ required: registering, message: 'Please input your grade!' }],
+                            })(
+                                <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="Grade" />
+                            )}
+                        </FormItem>
+                        <FormItem
+                            {...formItemLayout}
+                            label="密码">
                             {getFieldDecorator('password', {
                                 rules: [{
                                     required: registering, message: 'Please input your Password!'
@@ -199,7 +221,7 @@ class LoginForm extends React.Component {
                         </FormItem>
                         <FormItem
                             {...formItemLayout}
-                            label="Confirm">
+                            label="确认密码">
                             {getFieldDecorator('confirm', {
                                 rules: [{
                                     required: registering, message: 'Please input your Password again!'
