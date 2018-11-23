@@ -111,5 +111,8 @@ export default {
 	// 学生Jaccount登陆
 	studentLoginByJaccount(data) {
 		return instance.post('/api/v1/student/Jlogin', data);
+	},
+	updateStudentInfo(data) {
+		return instance.post('/api/v1/student/updateInfo', data);
 	}
 }

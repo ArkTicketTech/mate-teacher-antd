@@ -75,11 +75,11 @@ class App extends Component {
           }
         }
 
-        answerOptions[0].content = questions[0].choices[0]
-        answerOptions[1].content = questions[0].choices[1]
+        answerOptions[0].content = questions[0].choices[4]
+        answerOptions[1].content = questions[0].choices[3]
         answerOptions[2].content = questions[0].choices[2]
-        answerOptions[3].content = questions[0].choices[3]
-        answerOptions[4].content = questions[0].choices[4]
+        answerOptions[3].content = questions[0].choices[1]
+        answerOptions[4].content = questions[0].choices[0]
         if (!answerOptions[4].content) {
           answerOptions[4] = null
         }

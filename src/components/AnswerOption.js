@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function AnswerOption(props) {
+  if (!props.answerContent) {
+    return null;
+  }
 
   return (
     <li className="answerOption">

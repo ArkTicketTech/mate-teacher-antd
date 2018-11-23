@@ -1,7 +1,7 @@
 import React from 'react';
 import api from '../axios';
 import logo from '../resources/logo.png';
-import { Form, Icon, Input, Button, Modal, Radio } from 'antd';
+import { Form, Icon, Input, Button, Modal, Radio, message } from 'antd';
 
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
@@ -21,6 +21,7 @@ class LoginForm extends React.Component {
                 api.studentLogin(values).then(({
                     data
                 }) => {
+                    // console.log(data);
                     if (data.success) {
                         localStorage.setItem("mateToken", data.token);
                         localStorage.setItem("mateStudentAccountInfo", JSON.stringify(data.accountInfo));
@@ -28,6 +29,8 @@ class LoginForm extends React.Component {
                         if (code) {
                             window.location.href = '/host/form/' + code;
                         }
+                    } else {
+                        message.error(data.reason);
                     }
                 })
             }
@@ -194,7 +197,7 @@ class LoginForm extends React.Component {
                             {getFieldDecorator('organize', {
                                 rules: [{ required: registering, message: 'Please input your organize!' }],
                             })(
-                                <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="Organize" />
+                                <Input prefix={<Icon type="read" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="Organize" />
                             )}
                         </FormItem>
                         <FormItem
@@ -203,7 +206,7 @@ class LoginForm extends React.Component {
                             {getFieldDecorator('grade', {
                                 rules: [{ required: registering, message: 'Please input your grade!' }],
                             })(
-                                <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="Grade" />
+                                <Input prefix={<Icon type="profile" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="Grade" />
                             )}
                         </FormItem>
                         <FormItem

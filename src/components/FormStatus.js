@@ -40,7 +40,7 @@ class FormStatus extends React.Component {
 
   componentWillMount() {
     // console.log("componentDidMount");
-    const href = "http://" + window.location.href.split('/')[2] + "/host";
+    const href = "http://" + window.location.href.split('/')[2] + "/host/login";
     const course_id = this.props.course_id;
     const totalStu = this.props.totalNum;
     // console.log(course_id, this.props);
@@ -68,17 +68,17 @@ class FormStatus extends React.Component {
     api.getLink(self).then(({
       data
     }) => {
-      self_route = href + data.route;
+      self_route = href + '/' + data.route.split('/')[2];
     })
     api.getLink(expert).then(({
       data
     }) => {
-      expert_route = href + data.route;
+      expert_route = href + '/' + data.route.split('/')[2];
     })
     api.getLink(student).then(({
       data
     }) => {
-      student_route = href + data.route;
+      student_route = href + '/' + data.route.split('/')[2];
     })
     console.log('links', self_route, expert_route, student_route);
 
