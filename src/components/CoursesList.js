@@ -3,7 +3,7 @@ import api from '../axios';
 import { Table, Button, Form, Modal, Input, Icon, message, DatePicker, InputNumber } from 'antd';
 import FormStatus from './FormStatus';
 import EditableFormCell from './EditableCell';
-import {withRouter} from "react-router-dom";
+import {withRouter, Link } from "react-router-dom";
 import moment from 'moment';
 
 const EditableContext = React.createContext();
@@ -70,14 +70,20 @@ class CoursesList extends React.Component {
                         self_form={record.self_form}
                         expert_form={record.expert_form}
                         student_form={record.student_form} />
-                    <a onClick={this.RouterPush}>生成报告</a>
+                    <a onClick={() => this.RouterPush(record)}>生成报告</a>
                 </span>
             )
         }];
     }
 
-    RouterPush = () => {
-        this.props.history.push("/main/Report");
+    RouterPush = (course) => {
+        //get report’s info
+        var today=new Date();
+        if (course.end_time>today.toISOString().split("T")[0]) {
+            message.warning('You can\'t view the report yet.');
+        } else {
+            this.props.history.push("/main/Report/" + course._id);
+        }
     }
 
     componentDidMount() {

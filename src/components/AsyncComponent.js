@@ -1,5 +1,5 @@
 /**
- * Created by yongyuehuang on 2017/8/5.
+ * build for echarts
  */
 import React from 'react'
 const asyncComponent = loadComponent => (
