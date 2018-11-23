@@ -15,7 +15,6 @@
   color: white;
 }
 
-/* 主要适配手机端 */
 .student-login-form {
   position: absolute;
   top: 40%;
@@ -256,4 +255,14 @@ body {
 /* Result */
 .QRcode {
   height: 120px;
+}
+
+/* 补充信息界面 */
+.update-info {
+  position: absolute;
+  top: 20%;
+  left: calc(50% - 150px);
+  text-align: center;
+  max-width: 300px;
+  text-align: center;
 }

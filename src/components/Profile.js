@@ -36,7 +36,7 @@ class Profile extends React.Component {
           <Col span={4}>
             <Row type="flex">
               <Tag color="#1890ff"><a onClick={this.showDrawer}>详情</a></Tag>
-              <Tag color="#1890ff"><a href="/">登出</a></Tag>
+              <Tag color="#1890ff"><a href="/">安全退出</a></Tag>
             </Row>
             <Row type="flex">
               <DescriptionItem title="用户名" content={info ? info.name : "-"}/>

@@ -1,9 +1,16 @@
 import React from 'react';
 import api from '../axios';
 import queryString from 'query-string';
+import UpdateInfo from './UpdateInfo';
 import { message } from 'antd';
 
 class LoginJc extends React.Component {
+    state = {
+        update: false,
+        target: '/main/CoursesList',
+        teacher: true,
+    }
+
     componentDidMount() {
         const values = queryString.parse(this.props.location.search);
         const user = window.location.href.split('/')[5].split('?')[0];
@@ -16,9 +23,13 @@ class LoginJc extends React.Component {
             }) => {
                 console.log(data)
                 if (data.success) {
-                    localStorage.setItem("mateToken", data.token);
-                    localStorage.setItem("mateAccountInfo", JSON.stringify(data.accountInfo));
-                    window.location.href = '/main/CoursesList';
+                    if (data.accountInfo.gender) {
+                        localStorage.setItem("mateToken", data.token);
+                        localStorage.setItem("mateAccountInfo", JSON.stringify(data.accountInfo));
+                        window.location.href = '/main/CoursesList';
+                    } else {
+                        this.setState({ update: true });
+                    }
                 } else {
                     message.error("登陆失败")
                 }
@@ -28,14 +39,20 @@ class LoginJc extends React.Component {
                 data
             }) => {
                 if (data.success) {
-                    localStorage.setItem("mateToken", data.token);
-                    localStorage.setItem("mateStudentAccountInfo", JSON.stringify(data.accountInfo));
-                    const form_code = localStorage.getItem("formCode")
-                    if (form_code) {
-                        window.location.href = '/host/form/' + form_code;
+                    const form_code = localStorage.getItem("formCode");
+                    const href = '/host/form/' + form_code;
+                    if (data.accountInfo.gender) {
+                        localStorage.setItem("mateToken", data.token);
+                        localStorage.setItem("mateStudentAccountInfo", JSON.stringify(data.accountInfo));
+                        if (form_code) {
+                            window.location.href = href;
+                        } else {
+                            console.log(this.props)
+                        }
                     } else {
-                        console.log(this.props)
+                        this.setState({ update: true, teacher: false, target: href });
                     }
+
                 } else {
                     message.error("登陆失败")
                 }
@@ -45,9 +62,10 @@ class LoginJc extends React.Component {
     }
 
     render() {
+        const { update, target, teacher } = this.state;
         return (
             <div>
-
+                {update ? UpdateInfo(teacher, target) : null}
             </div>
         )
     }
