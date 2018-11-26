@@ -206,35 +206,45 @@ class LoginForm extends React.Component {
                         <FormItem
                             {...formItemLayout}
                             label="学校">
-                            {getFieldDecorator('school')(
+                            {getFieldDecorator('school', {
+                                rules: [{ required: registering, message: '请输入你的学校的正式名称!' }]
+                            })(
                                 <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="your school" />
                             )}
                         </FormItem>
                         <FormItem
                             {...formItemLayout}
                             label="职称">
-                            {getFieldDecorator('title')(
+                            {getFieldDecorator('title', {
+                                rules: [{ required: registering, message: '请输入你的职称!' }]
+                            })(
                                 <Input prefix={<Icon type="idcard" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="your title" />
                             )}
                         </FormItem>
                         <FormItem
                             {...formItemLayout}
                             label="学院">
-                            {getFieldDecorator('organize')(
+                            {getFieldDecorator('organize', {
+                                rules: [{ required: registering, message: '请输入你的学院的正式名称!' }]
+                            })(
                                 <Input prefix={<Icon type="read" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="your organization" />
                             )}
                         </FormItem>
                         <FormItem
                             {...formItemLayout}
                             label="年龄">
-                            {getFieldDecorator('age')(
+                            {getFieldDecorator('age', {
+                                rules: [{ required: registering, message: '请输入你的年龄!' }]
+                            })(
                                 <InputNumber />
                             )}
                         </FormItem>
                         <FormItem
                             {...formItemLayout}
                             label="性别">
-                            {getFieldDecorator('gender')(
+                            {getFieldDecorator('gender', {
+                                rules: [{ required: registering, message: '请选择你的性别!' }]
+                            })(
                                 <RadioGroup>
                                     <Radio value="male">男性</Radio>
                                     <Radio value="female">女性</Radio>

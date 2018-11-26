@@ -127,10 +127,12 @@ class CoursesList extends React.Component {
                 this.setState({ modalVisible: false });
             }
         })
+        this.props.form.resetFields();
     }
 
     handleModalCancel = () => {
         this.setState({ modalVisible: false });
+        this.props.form.resetFields();
     }
 
     onSelectChange = (selectedRowKeys) => {

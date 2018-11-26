@@ -112,6 +112,11 @@ export default {
 	studentLoginByJaccount(data) {
 		return instance.post('/api/v1/student/Jlogin', data);
 	},
+	// 补充教师个人信息
+	updateTeacherInfo(data) {
+		return instance.post('/api/v1/teacher/updateInfo', data);
+	},
+	// 补充学生个人信息
 	updateStudentInfo(data) {
 		return instance.post('/api/v1/student/updateInfo', data);
 	}

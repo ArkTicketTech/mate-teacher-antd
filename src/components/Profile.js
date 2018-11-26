@@ -29,6 +29,7 @@ class Profile extends React.Component {
 
   render() {
     const info = this.props.userInfo;
+    const gender = info.gender === "male" ? "男" : "女";
     return (
       <div>
         <Row type="flex" justify="end">
@@ -62,6 +63,12 @@ class Profile extends React.Component {
           </Row>
           <Row>
             <Col span={12}>
+              <DescriptionItem title="国家" content={info ? info.country : "-"} />
+            </Col>
+            <Col span={12}>
+              <DescriptionItem title="城市" content={info ? info.city : "-"} />
+            </Col>
+            <Col span={12}>
               <DescriptionItem title="职称" content={info ? info.title : "-"} />
             </Col>
             <Col span={12}>
@@ -74,7 +81,7 @@ class Profile extends React.Component {
               <DescriptionItem title="年龄" content={info ? info.age : "-"} />
             </Col>
             <Col span={12}>
-              <DescriptionItem title="姓名" content={info ? info.gender : "-"} />
+              <DescriptionItem title="性别" content={info ? gender : "-"} />
             </Col>
           </Row>
           <Row>

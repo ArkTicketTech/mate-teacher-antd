@@ -22,10 +22,10 @@ class LoginJc extends React.Component {
                 data
             }) => {
                 console.log(data)
+                localStorage.setItem("mateToken", data.token);
+                localStorage.setItem("mateAccountInfo", JSON.stringify(data.accountInfo));
                 if (data.success) {
                     if (data.accountInfo.gender) {
-                        localStorage.setItem("mateToken", data.token);
-                        localStorage.setItem("mateAccountInfo", JSON.stringify(data.accountInfo));
                         window.location.href = '/main/CoursesList';
                     } else {
                         this.setState({ update: true });
@@ -41,9 +41,9 @@ class LoginJc extends React.Component {
                 if (data.success) {
                     const form_code = localStorage.getItem("formCode");
                     const href = '/host/form/' + form_code;
+                    localStorage.setItem("mateToken", data.token);
+                    localStorage.setItem("mateStudentAccountInfo", JSON.stringify(data.accountInfo));
                     if (data.accountInfo.gender) {
-                        localStorage.setItem("mateToken", data.token);
-                        localStorage.setItem("mateStudentAccountInfo", JSON.stringify(data.accountInfo));
                         if (form_code) {
                             window.location.href = href;
                         } else {

@@ -13,6 +13,12 @@ class UpdateInfo extends React.Component {
     submit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
+            const info = localStorage.getItem("mateAccountInfo");
+            // console.log(info);
+            values.name = info.name;
+            values.school = info.school;
+            values.organize = info.organize;
+            values.student_id = info.student_id;
             if (!err) {
                 api.updateStudentInfo(values).then(({
                     data
@@ -47,9 +53,9 @@ class UpdateInfo extends React.Component {
                             label="邮件">
                             {getFieldDecorator('mail', {
                                 rules: [{
-                                    required: true, message: 'Please input your email address!'
+                                    required: true, message: '请补充你的邮箱地址!'
                                 }, {
-                                    type: 'email', message: 'The input is not valid E-mail',
+                                    type: 'email', message: '无效的邮箱地址',
                                 }],
                             })(
                                 <Input prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="Email address" />
@@ -59,7 +65,7 @@ class UpdateInfo extends React.Component {
                             {...formItemLayout}
                             label="城市">
                             {getFieldDecorator('city', {
-                                rules: [{ required: true, message: 'Please input your university name!' }],
+                                rules: [{ required: true, message: '请补充你所在的城市名称!' }],
                             })(
                                 <Input prefix={<Icon type="copyright" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="City" />
                             )}
@@ -68,7 +74,7 @@ class UpdateInfo extends React.Component {
                             {...formItemLayout}
                             label="年级">
                             {getFieldDecorator('grade', {
-                                rules: [{ required: true, message: 'Please input your grade!' }],
+                                rules: [{ required: true, message: '请补充你的年级信息!' }],
                             })(
                                 <Input prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,..25)' }} />} placeholder="Grade" />
                             )}
@@ -77,7 +83,7 @@ class UpdateInfo extends React.Component {
                             {...formItemLayout}
                             label="性别">
                             {getFieldDecorator('gender', {
-                                rules: [{ required: true, message: 'Please input your sex!' }],
+                                rules: [{ required: true, message: '请补充你的性别信息!' }],
                             })(
                                 <RadioGroup>
                                     <Radio value="male">男</Radio>
